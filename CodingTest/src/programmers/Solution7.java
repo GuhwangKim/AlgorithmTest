@@ -1,23 +1,26 @@
 package programmers;
 
+import java.util.Arrays;
 
 public class Solution7 {
 	public int solution(int[] numbers) {
-		int result=0;
+		int result = 45;
+		int sum = 0;
+
 		
-		for (int i = 0; i < 10; i++) {
-			boolean isInclude=contains(numbers,i);
-			if(!isInclude) {
-				
-			}
+		
+		
+		for (int n : numbers) {
+			sum += n;
 		}
-		
+
+		result = result - sum;
+
 		return result;
 	}
 
-	private boolean contains(int[] numbers, int i) {
-		// TODO Auto-generated method stub
-		return false;
+	private static boolean contains(final int[] arr, final int key) {
+		return Arrays.stream(arr).anyMatch(i -> i == key);
 	}
 
 }
