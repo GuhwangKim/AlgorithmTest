@@ -1,8 +1,9 @@
+package programmers;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-class Solution {
+class Solution16 {
 	    public int[] solution(int N, int[] stages) {
             int[] answer= new int[N];
 
