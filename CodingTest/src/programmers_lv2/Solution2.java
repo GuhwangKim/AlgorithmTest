@@ -1,5 +1,6 @@
 package programmers_lv2;
 
+// 미완 알고리즘 학습 필요
 public class Solution2 {
 	class Solution {
 	    public int[] solution(int n, int[] info) {
