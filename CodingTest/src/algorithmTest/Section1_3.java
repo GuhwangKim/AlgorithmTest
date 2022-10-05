@@ -15,6 +15,22 @@ public class Section1_3 {
 		}
 
 		System.out.println(max);
+		
+		String answer="";
+		int m = Integer.MIN_VALUE, pos;
+		while((pos=input1.indexOf(' '))!=-1) {
+			String tmp=input1.substring(0, pos);
+			int len=tmp.length();
+			if(len>m) {
+				m=len;
+				answer=tmp;
+			}
+			input1=input1.substring(pos+1);
+		}
+		if(input1.length()>m) {
+			answer=input1;
+		}
+		
 		return;
 	}
 
