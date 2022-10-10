@@ -6,21 +6,20 @@ public class Section1_6 {
 	public static void main(String[] args){
 	    Scanner in=new Scanner(System.in);
 	    String str = in.next();
-	    char[] cha = new  char[str.length()];
+	    String[] s = new  String[str.length()];
+	    
 	    for (int i = 0; i < str.length(); i++) {
-			cha[i]=str.charAt(i);
+			s[i]=String.valueOf(str.charAt(i));
 		}
-	    for (int i = 0; i < cha.length; i++) {
-			for (int j = i+1; j < cha.length; j++) {
-				if(cha[i]==cha[j]) {
-					cha[j]='0';
+	    for (int i = 0; i < s.length; i++) {
+			for (int j = i+1; j < s.length; j++) {
+				if(s[i].equals(s[j])) {
+					s[j]="";
 				}
 			}
 		}
-	    for(char a : cha) {
-	    	if(a!='0') {
-	    		System.out.print(a);
-	    	}
+	    for(String a : s) {
+	    	System.out.print(a);
 	    }
 	    return ;
 	  }
