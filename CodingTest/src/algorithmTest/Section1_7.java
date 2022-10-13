@@ -2,7 +2,7 @@ package algorithmTest;
 
 import java.util.Scanner;
 
-public class Solution1_7 {
+public class Section1_7 {
 	public static void main(String[] args) {
 		Scanner in = new Scanner(System.in);
 		String str = in.next();
