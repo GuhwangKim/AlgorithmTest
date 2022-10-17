@@ -7,25 +7,41 @@ public class Section1_10 {
 		Scanner in = new Scanner(System.in);
 		String str = in.next();
 		String t = in.next();
-		String[] nstr=new String[str.length()];
-		
+		int[] nstr = new int[str.length()];
+		int p =1000;
+
 		for (int i = 0; i < str.length(); i++) {
-			String st=String.valueOf(str.charAt(i));
-			if(st.equals(t)) {
-				nstr[i]="0";
-				for (int j = 1; j < i+1; j++) {
-					if(i>=j) {
-						nstr[i-j]=String.valueOf(j);
-					}
-					if(i+j<str.length()) {
-						nstr[i+j]=String.valueOf(j);
-					}
-				}
+			String st = String.valueOf(str.charAt(i));
+			if (st.equals(t)) {
+				p=0;
+				nstr[i] = p;
+				
+			} else {
+				p++;
+				nstr[i]=p;  
 			}
+			// 0 이 나오면 그 다음부터 1씩 더해줌 
+		}
+		p=1000;
+		// 초기화 
+		for (int i = str.length()-1; i >=0; i--) {
+			String st = String.valueOf(str.charAt(i));
+			if (st.equals(t)) {
+				p=0;
+				nstr[i] = p;
+				
+			}else {
+				p++;
+				nstr[i]=Math.min(nstr[i], p);
+				// 뒤에서부터 다시 반복, 기존에 있었던 값과 비교해서 작은 값이 대입 
+			}
+			
 		}
 		
-		System.out.println(nstr);
 		
+		for(int x : nstr) {
+			System.out.print(x+" ");
+		}
 		return;
 	}
 
