@@ -16,18 +16,19 @@ public class Section2_6 {
 			arr1[i] = in.next();
 		}
 		for (int i = 0; i < inp; i++) {
-			for (int j = arr1[i].length()-1; j <=0 ; j++) {
+			arr2[i]="";
+			for (int j = arr1[i].length()-1; j >=0 ; j--) {
 				arr2[i]+=arr1[i].charAt(j);
 			}
-		}
-		for(String str : arr2) {
-			System.out.println(str);
 		}
 		for (int i = 0; i < inp; i++) {
 			int num = Integer.parseInt(arr2[i]);
 			if(num==2) {
 				list.add(num);
-				break;
+				continue;
+			}
+			if(num==1) {
+				continue;
 			}
 			boolean chk = true;
 			for (int j = 2; j <num; j++) {
@@ -39,12 +40,10 @@ public class Section2_6 {
 			if(chk==true) {
 				list.add(num);
 			}
-			
 		}
 		for(int x : list) {
-			System.out.println(x);
+			System.out.print(x+" ");
 		}
-		
 		return;
 	}
 }
