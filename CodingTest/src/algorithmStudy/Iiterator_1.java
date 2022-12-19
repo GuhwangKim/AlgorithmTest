@@ -1,7 +1,7 @@
 package algorithmStudy;
 import java.util.Scanner;
 
-public class Iiterator_2 {
+public class Iiterator_1 {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		int sum = 0;
