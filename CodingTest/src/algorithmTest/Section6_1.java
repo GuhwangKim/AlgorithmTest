@@ -27,6 +27,7 @@ public class Section6_1 {
 		String[] sarr = str2.split(" ");
 		int[] arr = new int[a];
 		for (int i = 0; i < sarr.length; i++) {
+			
 			arr[i]=Integer.parseInt(sarr[i]);
 		}
 		for(int x : section.T(a, arr)) {
