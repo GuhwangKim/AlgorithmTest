@@ -10,9 +10,7 @@ public class Section6_6 {
 	private List<Integer> T(int a, int[] arr) {
 		List<Integer> list = new ArrayList<Integer>();
 		int[] tmp = new int[a];
-		for (int i = 0; i < tmp.length; i++) {
-			tmp[i]=arr[i];
-		}
+		tmp = arr.clone();
 		Arrays.sort(tmp);
 		for (int i = 0; i < tmp.length; i++) {
 			if(arr[i]!=tmp[i]) {
