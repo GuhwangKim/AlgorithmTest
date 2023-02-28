@@ -25,7 +25,7 @@ public class Section8_8 {
 			if(sum==f) {
 				for(int x : p) {
 					System.out.println(x+" ");
-					flag = true;
+					flag = true;// 다른 재귀들을 없애기 위해서 
 				}
 			}
 		}else {
