@@ -1,4 +1,4 @@
-package CodingTest.src.algorithmTest;
+package algorithmTest;
 
 import java.util.Scanner;
 
@@ -13,7 +13,7 @@ public class Section8_9 {
                 System.out.println();
             }
         } else{
-            for (int i = s; i <= n; i++) { // 뻗어나감
+            for (int i = s; i <= n; i++) { 
                 combi[L]=i;
                 DFS(L+1, i+1);
             }

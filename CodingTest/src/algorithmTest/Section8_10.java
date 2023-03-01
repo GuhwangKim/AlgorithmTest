@@ -1,4 +1,4 @@
-package CodingTest.src.algorithmTest;
+package algorithmTest;
 
 import java.util.Scanner;
 
@@ -9,18 +9,18 @@ public class Section8_10 {
     static int answer = 0;
 
     private void DFS(int x, int y) {
-        if(x==7 && y==7){ // 종착점 , 함수 끝
+        if(x==7 && y==7){ // 醫낆갑�젏 , �븿�닔 �걹
             answer++;
         } else{
-            // 4 지점으로 뻗어나감
+            // 4 吏��젏�쑝濡� 六쀬뼱�굹媛�
             for (int i = 0; i < 4; i++) {
                 int nx = x+dx[i];
                 int ny = y+dy[i];
-                // 경계선 안에 있는지, 행 렬
+                // 寃쎄퀎�꽑 �븞�뿉 �엳�뒗吏�, �뻾 �젹
                 if(nx>=1 && nx<=7 && ny>=1 && ny<=7 && board[nx][ny]==0){
                     board[nx][ny]=1;
                     DFS(nx, ny);
-                    // 뒤로 백
+                    // �뮘濡� 諛�
                     board[nx][ny]=0;
                 }
             }
