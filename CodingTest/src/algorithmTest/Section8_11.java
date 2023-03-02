@@ -8,7 +8,6 @@ public class Section8_11 {
 	static int[][] board, dis;
 	static int[] dx = { -1, 0, 1, 0 };
 	static int[] dy = { 0, 1, 0, -1 };
-	static int min = 49;
 	static int count = 0;
 	static int answer = 0;
 	
