@@ -1,4 +1,4 @@
-package algorithmTest;
+package CodingTest.src.algorithmTest;
 
 import java.util.LinkedList;
 import java.util.Queue;
@@ -13,7 +13,7 @@ public class Section8_12 {
 	static Queue<Point> Q = new LinkedList<>();
 
 	static class Point {
-		public int x, y; // ÁÂÈ¿
+		public int x, y; // ï¿½ï¿½È¿
 
 		Point(int x, int y) {
 			this.x = x;
@@ -31,7 +31,7 @@ public class Section8_12 {
 					board[nx][ny] = 1;
 					Q.offer(new Point(nx, ny));
 					dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
-					// 2. ÇöÀçÀÇ ¹è¿­ÀÇ °ª¿¡ 1À» Áý¾î³ÖÀ½ (+1 ·¹º§) 
+					// 2. ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½è¿­ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 1ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (+1 ï¿½ï¿½ï¿½ï¿½) 
 				}
 			}
 		}
@@ -51,7 +51,7 @@ public class Section8_12 {
 				board[i][j] = in.nextInt();
 				if (board[i][j] == 1) {
 					Q.offer(new Point(i, j));
-					// 1. ¹Ì¸® ¸¸µé¾î³ð (0·¹º§)
+					// 1. ï¿½Ì¸ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ (0ï¿½ï¿½ï¿½ï¿½)
 				}
 			}
 		}
@@ -62,12 +62,12 @@ public class Section8_12 {
 			for (int j = 0; j < height; j++) {
 				if (board[i][j] == 1) {
 					flag = false;
-					// 3-1. ÀÌÁß ÆûÀ» Å½»öÇÏ¸é¼­ board¸¦ Å½»öÇßÀ» ¶§ ÀÍÁö ¾Ê´Â Åä¸¶Åä°¡ ÀÖÀ¸¸é 
+					// 3-1. ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ï¿½Ï¸é¼­ boardï¿½ï¿½ Å½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½Ê´ï¿½ ï¿½ä¸¶ï¿½ä°¡ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 				}
 			}
 		}
 		if (flag) { 
-			// 3-2. dis ÀÇ °ªÀ» Å½»öÇÏ¸é¼­ ÃÖ´ë °ªÀ» Ã£À½ 
+			// 3-2. dis ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ Å½ï¿½ï¿½ï¿½Ï¸é¼­ ï¿½Ö´ï¿½ ï¿½ï¿½ï¿½ï¿½ Ã£ï¿½ï¿½ 
 			for (int i = 0; i < width; i++) {
 				for (int j = 0; j < height; j++) {
 					answer = Math.max(answer, dis[i][j]);

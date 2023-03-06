@@ -1,4 +1,4 @@
-package algorithmTest;
+package CodingTest.src.algorithmTest;
 
 import java.util.Scanner;
 
