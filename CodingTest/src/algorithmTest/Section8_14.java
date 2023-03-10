@@ -40,7 +40,7 @@ public class Section8_14 {
         for (int i = 0; i < num; i++) {
             for (int j = 0; j < num; j++) {
                 if (board[i][j] == 1) {
-                    // 섬일 때 호출
+                    // 섬일 때 호출a
                     L++;
                     board[i][j]=0;
                     BFS(i, j, board);
