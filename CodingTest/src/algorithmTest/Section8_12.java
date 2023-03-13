@@ -13,7 +13,7 @@ public class Section8_12 {
 	static Queue<Point> Q = new LinkedList<>();
 
 	static class Point {
-		public int x, y; // ÁÂÈ¿
+		public int x, y; // å ì™ì˜™íš¨
 
 		Point(int x, int y) {
 			this.x = x;
@@ -31,7 +31,7 @@ public class Section8_12 {
 					board[nx][ny] = 1;
 					Q.offer(new Point(nx, ny));
 					dis[nx][ny] = dis[tmp.x][tmp.y] + 1;
-					// 2. ÇöÀçÀÇ ¹è¿­ÀÇ °ª¿¡ 1À» Áı¾î³ÖÀ½ (+1 ·¹º§) 
+					// 2. å ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì¼ì—´å ì™ì˜™ å ì™ì˜™å ì™ì˜™ 1å ì™ì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™å ï¿½ (+1 å ì™ì˜™å ì™ì˜™) 
 				}
 			}
 		}
@@ -51,7 +51,7 @@ public class Section8_12 {
 				board[i][j] = in.nextInt();
 				if (board[i][j] == 1) {
 					Q.offer(new Point(i, j));
-					// 1. ¹Ì¸® ¸¸µé¾î³ğ (0·¹º§)
+					// 1. å ì‹±ëªŒì˜™ å ì™ì˜™å ì™ì˜™å ì™ì˜™ (0å ì™ì˜™å ì™ì˜™)
 				}
 			}
 		}
@@ -62,12 +62,12 @@ public class Section8_12 {
 			for (int j = 0; j < height; j++) {
 				if (board[i][j] == 1) {
 					flag = false;
-					// 3-1. ÀÌÁß ÆûÀ» Å½»öÇÏ¸é¼­ board¸¦ Å½»öÇßÀ» ¶§ ÀÍÁö ¾Ê´Â Åä¸¶Åä°¡ ÀÖÀ¸¸é 
+					// 3-1. å ì™ì˜™å ì™ì˜™ å ì™ì˜™å ì™ì˜™ íƒå ì™ì˜™å ì‹¹ë©´ì„œ boardå ì™ì˜™ íƒå ì™ì˜™å ì™ì˜™å ì™ì˜™ å ì™ì˜™ å ì™ì˜™å ì™ì˜™ å ì‹­ëŒì˜™ å ì°ë§ˆå ì°ê°€ å ì™ì˜™å ì™ì˜™å ì™ì˜™ 
 				}
 			}
 		}
 		if (flag) { 
-			// 3-2. dis ÀÇ °ªÀ» Å½»öÇÏ¸é¼­ ÃÖ´ë °ªÀ» Ã£À½ 
+			// 3-2. dis å ì™ì˜™ å ì™ì˜™å ì™ì˜™ íƒå ì™ì˜™å ì‹¹ë©´ì„œ å ìŒëŒì˜™ å ì™ì˜™å ì™ì˜™ ì°¾å ì™ì˜™ 
 			for (int i = 0; i < width; i++) {
 				for (int j = 0; j < height; j++) {
 					answer = Math.max(answer, dis[i][j]);

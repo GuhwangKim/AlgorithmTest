@@ -11,7 +11,7 @@ public class Section8_14 {
 	static ArrayList<Point> pz, hs;
 	
 	static class Point{
-		public int x, y; // ÁÂÈ¿ 
+		public int x, y; // ì¢Œíš¨ 
 		Point(int x, int y) {
 			this.x = x;
 			this.y = y;
@@ -20,25 +20,25 @@ public class Section8_14 {
 
 	private void DFS(int L, int s) {
 		if(L==m) {
-			// ÇÇÀÚ Áı °³¼ö°¡ µµ´âÇßÀ» ¶§  
+			// í”¼ì ì§‘ ê°œìˆ˜ê°€ ë„ë‹³í–ˆì„ ë•Œ  
 			int sum = 0;
 			for(Point h : hs) {
 				int dis = Integer.MAX_VALUE;
 				for(int i : combi) {
-					// Á¶ÇÕÀÇ ÀÎµ¦½º ¹øÈ£ 
+					// ì¡°í•©ì˜ ì¸ë±ìŠ¤ ë²ˆí˜¸ 
 					dis = Math.min(dis,  Math.abs(h.x-pz.get(i).x)+Math.abs(h.y-pz.get(i).y));
 				}
 				sum+=dis;
-				// µµ½ÃÀÇ ÇÇÀÚ¹è´Ş °Å¸® 
+				// ë„ì‹œì˜ í”¼ìë°°ë‹¬ ê±°ë¦¬ 
 			}
 			answer = Math.min(answer, sum);
 		}else {
 			for (int i = s; i < len; i++) {
-				// ÀÎµ¦½º ¹øÈ£ 0 ~ ÇÇÀÚÁı°³¼ö±îÁö 
+				// ì¸ë±ìŠ¤ ë²ˆí˜¸ 0 ~ í”¼ìì§‘ê°œìˆ˜ê¹Œì§€ 
 				combi[L]=i;
-				// °³¼ö´Â ÃÑ 4°³ »Ó
+				// ê°œìˆ˜ëŠ” ì´ 4ê°œ ë¿
 				DFS(L+1, i+1);
-				// ÇÇÀÚÁıµéÀÌ ¸ğµç Á¶ÇÕÀ¸·Î °³¼ö ¸¸Å­ »ÌÈû 
+				// í”¼ìì§‘ë“¤ì´ ëª¨ë“  ì¡°í•©ìœ¼ë¡œ ê°œìˆ˜ ë§Œí¼ ë½‘í˜ 
 				
 			}
 		}
@@ -57,10 +57,10 @@ public class Section8_14 {
 				int tmp = in.nextInt();
 				if(tmp==1) {
 					hs.add(new Point(i, j));
-					// ÁıÀÎ °æ¿ìÀÇ ÁÂÇ¥ °ªÀ» ÀúÀåÇÑ ÀÎ½ºÅÏ½º¸¦ ¹è¿­¿¡ ÀúÀå 
+					// ì§‘ì¸ ê²½ìš°ì˜ ì¢Œí‘œ ê°’ì„ ì €ì¥í•œ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë°°ì—´ì— ì €ì¥ 
 				} else if (tmp==2) {
 					pz.add(new Point(i, j));
-					// ÇÇÀÚ°¡°Ô °æ¿ìÀÇ ÁÂÇ¥ °ªÀ» ÀúÀåÇÑ ÀÎ½ºÅÏ½º¸¦ ¹è¿­¿¡ ÀúÀå 
+					// í”¼ìê°€ê²Œ ê²½ìš°ì˜ ì¢Œí‘œ ê°’ì„ ì €ì¥í•œ ì¸ìŠ¤í„´ìŠ¤ë¥¼ ë°°ì—´ì— ì €ì¥ 
 				}
 			}
 		}
