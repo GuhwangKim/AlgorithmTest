@@ -3,7 +3,7 @@ package programmers_kit;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class Array2 {
+public class Array1 {
 	public String solution(int[] numbers) {
 		String answer = "";
 		boolean flag = true;
@@ -13,7 +13,7 @@ public class Array2 {
 		String[] texts = new String[numbers.length];
 
 		for (int i = 0; i < texts.length; i++) {
-			if(numbers[i]!=0) {
+			if(flag==true && numbers[i]!=0) {
 				flag = false;
 			}
 			texts[i] = String.valueOf(numbers[i]);
