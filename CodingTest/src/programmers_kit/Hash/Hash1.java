@@ -1,4 +1,4 @@
-package programmers_kit;
+package programmers_kit.Hash;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -1,4 +1,4 @@
-package programmers_kit;
+package programmers_kit.StackQueue;
 
 import java.util.Stack;
 
