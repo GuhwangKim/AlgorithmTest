@@ -3,12 +3,6 @@ package programmers_kit.Array;
 import java.util.Arrays;
 
 public class Array2 {
-	public static void main(String[] args) {
-		Array2 a = new Array2();
-		int[] citation = {3, 0, 6, 1, 5};
-		a.solution(citation);
-		
-	}
 	public int solution(int[] citations) {
 		int answer = 0;
 		int cnt = 1;
