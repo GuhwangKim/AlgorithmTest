@@ -5,40 +5,40 @@ import java.util.PriorityQueue;
 
 public class Heap2 {
 
-	public int solution(int[][] jobs) {
-		// ½ÃÀÛ ½ÃÁ¡¿¡ µû¶ó Á¤·Ä 
-		Arrays.sort(jobs, (o1, o2) -> o1[0] - o2[0]);
-		// jobs ¸¦ ÀÜ¿© ½Ã°£¿¡ µû¶ó Á¤·Ä
-		PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+    public int solution(int[][] jobs) {
+        // ì‹œì‘ ì‹œì ì— ë”°ë¼ ì •ë ¬
+        Arrays.sort(jobs, (o1, o2) -> o1[0] - o2[0]);
+        // jobs ë¥¼ ì”ì—¬ ì‹œê°„ì— ë”°ë¼ ì •ë ¬
+        PriorityQueue<int[]> queue = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
 
-        int cnt = 0;    // ¿Ï·áµÈ ÀÛ¾÷ÀÇ °³¼ö
-        int total = 0; // ÇÕ°è ½Ã°£
-        int endTime = 0; // ÂªÀº ¼ø¼­´ë·Î Á¤¸®µÈ ¹è¿­¿¡¼­ ÀÛ¾÷ÀÌ ¿Ï·áµÈ ½Ã°£
-        int idx = 0; // 0 1 ~ 
-        
-        
+        int cnt = 0;    // ì™„ë£Œëœ ì‘ì—…ì˜ ê°œìˆ˜
+        int total = 0; // í•©ê³„ ì‹œê°„
+        int endTime = 0; // ì§§ì€ ìˆœì„œëŒ€ë¡œ ì •ë¦¬ëœ ë°°ì—´ì—ì„œ ì‘ì—…ì´ ì™„ë£Œëœ ì‹œê°„
+        int idx = 0; // 0 1 ~
+
+
         while (cnt < jobs.length) {
-			while (idx < jobs.length && jobs[idx][0]<=endTime) {
-				// 1. ÇÑ ÇÁ·Î¼¼½º°¡ ³¡³ª±â Àü¿¡ µé¾î¿Â °Íµé¿¡ ´ëÇØ¼­ 
-				queue.add(jobs[idx++]);
-				// 2. ´Ù Áı¾î³Ö¾îÁÜ - jobs ¿¡¼­ Çàº°·Î ÃßÃâÇØ¼­ Áı¾î³ÖÀ½ - 0 1 ÀÇ °ªÀÌ ÀÖÀ½ 
-			}
-			
-			if(queue.isEmpty()) {
-				endTime = jobs[idx][0];
-				// 3. ÇÁ·Î¼¼½º°¡ ³¡³ª°í ³ª¼­ ÈÄ¿¡ ½ÇÇàµÇ´Â ÇÁ·Î¼¼½º°¡ ÀÖÀ» ½Ã¿¡ ÃÖÁ¾ ÀÛ¾÷ÀÇ ¿Ï·á½Ã°£Àº 
-				// ½ÃÀÛ½Ã°£À¸·Î ¼¼ÆÃ 
-				
-			} else { 
-				int[] cur = queue.poll();
-				total += cur[1]+endTime-cur[0];
-				// 4. ÁøÇà½Ã°£ + ¸¶Áö¸· ¿Ï·á ½ÃÁ¡ - ½ÃÀÛ ½ÃÁ¡ (ÀÌÀü¿¡ ½ÃÀÛÇÑ °æ¿ì) 
-				endTime += cur[1];
-				// 5. ´Ù½Ã ¿Ï·á ½ÃÁ¡Àº ÀÛ¾÷ ÁøÇà±â°£
-				cnt ++; 
-			}
-		}
+            while (idx < jobs.length && jobs[idx][0]<=endTime) {
+                // 1. í•œ í”„ë¡œì„¸ìŠ¤ê°€ ëë‚˜ê¸° ì „ì— ë“¤ì–´ì˜¨ ê²ƒë“¤ì— ëŒ€í•´ì„œ
+                queue.add(jobs[idx++]);
+                // 2. ë‹¤ ì§‘ì–´ë„£ì–´ì¤Œ - jobs ì—ì„œ í–‰ë³„ë¡œ ì¶”ì¶œí•´ì„œ ì§‘ì–´ë„£ìŒ - 0 1 ì˜ ê°’ì´ ìˆìŒ
+            }
+
+            if(queue.isEmpty()) {
+                endTime = jobs[idx][0];
+                // 3. í”„ë¡œì„¸ìŠ¤ê°€ ëë‚˜ê³  ë‚˜ì„œ í›„ì— ì‹¤í–‰ë˜ëŠ” í”„ë¡œì„¸ìŠ¤ê°€ ìˆì„ ì‹œì— ìµœì¢… ì‘ì—…ì˜ ì™„ë£Œì‹œê°„ì€
+                // ì‹œì‘ì‹œê°„ìœ¼ë¡œ ì„¸íŒ…
+
+            } else {
+                int[] cur = queue.poll();
+                total += cur[1]+endTime-cur[0];
+                // 4. ì§„í–‰ì‹œê°„ + ë§ˆì§€ë§‰ ì™„ë£Œ ì‹œì  - ì‹œì‘ ì‹œì  (ì´ì „ì— ì‹œì‘í•œ ê²½ìš°)
+                endTime += cur[1];
+                // 5. ë‹¤ì‹œ ì™„ë£Œ ì‹œì ì€ ì‘ì—… ì§„í–‰ê¸°ê°„
+                cnt ++;
+            }
+        }
         return total / jobs.length;
-	}
+    }
 
 }
