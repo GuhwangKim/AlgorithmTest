@@ -1,4 +1,4 @@
-package CodingTest.src.programmers_kit.Greedy;
+package programmers_kit.Greedy;
 
 public class Greedy3 {
     static int answer = 0;
@@ -11,7 +11,7 @@ public class Greedy3 {
     }
     public int solution(int k, int[][] dungeons) {
         visited = new int[dungeons.length];
-        // 현재 피로도와 2차 배열, 깊이를 넘김
+        // �쁽�옱 �뵾濡쒕룄�� 2李� 諛곗뿴, 源딆씠瑜� �꽆源�
 
         DFS(k, dungeons, answer);
 
