@@ -5,6 +5,7 @@ public class DfsBfs3 {
 	static boolean[] visited;
 
 	public int solution(String begin, String target, String[] words) {
+        visited = new boolean[words.length];
 		answer = 51;
 		DFS(begin, target, words, 0);
 		if (answer == 51) {
@@ -31,17 +32,17 @@ public class DfsBfs3 {
 
 			// 2. 湲��옄媛� �븳媛�吏�留� �떎瑜� 寃껋쓣 李얠쓬
 			int k = 0;
-			for (int j = 0; j < wordList[i].length(); j++) {
+			for (int j = 0; j < originWord.length(); j++) {
 				if (originWord.charAt(j) == wordList[i].charAt(j)) {
 					k++;
 				}
 			}
 			if (k == originWord.length() - 1) {
 				// 3. 媛쒖닔媛� �떒�뼱�쓽 媛쒖닔 -1 利� �븳 �떒�뼱留� �떎瑜� �븣 洹� �떒�뼱 flag 泥섎━
-				visited[i] = false;
-				// �씠�젃寃� flag 泥섎━瑜� �빐以섏빞留� �빐�떦 �떒�뼱 �꽆湲곌퀬 洹� �떎�쓬 �떒�뼱遺��꽣 泥섎━�븯寃� �맖
-				DFS(wordList[i], finalWord, wordList, cnt++);
 				visited[i] = true;
+				// �씠�젃寃� flag 泥섎━瑜� �빐以섏빞留� �빐�떦 �떒�뼱 �꽆湲곌퀬 洹� �떎�쓬 �떒�뼱遺��꽣 泥섎━�븯寃� �맖
+				DFS(wordList[i], finalWord, wordList, cnt+1);
+				visited[i] = false;
 			}
 
 		}
