@@ -1,4 +1,4 @@
-package CodingTest.src.programmers_kit.DfsBfs;
+package programmers_kit.DfsBfs;
 
 public class DfsBfs3 {
 	static int answer;
