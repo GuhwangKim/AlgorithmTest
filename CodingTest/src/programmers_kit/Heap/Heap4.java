@@ -1,29 +1,53 @@
 package CodingTest.src.programmers_kit.Heap;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Heap4 {
 
-        /*
-            1. plays 에 있는 재생 횟수의 값을 genre의 분류별로 더해주는 작업
-            2. genres 에 있는 값을 map의 key 값으로 넣고
-            3. 저장할 때 그때의 i 값을 잃지 않는 것이 중요해
-            3. value 값으로 총 횟수를 저장
-        */
+    static class Music {
+        int playsCnt;
+        int idx;
 
-    public int[] solution (String[] genres, int[] plays){
-        int[] answer = {};
-        Map<String, List<Integer>> map = new HashMap<>();
-        List<Integer> list = new LinkedList<>();
-        for (int i = 0; i < genres.length; i++) {
-            //value 값에 여러개의 값 즉 배열을 넣는 방법? i를 기억하기 위하여
-            list.add(i);
-            map.put(genres[i],list);
+        public Music (int playsCnt, int idx){
+            this.playsCnt = playsCnt;
+            this.idx = idx;
+        }
+    }
 
+    public List<Integer> solution (String[] genres, int[] plays){
+        List<Integer> answer = new LinkedList<>();
+        Map<String, Integer> map = new HashMap<>();
+        // 1. 장르별 최대값을 구한 해시
 
+        for (int i = 0; i < plays.length; i++) {
+            // 장르별로 값이 더해짐
+            map.put(genres[i], map.getOrDefault(genres[i], 0)+plays[i]);
+        }
+
+        // 2. map 에서 더 큰 값을 뽑아내야함 map을 value 값으로 정렬
+        List<String> listMax = new ArrayList<>(map.keySet());
+        listMax.sort((o1, o2) -> map.get(o2)-map.get(o1));
+
+        // 3. 장르별 plays 횟수 정렬 후 배열 담기 2개
+        for (int i = 0; i < listMax.size(); i++) {
+            List<Music> playsMaxArranged = new LinkedList<>();
+            for (int j = 0; j < genres.length; j++) {
+                if(genres[j].equals(listMax.get(i))){
+                    // 4. 정렬한 리스트에서 가장 먼저 나와있는 장르와 갔다면
+                    playsMaxArranged.add(new Music(plays[j], j));
+                } else{
+                    // 5. 아니라면 건너뜀
+                    continue;
+                }
+            }
+            // 6. 다 담은 list 값은 정렬함 (내림차순)
+            Collections.sort(playsMaxArranged,(o1, o2) -> o2.playsCnt-o1.playsCnt);
+            // 7. 최대 2 값만 담아줌
+            answer.add(playsMaxArranged.get(0).idx);
+            if(playsMaxArranged.size()>1){
+                answer.add(playsMaxArranged.get(1).idx);
+
+            }
         }
         return answer;
     }
