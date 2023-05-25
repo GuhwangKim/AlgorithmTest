@@ -1,8 +1,8 @@
-package CodingTest.src.programmers_kit.Heap;
+package programmers_kit.Hash;
 
 import java.util.*;
 
-public class Heap4 {
+public class Hash4 {
 
     static class Music {
         int playsCnt;
