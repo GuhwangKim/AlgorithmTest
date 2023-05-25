@@ -1,54 +1,47 @@
-package CodingTest.src.programmers_kit.StackQueue;
-
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+package programmers_kit.StackQueue;
 
 import java.util.LinkedList;
 import java.util.Queue;
 
 public class StackQueue4 {
-    @RequiredArgsConstructor
-    class EachTrucks{
-        int weight;
-        int currentidx;
 
-        @Builder
-        public EachTrucks(int weight, int currentidx){
-            this.weight = weight;
-            this.currentidx = currentidx;
-        }
-    }
+	public int solution(int bridge_length, int weight, int[] truck_weights) {
+		int answer = 0;
+		Queue<Integer> queue = new LinkedList<>();
 
-
-    public int solution(int bridge_length, int weight, int[] truck_weights) {
-        int answer = 0;
-        int currentIndex = 0;
-        Queue<EachTrucks> queue = new LinkedList<>();
-
-        while (!queue.isEmpty()){
-            int totalTime = 0;
-            int currentBridgeWeight = 0;
-            for (int i = 0; i < truck_weights.length; i++) {
-                if(queue.peek().currentidx==bridge_length){
-                    // íŠ¸ëŸ­ì´ ë‹¤ ì™”ìœ¼ë©´ ìš°ì„  í•˜ë‚˜ ë½‘ì•„ì¤Œ
-                    currentBridgeWeight-=queue.poll().weight;
-                    // í˜„ì¬ íŠ¸ëŸ­ì˜ ë¬´ê²Œì— ë½‘ëŠ” íŠ¸ëŸ­ì˜ ë¬´ê²Œë¥¼ ë¹¼ì£¼ê³  í•˜ë‚˜ ì œê±°í•¨
-                }
-
-                if(currentBridgeWeight>weight){
-                    // í˜„ì¬ ë‹¤ë¦¬ ìœ„ì— íŠ¸ëŸ­ë“¤ì˜ ë¬´ê²Œê°€ í—ˆìš©ì¹˜ë¥¼ ë„˜ê¸°ëŠ” ê²½ìš°ì— ê³„ì‚° ì•ˆí•˜ê³  ê±´ë„ˆëœ€
-                    continue;
-                }
-                queue.add(new EachTrucks(truck_weights[i], currentIndex+1));
-                // íŠ¸ëŸ­ì˜ ë¬´ê²Œì™€ í˜„ì¬ ì¸ë±ìŠ¤ê°€ ë‹´ê¸´ ê°ì²´ë¥¼ ì§‘ì–´ë„£ìŒ
-                currentBridgeWeight+=truck_weights[i];
-                // í˜„ì¬ ë‹¤ë¦¬ ìœ„ì— ìˆëŠ” ìë™ì°¨ì˜ ë¬´ê²Œ
-
-                // í•œë²ˆ ë£¨í”„ ëŒë•Œë§ˆë‹¤ ì‹œê°„ ì¶”ê°€
-                answer++;
-            }
-        }
-        return answer;
-    }
+		int totalTime = 0;
+		int currentBridgeWeight = 0;
+		for (int i = 0; i < truck_weights.length; i++) {
+			while (true) {
+				if (queue.isEmpty()) {
+					// 1. ´Ù¸®¿¡ Â÷°¡ ¾ø´Â °æ¿ì
+					queue.add(truck_weights[i]);
+					// Æ®·°ÀÇ ¹«°Ô¿Í ÇöÀç ÀÎµ¦½º°¡ ´ã±ä °´Ã¼¸¦ Áı¾î³ÖÀ½
+					currentBridgeWeight += truck_weights[i];
+					// ÇöÀç ´Ù¸® À§¿¡ ÀÖ´Â ÀÚµ¿Â÷ÀÇ ¹«°Ô
+					totalTime++;
+					// ÇÏ³ª ½Æ°í 1ÃÊ Áö³²
+					break;
+				} else if (queue.size() == bridge_length) {
+					// 2. ´Ù¸®°¡ ²ËÂù°æ¿ì
+					currentBridgeWeight -= queue.poll();
+				} else {
+					// 3. ´Ù¸®¿¡ Â÷°¡ ÀÖÁö¸¸ ²ËÂ÷Áö ¾ÊÀº °æ¿ì
+					
+					// 4. Â÷ÇÑ´ë°¡ Ãß°¡ÇßÀ» ¶§ ´Ù¸®ÀÇ ÃÖ´ë ¹«°Ô°¡ ³ÑÁö ¾ÊÀ» ¶§ 
+					if(currentBridgeWeight+truck_weights[i]<=weight) {
+						queue.add(truck_weights[i]);
+						currentBridgeWeight+=truck_weights[i];
+						totalTime++;
+						break;
+					}else {
+						// 5. ÃÖ´ë ¹«°Ô°¡ ³ÑÀ» ¶§ 
+						queue.add(0);
+						totalTime++;
+					}
+				}
+			}
+		}
+		return totalTime;
+	}
 }
