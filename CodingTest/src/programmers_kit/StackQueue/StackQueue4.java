@@ -42,6 +42,6 @@ public class StackQueue4 {
 				}
 			}
 		}
-		return totalTime;
+		return totalTime + bridge_length;
 	}
 }
