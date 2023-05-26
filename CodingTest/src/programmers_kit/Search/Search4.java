@@ -8,7 +8,7 @@ public class Search4 {
 
 	public int solution(int n, int[][] wires) {
 		int answer = n;
-		// 노드의 개수가 n 이고 가상 배열에는 마지막 숫자 까지 표시해야하므로 베열은 n+1로 만들어줘야함
+		// 노드의 개수가 n 이고 가상 배열에는 마지막 숫자 까지 표시해야하므로 베열은 n+1로 만들어줘야함ㄴ
 		arr = new int[n + 1][n + 1];
 		// 1. 인접 행렬을 만들어서 각 노드별로 연결된 전선을 표시함
 		for (int i = 0; i < wires.length; i++) {
