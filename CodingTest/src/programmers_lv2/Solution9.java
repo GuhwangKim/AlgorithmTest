@@ -40,9 +40,7 @@ public class Solution9 {
 			if (partSum <= k && rightidx < length) {
 				// 5. 아직 부분합이 작고, 끝 인덱스가 남았다면 끝 인덱스 한칸 옆으로
 				rightidx++;
-				if (rightidx < length) {
-					partSum += sequence[rightidx];
-				}
+				partSum += sequence[rightidx];
 			} else {
 				// 6. 부분 합이 k를 넘어가면
 				if (leftIdx < length) {
