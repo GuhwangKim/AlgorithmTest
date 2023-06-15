@@ -11,16 +11,16 @@ import java.util.Stack;
 
 public class Solution10 {
 	static class Assignment {
-		private String name;
-		private int start;
-		private int time;
+	    private String name;
+	    private int start;
+	    private int time;
 
-		public Assignment(String name, String start, String time) {
-			this.name = name;
-			this.start = start;
-			this.time = time;
-		}
-
+	    public Assignment(String name, String start, String time) {
+	        this.name = name;
+	        this.start = timeToMinute(start);
+	        this.time = Integer.parseInt(time);
+	    }
+	    // 시간변환 메소드 
 		public int timeToMinute(String start) {
 			String[] arr = start.split(":");
 			int hour = Integer.parseInt(arr[0]) * 60;
@@ -43,7 +43,7 @@ public class Solution10 {
 		
 		
 		Stack<Assignment> stack = new Stack<>(); // 진행중인 과제 
-		List<String> ans = new ArrayList<String>(); // 정답을 담을 리스트 
+		List<String> ans = new ArrayList<String>(); // 정답을 담을 리스
 		
 		int curTime = -1; // 현재시간초기화
 		
