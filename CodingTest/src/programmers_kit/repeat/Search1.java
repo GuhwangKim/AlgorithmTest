@@ -3,53 +3,55 @@ package CodingTest.src.programmers_kit.repeat;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * 가장 위 노드 LOOP
+ * 갔던 것은 다시 안가는 DFS 이므로 
+ * DFS LOOP 안에서 인덱스 값만 또 넘김 
+ * */
+
 public class Search1 {
     boolean[] visited;
-    int answer = Integer.MIN_VALUE;
+    Set<Integer> answerSet = new HashSet<>();
+    String number;
+    
     public int solution(String numbers) {
         visited = new boolean[numbers.length()];
-        String[] numArr = new String[numbers.length()];
-        Set<String> answerSet = new HashSet<>();
+        number = numbers;
+        
         for (int i = 0; i < numbers.length(); i++) {
-            numArr[i]=String.valueOf(numbers.charAt(i));
+        	visited[i]=true;
+            DFS(0, String.valueOf(numbers.charAt(i)));
+            visited[i]=false;
         }
-
-        for (int i = 0; i < numArr.length; i++) {
-           DFS(numArr, numArr[i], "", 0, answerSet);
-        }
-
-        return 0;
+        
+        return answerSet.size();
     }
 
-    public void DFS(String[] numberArray, String startNode, String currentAnswer, int level, Set<String> answer){
+   
 
-        if(level==numberArray.length){
-            return;
-        }else{
-            for (int i = 0; i < numberArray.length; i++) {
-                if(!visited[i]) {
-                    if(startNode.equals("0")){
-                        visited[i] = true;
-                        DFS(numberArray, numberArray[i + 1], currentAnswer, level + 1, answer);
-                        visited[i]=false;
-                    } else{
-                        visited[i]=true;
-                        currentAnswer+=numberArray[i];
-                        if(isPrime(Integer.parseInt(currentAnswer))){
-                            answer.add(currentAnswer);
-                        }
+    private void DFS(int idx, String idxNum) {
+    	
+    	if(idx>visited.length) {
+    		return;
+    	}
+    	
+    	if(isPrime(Integer.parseInt(idxNum))) {
+    		answerSet.add(Integer.parseInt(idxNum));
+    	}
+    	
+    	
+    	for (int i = 0; i < visited.length; i++) {
+			if(!visited[i]) {
+				visited[i]=true;
+				DFS(i, idxNum+String.valueOf(number.charAt(i)));
+				visited[i]=false;
+			}
+		}
+	}
 
-                        DFS(numberArray, startNode, currentAnswer, level+1, answer);
-                        visited[i]=false;
-                    }
 
 
-                }
-            }
-        }
-    }
-
-    public static boolean isPrime(int num) {
+	public static boolean isPrime(int num) {
         if(num==1||num==0) return false;
         for (int i = 2; i * i <= num; i++) {
             if (num % i == 0) {
