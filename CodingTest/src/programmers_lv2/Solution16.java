@@ -6,10 +6,9 @@ import java.util.Queue;
 
 public class Solution16 {
 
-	int[] dx = { -1, 0, 1, 0 };
-	int[] dy = { 0, 1, 0, -1 };
-	boolean[][] visited;
-	String[][] miro;
+	static int[] dx = { -1, 0, 1, 0 };
+	static int[] dy = { 0, 1, 0, -1 };
+	static String[][] miro;
 
 	public int solution(String[] maps) {
 		int count = 0;
@@ -21,13 +20,13 @@ public class Solution16 {
 
 		for (int i = 0; i < maps.length; i++) {
 			String[] split = maps[i].split("");
-			for (int j = 0; j < maps.length; j++) {
+			for (int j = 0; j < split.length; j++) {
 				miro[i][j] = split[j];
 
-				if (miro[i][j].equals('S')) {
+				if (miro[i][j].equals("S")) {
 					start = new int[] { i, j };
 				}
-				if (miro[i][j].equals('S')) {
+				if (miro[i][j].equals("L")) {
 					lever = new int[] { i, j };
 				}
 
@@ -36,20 +35,20 @@ public class Solution16 {
 
 		int startToLever = BFS(start, "L");
 		int leverToEnd = BFS(lever, "E");
-		
-		// 불가능인 경우 
-		if(startToLever == -1 || leverToEnd == -1) {
+
+		// 불가능인 경우
+		if (startToLever == -1 || leverToEnd == -1) {
 			return -1;
 		}
-		return startToLever+leverToEnd;
+		return startToLever + leverToEnd;
 	}
 
 	private int BFS(int[] currentRC, String target) {
-		Queue<int[]> queue = new LinkedList<int[]>();
+		Queue<int[]> queue = new LinkedList<>();
 
 		// 행, 렬
 		queue.add(new int[] { currentRC[0], currentRC[1], 0 });
-		visited = new boolean[miro.length][miro[0].length];
+		boolean[][] visited = new boolean[miro.length][miro[0].length];
 
 		while (!queue.isEmpty()) {
 			int x = queue.peek()[0]; // 행
@@ -71,6 +70,7 @@ public class Solution16 {
 					if (!miro[nx][ny].equals("X")) {
 						visited[nx][ny] = true;
 						queue.add(new int[] { nx, ny, count + 1 });
+						
 					}
 				}
 			}
