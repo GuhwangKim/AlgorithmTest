@@ -1,6 +1,6 @@
 package programmers_kit.repeat;
 
-public class Greedy2 {
+public class Search2 {
 	public int[] solution(int brown, int yellow) {
 		/**
 		 * 어떤 수를 최대로 해서 돌려야할지 ? 
