@@ -1,36 +1,42 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.HashSet;
+
 public class Solution19 {
-    int answer = 0;
-    public int solution(int x, int y, int n) {
-        /**
-         * 1. x에 n을 더하는 경우
-         * 2. x에 2또는 3을 곱하는 경우
-         * */
-        DFS(x, y, n, x, 0);
+	
 
+	public int solution(int x, int y, int n) {
+		int answer = 0;
+		HashSet<Integer> set = new HashSet<Integer>();
+		HashSet<Integer> next = null;
+		set.add(x);
+		// x의 값을 집어 넣고 이것이 y가 될때까지
+		while (!set.isEmpty()) {
+			if (set.contains(y)) {
+				return answer;
+			}
+			
+			next = new HashSet<Integer>();
+			// 루프를 돌때마다 매번 새롭게 set 객체를 만듦 
+			for(int var : set) {
+				if(x<y) {
+					next.add(x+n);
+				}
+				if(x<y) {
+					next.add(x*2);
+				}
+				if(x<y) {
+					next.add(x*3);
+				}
+				
+			}
+			set = next;
+			// 검증의 기준이 되는 set 이 바뀜 (위에 검증으로 set 에는 목표값이 없다는 것을 확인했으므로) 
+			answer++;
+			// 횟수를 증가시킴 
+		}
 
-        return answer;
-    }
+		return -1;
+	}
 
-    private void DFS(int x, int y, int n, int presentNum, int cnt) {
-
-        if(x==n){
-            answer = Math.min(answer, cnt);
-            return;
-            // 같다면 바로
-        }
-        // 그냥 무작정 검증하다보면 정말 끝도
-        if(x<y){
-            DFS(x, y, n, presentNum*3, cnt+1);
-            DFS(x, y, n, presentNum*2, cnt+1);
-            DFS(x, y, n, presentNum+n, cnt+1);
-            // 이렇게 되면 섞이는 경우를 반영할 수 없음
-
-
-        }
-
-
-
-    }
 }
