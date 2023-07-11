@@ -7,8 +7,6 @@ public class Solution14 {
 		 * 변경해나감
 		 */
 
-		long answerFM = -100001;
-		long answerFP = -100001;
 		long reset = 0;
 		long answer = 0;
 		int[] sumFirstMinus = new int[sequence.length];
