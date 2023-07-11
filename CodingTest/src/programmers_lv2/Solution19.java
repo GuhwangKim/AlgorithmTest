@@ -19,14 +19,14 @@ public class Solution19 {
 			next = new HashSet<Integer>();
 			// 루프를 돌때마다 매번 새롭게 set 객체를 만듦 
 			for(int var : set) {
-				if(x<y) {
-					next.add(x+n);
+				if(var+n<y) {
+					next.add(var+n);
 				}
-				if(x<y) {
-					next.add(x*2);
+				if(var*2<y) {
+					next.add(var*2);
 				}
-				if(x<y) {
-					next.add(x*3);
+				if(var*3<y) {
+					next.add(var*3);
 				}
 				
 			}
