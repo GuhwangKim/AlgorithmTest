@@ -20,12 +20,18 @@ public class Solution14 {
 			n *= -1;
 			sumFirstMinus[i] = sequence[i]*n;
 		}
-		answer = Math.max(sumFirstPlus[0], sumFirstMinus[0]);
+        long[] operationArrPlus = new long[sequence.length];
+        long[] operationArrMinus = new long[sequence.length];
+
+        operationArrPlus[0] = sumFirstPlus[0];
+        operationArrMinus[0] = sumFirstMinus[0];
+
+		answer = Math.max(operationArrPlus[0], operationArrMinus[0]);
 		
 		for (int i = 1; i < sequence.length; i++) {
-			answerFP = Math.max(sumFirstPlus[i-1]+sumFirstPlus[i], sumFirstPlus[i]);
-			answerFM = Math.max(sumFirstMinus[i-1]+sumFirstMinus[i], sumFirstMinus[i]);
-			reset = Math.max(answerFM, answerFP);
+            operationArrPlus[i] = Math.max(operationArrPlus[i-1]+sumFirstPlus[i], sumFirstPlus[i]);
+            operationArrMinus[i] = Math.max(operationArrMinus[i-1]+sumFirstMinus[i], sumFirstMinus[i]);
+			reset = Math.max(operationArrPlus[i], operationArrMinus[i]);
 			answer = Math.max(reset, answer);
 		}
 
