@@ -11,31 +11,21 @@ public class Solution20 {
         long answer = 0;
 
         Arrays.sort(weights);
-        PriorityQueue<Long> queue = new PriorityQueue<>();
-        for(long weight : weights){
-            queue.add(weight);
-        }
-        HashSet<Long> set = new HashSet<>();
-        for(long weight : weights){
-            set.add(weight*1);
-            set.add(weight*2);
-            set.add(weight*3);
-            set.add(weight*4);
 
-        }
-
-        while(!queue.isEmpty()){
-            long num = queue.poll();
-            for (int i = 1; i <=4 ; i++) {
-                long standnum = num*i;
-                if(set.contains(standnum)){
+        for (int i = 0; i < weights.length-1; i++) {
+            for (int j = i+1; j < weights.length; j++) {
+                if(weights[i]*2<weights[j])
+                if(weights[i]==weights[j]){
                     answer++;
-                    set.remove(standnum);
-                    continue;
+                } else if (weights[i]*2==weights[j]*3) {
+                    answer++;
+                } else if (weights[i]*2==weights[j]*4) {
+                    answer++;
+                } else if (weights[i]*3==weights[j]*4) {
+                    answer++;
                 }
             }
         }
-
         return answer;
     }
 }
