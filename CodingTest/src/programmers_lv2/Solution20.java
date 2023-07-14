@@ -7,25 +7,29 @@ import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class Solution20 {
-    public long solution(int[] weights) {
-        long answer = 0;
+	public long solution(int[] weights) {
+		long answer = 0;
 
-        Arrays.sort(weights);
+		Arrays.sort(weights);
 
-        for (int i = 0; i < weights.length-1; i++) {
-            for (int j = i+1; j < weights.length; j++) {
-                if(weights[i]*2<weights[j])
-                if(weights[i]==weights[j]){
-                    answer++;
-                } else if (weights[i]*2==weights[j]*3) {
-                    answer++;
-                } else if (weights[i]*2==weights[j]*4) {
-                    answer++;
-                } else if (weights[i]*3==weights[j]*4) {
-                    answer++;
-                }
-            }
-        }
-        return answer;
-    }
+		for (int i = 0; i < weights.length - 1; i++) {
+			for (int j = i + 1; j < weights.length; j++) {
+				if (weights[i] * 2 < weights[j]) {
+					break;
+				} else if (weights[i] == weights[j]) {
+					answer++;
+				} else if (weights[i] * 2 == weights[j]) {
+					answer++;
+				} else if (weights[i] * 3 == weights[j] * 2) {
+					answer++;
+				} else if (weights[i] * 4 == weights[j] * 2) {
+					answer++;
+				} else if (weights[i] * 4 == weights[j] * 3) {
+					answer++;
+
+				}
+			}
+		}
+		return answer;
+	}
 }
