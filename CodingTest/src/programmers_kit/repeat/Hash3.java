@@ -43,7 +43,7 @@ public class Hash3 {
 		}
 		/**
 		 * 1. genre의 이름은 map의 키 값으로만 쓰임 
-		 * 2. play 활용이 주 (key마다 더한 value의 값으로 정렬 , 다시 play가 클래스의 필드로) 
+		 * 2. play 활용이 주 (key마다 더한 value의 값으로 정렬 , 다시 play가 클래스의 필드로) z
 		 * */
 		List<String> genreMax = new LinkedList<String>(map.keySet());
 		genreMax.sort((o1, o2) -> map.get(o2) - map.get(o1)); // 내림차순 정렬
