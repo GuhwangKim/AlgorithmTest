@@ -1,50 +1,40 @@
-package CodingTest.src.programmers_kit.repeat;
+package programmers_kit.repeat;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.Collections;
+import java.util.PriorityQueue;
 
 public class StackQueue3 {
 
-    class Process{
-        int idx;
-        int num;
+	public int solution(int[] priorities, int location) {
+		int answer = 0;
 
-        public Process(int idx, int num) {
-            this.idx = idx;
-            this.num = num;
-        }
-    }
+		PriorityQueue<Integer> queue = new PriorityQueue<>(Collections.reverseOrder());
 
-    public int solution(int[] priorities, int location) {
-        int answer = 0;
-        int findNum = priorities[location];
+		// queue 에 값을 담기
+		for (int i = 0; i < priorities.length; i++) {
+			queue.add(priorities[i]);
+		}
 
-        Queue<Integer> queue = new LinkedList<>();
-
-        //queue 에 값을 담기
-        for (int num : priorities){
-            queue.add(num);
-        }
-        // stream 뽑아내기
+		// stream 뽑아내기
 //        int maxNum = Arrays.stream(priorities).max().getAsInt();
+		while (!queue.isEmpty()) {
+			for (int i = 0; i < priorities.length; i++) {
+				if (priorities[i] == queue.peek()) {
+					// 최대 값이랑 같은 셈
+					if (i == location) {
+						// 찾던 값일 때 리턴 
+						answer++;
+						return answer;
+					} else {
+						// 아니라면 queue 에서 제거해주고 순서 하나 증가 
+						queue.poll();
+						answer++;
+					}
 
-        // queue 에 담긴 값을 뽑기 시작함
-        while (!queue.isEmpty()){
-            for (int i = 0; i < priorities.length-1; i++) {
-                for (int j = i; j < priorities.length; j++) {
-                    int currentNum = queue.poll();
-                    if(currentNum<priorities[j]){
-                        // 배열에 현재 값보다 큰게 있으면
-                        queue.add(currentNum);
-                        break;
-                    }
-                }
-            }
-        }
+				}
+			}
+		}
 
-
-        return answer;
-    }
+		return answer;
+	}
 }
