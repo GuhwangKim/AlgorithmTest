@@ -27,7 +27,7 @@ public class Solution26 {
         }
         BFS(n,k, enemy, 0);
 
-        return answer;
+        return answer+1;
     }
 
     private void BFS(int n, int k, int[] enemy, int level) {
