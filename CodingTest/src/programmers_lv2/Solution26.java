@@ -1,5 +1,8 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.Collections;
+import java.util.PriorityQueue;
+
 public class Solution26 {
     /**
      * n <enemy[i] 일 떄 i 단계까지 가능함
@@ -15,37 +18,46 @@ public class Solution26 {
      * */
 
 
-    int answer = 0;
     public int solution(int n, int k, int[] enemy) {
-        int sum = 0;
-        for(int num : enemy){
-            sum+=num;
-        }
-        if(k>= enemy.length || n>=sum){
-            // 1. 무적권 > 적 / 병사수 > 적의 수
-            return enemy.length;
-        }
-        BFS(n,k, enemy, 0);
+    	int answer = enemy.length;
 
-        return answer+1;
+        PriorityQueue<Integer> queue = new PriorityQueue<Integer>(Collections.reverseOrder());
+        
+        for (int i = 0; i < enemy.length; i++) {
+        	if(n>=enemy[i]) {
+        		// 2. 적보다 가지고 있는 병력이 많으면 상대함 
+        		n-=enemy[i];
+        		queue.add(enemy[i]); // 큰 순으로 정렬되고 있음 
+        	}else {
+        		// 3. 병력이 더 많은 상황 
+        		if(k>0) {
+        			// 4. 무적권이 있는 경우 
+        			if(!queue.isEmpty()) {
+        				// 4-2. queue 에 값이 있다면 
+        				int maxEnemy = queue.poll();
+        				if(maxEnemy>enemy[i]) {
+        					// 4-3. queue에 내림차순으로 정렬되어있는 적의 수가 현재 들어온 적의 수보다 크면 
+        					n+=maxEnemy;
+        					// 무적권 사용하고 회복 -> i도 한 단계 앞으로 
+        					i--;
+        				}else {
+        					// 4-4. 현재의 값이 크다면 그 값을 다시 queue 에 집어넣음 
+        					queue.add(maxEnemy);
+        				}
+        			}
+        			// 4. 무적권 사용 
+        			k--;
+        		} else {
+        			// 5. 무적권조차 없는 경우 -> stop
+        			answer = i;
+        			// 이 순서까지만 진행할 수 있음 
+        			break;
+        		}
+        	}
+		}
+        
+        return answer;
     }
 
-    private void BFS(int n, int k, int[] enemy, int level) {
-
-        for (int i = level; i < enemy.length; i++) {
-            if(k>0){
-                // 한번 건너 뛰는 경우
-               BFS(n, k-1, enemy, level+1);
-            } else if (n-enemy[i]>0) {
-                // 적 빼는 경우
-                BFS(n-enemy[i], k, enemy, level+1);
-            }
-            answer = Math.max(answer, level);
-            // 루프를 끝내야함
-            break;
-
-        }
-
-    }
 
 }
