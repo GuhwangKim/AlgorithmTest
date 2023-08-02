@@ -1,31 +1,36 @@
 package programmers_kit.repeat;
 
 public class Greedy2 {
-	public int[] solution(int brown, int yellow) {
-		/**
-		 * 어떤 수를 최대로 해서 돌려야할지 ? 
-		 * 1단계 : (a-2) (b-2 ) = yellow 각 각 수는 yellow의 약수  
-		 * 2단계 : a-2 를 ver / b-2 = hor 라고 잡고 값을 구해나감 
-		 * 3단계 : 결국 구하려고 하는 값은 ver hor 값에 +2를 한 값 
-		 * */
-		int[] answer = new int[2];
-		int ver = yellow;
-		for (int hor = 1; hor <= yellow; hor++) {
-			if(yellow%hor==0) {
-				// 약수일 때 (a-2) (b-2 ) = yellow 
-				ver = yellow/hor;
-				if(2*ver + 2*hor + 4 == brown ) {
-					answer[0] = Math.max(hor+2, ver+2);
-					answer[1] = Math.min(hor+2, ver+2);
-					break;
-					// 다 끝났으면 break 걸어서 빼줘야함 
+	public int[] solution(String number, int k) {
+		int startIdx = 0;
+		int maxIdx = 0;
+		
+		StringBuilder stringBuilder = new StringBuilder();
+		
+		for (int i = 0; i < number.length()-k; i++) {
+			int max = 0;
+			
+			if(startIdx < number.length()) {
+				for (int j = startIdx; j <= i+k; j++) {
+					// startIdx ~ 끝까지 탐색함 
+					// i+k 자리수를 기준으로 한칸씩 밀려남 
+					// 그만큼 까지에서 가장 큰 수를 구하고, 
+					int current = number.charAt(j) - '0';
+					
+					if(max<current) {
+						max = current;
+						maxIdx = j;
+					}
 					
 				}
+				stringBuilder.append(max);
+				startIdx = maxIdx +1;
 			}
 		}
 		
 		
-		return answer;
+		
+		return null;
 
 	}
 
