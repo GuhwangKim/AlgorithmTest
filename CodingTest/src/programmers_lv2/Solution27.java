@@ -25,6 +25,7 @@ public class Solution27 {
                     // 곱한 값이 y 좌표 넘어가면 빠져나옴
                     break;
                 }
+                if((idxX*idxY))
 
             }
 
