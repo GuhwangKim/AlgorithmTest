@@ -16,9 +16,23 @@ public class Solution28 {
             }
         }
 
-        List<Map.Entry<Integer, Integer>> list = new LinkedList<>(map.values());
+        List<Integer> list = new ArrayList<>(map.keySet());
+        list.sort((o1, o2) -> map.get(o2)-map.get(o1));
 
+        for(int num : map.values()){
+            if(k>num){
+                System.out.println("num : "+num);
+                System.out.println("k : "+k);
 
+                k-=num;
+                answer++;
+            }else{
+                System.out.println("num : "+num);
+                System.out.println("k : "+k);
+                answer++;
+                return answer;
+            }
+        }
         return answer;
     }
 }
