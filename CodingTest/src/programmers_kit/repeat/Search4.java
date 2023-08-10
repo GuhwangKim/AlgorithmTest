@@ -28,12 +28,16 @@ public class Search4 {
             arr[backNum][frontNum] = 0;
             // 연결 해제
 
-            answer = Math.min(answer, BFS(frontNum, n));
+            answer = Math.min(answer, BFS(frontNum, n)); // 노드의 시작점과, 개수
+            
 
+            arr[frontNum][backNum] = 1;
+            arr[backNum][frontNum] = 1;
+            // 연결
 
         }
 
-        return 0;
+        return answer;
     }
 
     private int BFS(int frontNum, int nodeCnt) {
@@ -43,7 +47,25 @@ public class Search4 {
         Queue<Integer> queue = new LinkedList<>();
         queue.offer(frontNum);
         // 앞굴자
-
+        
+        while(!queue.isEmpty()) {
+        	int queueFirstNode = queue.poll();
+        	visited[queueFirstNode] = true;
+        	// 방문함 대각선줄 = 자기 자신 무조건 0 
+        	for (int i = 1; i <= nodeCnt; i++) {
+				// 행을 기준으로 1이 있나 탐, 1인경우 이어져 있는 경우이기 때문에 같이 묶임 
+        		if(visited[i]) {
+        			continue;
+        		}
+        		if(arr[queueFirstNode][i]==1) {
+        			queue.offer(i);
+        			cnt++;
+        		}
+			}
+        	
+        }
+        
+        return (int)Math.abs(nodeCnt - 2*cnt);
 
     }
 }
