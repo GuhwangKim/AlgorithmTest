@@ -3,48 +3,55 @@ package CodingTest.src.programmers_kit.repeat;
 import java.util.Arrays;
 
 public class Greedy4 {
-    int[] parent;
-    public int solution(int n, int[][] costs) {
-        /**
-         * costs를 비용을 기준으로 정렬
-         * 가장 끝까지의 노드를 구해야함
-         *
-         * */
+	int[] parent;
 
-        int totalCost = 0;
+	public int solution(int n, int[][] costs) {
+		/**
+		 * costs를 비용을 기준으로 정렬 가장 끝까지의 노드를 구해야함
+		 *
+		 */
 
-        Arrays.sort(costs, (o1, o2) -> o1[2] - o2[2]);
-        // 오름차순으로 정렬
+		int totalCost = 0;
 
-        parent = new int[n];
-        // 가장 끝 노드의 값을 담음
+		Arrays.sort(costs, (o1, o2) -> o1[2] - o2[2]);
+		// 오름차순으로 정렬
 
-        for (int i = 0; i < n; i++) {
-            parent[i] = i;
-        }
+		parent = new int[n];
+		// 가장 끝 노드의 값을 담음
 
-        int startNum = 0;
-        for (int[] cost : costs) {
-            startNum = cost[0];
-            int endNum = cost[1];
-            int price = cost[2];
-        }
+		for (int i = 0; i < n; i++) {
+			parent[i] = i;
+		}
 
-        int startNumsParent = findParentNum(startNum);
+		for (int[] cost : costs) {
+			int startNum = cost[0];
+			int endNum = cost[1];
+			int price = cost[2];
 
+			int startNumsParent = findParentNum(startNum);
+			int endNumsParent = findParentNum(endNum);
 
+			if (startNumsParent == endNumsParent) {
+				// 시작점과 끝점 같음 부모값 같음
+				continue;
+			} else {
+				totalCost += price;
+				parent[endNumsParent] = startNum;
+			}
 
-        return totalCost;
-    }
+		}
 
-    private int findParentNum(int startNum) {
-        if(parent[startNum] == startNum){
-            // 자기 자신인 경우 가장 마지막
-            return startNum;
-        } else{
-            return parent[startNum] = findParentNum(parent[startNum]);
-            // 계속해서 더 끝까지 감
-        }
+		return totalCost;
+	}
 
-    }
+	private int findParentNum(int startNum) {
+		if (parent[startNum] == startNum) {
+			// 자기 자신인 경우 가장 마지막
+			return startNum;
+		} else {
+			return parent[startNum] = findParentNum(parent[startNum]);
+			// 계속해서 더 끝까지 감
+		}
+
+	}
 }
