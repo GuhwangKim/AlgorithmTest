@@ -17,8 +17,9 @@ public class StackQueue5 {
                     break;
                 }
             }
+            answer[i] = result;
         }
 
-        return prices;
+        return answer;
     }
 }
