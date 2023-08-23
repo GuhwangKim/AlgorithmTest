@@ -1,41 +1,49 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Solution35 {
-    boolean[] checked;
-    int answer = 1;
-    public int solution(int[] cards){
-        checked = new boolean[cards.length];
+	
+	PriorityQueue<Integer> queue;
 
-        for(int card : cards){
-            calulate(card-1, cards);
-        }
-        return answer;
-    }
+	public int solution(int[] cards) {
+		int answer = 0;
+		boolean[] checked = new boolean[cards.length];
 
-    private void calulate(int startIdx, int[] cards) {
+		queue = new PriorityQueue<Integer>(Collections.reverseOrder());
+		// 내림차순으로 박스의 수를 담는 queue 
+		
+		for (int i = 0; i < cards.length; i++) {
+			if(!checked[i]) {
+				// 방문하지 않았다면 
+				dfs(cards, i, 0, checked);
+			}
+		}
+		
+		if(queue.size()>1) {
+			// 1이라면 1개의 상자 그룹만 있는 것 
+			answer = queue.poll() * queue.poll();
+		}
+		
+		return answer;
+	}
 
-        // 이 아래의 로직을 함수화
-        for (int i = 0; i < cards.length; i++) {
-            int boxCnt = 0;
-            while(!checked[i]){ // 방문 안한 경우만 아래 문을 탐
-                boxCnt++;
-                int openedBoxIdx = cards[i]-1;
-                i = openedBoxIdx;
-                checked[openedBoxIdx] = true;
-                // 열어봄
-            }
-            if(boxCnt==cards.length){
-                // 다 열어본 경우
-                answer = 0;
-                return;
-            }
-            if(boxCnt>0){
-                // 하나라도 열어본 경우 존재한다면
-                answer*=boxCnt;
-            }
-        }
-    }
+	private void dfs(int[] cards, int idx, int cnt, boolean[] checked) {
+		//남은 상자 중 다시 임의의 상자 하나를 골라? => 순서가 어떻게 되든간에, 함께 묶일 상자들은 같이 묶인다
+		// 따라서 남은 상자들에 대한 검증은 할 필요 없고, 순서대로 임의로 상자를 뽑는 loop만 작성해주면 됨 
+		if(checked[idx]) {
+			// 이미 방문함 
+			queue.add(cnt);
+			return;
+		}
+		checked[idx] = true;
+		// 방문했음
+		dfs(cards, cards[idx]-1, cnt+1, checked);
+		
+	}
+
+	
 }
