@@ -17,16 +17,16 @@ public class DfsBfs5 {
          * */
         visited = new boolean[tickets.length];
         DFS(tickets, "ICN", "ICN", totalCnt);
-
+        
+        Collections.sort(list);
         String[] arr = list.get(0).split(",");
-        Arrays.sort(arr);
 
         return arr;
     }
 
     private void DFS(String[][] tickets, String formerFlight, String allRoutes, int totalCnt) {
         if(totalCnt == tickets.length){
-            // 끝까지 온 것 끝, 방문한대로 한개씩 계쏙 붙혀줌
+            // 방문한대로 한개씩 계쏙 붙혀줌 끝까지 온 것드료
 
             list.add(allRoutes);
             return;
@@ -36,6 +36,7 @@ public class DfsBfs5 {
             if(formerFlight.equals(tickets[i][0]) && !visited[i]){
                 visited[i] = true;
                 DFS(tickets, tickets[i][1], allRoutes+","+tickets[i][1], totalCnt+1);
+                visited[i] = false;
             }
         }
 
