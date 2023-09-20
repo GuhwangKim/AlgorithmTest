@@ -18,12 +18,18 @@ public class Solution43 {
                     // 1자리 부터 추출하면서 0을 1로 변경함
                 } else{
                     int lastIdx = longByte.lastIndexOf("0");
-                    // 마지막으로 나오는 0의 인덱스
                     int firstOneIdx = longByte.indexOf("1", lastIdx);
 
-                    longByte.
-
+                    // 마지막 0을 1로 수정 
+                    builder.append(longByte, 0, lastIdx).append("1");
+                    
+                    // 마지막으로 나오는 0을 1로 수정 
+                    builder.append("0");
+                    
+                    builder.append(longByte.substring(firstOneIdx+1));
+                    
                 }
+                answer[i] = Long.parseLong(builder.toString(),2);
             }
         }
 
