@@ -18,21 +18,23 @@ public class Solution44 {
         }
 
         for (int i = 0; i < seller.length; i++) {
-            String now = seller[i];
+        	// 판매자 순대로 loop 
+        	
+            String sellersName = seller[i];
             // 현재 판매를 한 member
             int profit = 100*amount[i];
 
-            while (!now.equals("-")){
+            while (!sellersName.equals("-")){ // 가장 상위에 갈 때까지 계속 
                 int profitForParent = profit/10;
-                // 부모에게 넘겨주는 금액
+                // 부모에게 넘겨주는 금액 (순이익을 구하기 위한 계산값) 
                 int nowProfit = profit - profitForParent;
                 // 순수익
 
-                answer[memberIndexMap.get(now)] += nowProfit;
+                answer[memberIndexMap.get(sellersName)] += nowProfit;
                 // 판매자의 이름에 해당하는 idx를 찾아 거기에 수익을 더함
 
-                now = parentMap.get(now);
-                // 자식 값에 따른 부모 값
+                sellersName = parentMap.get(sellersName);
+                // 자식 값에 따른 부모 값으로 계속해서 갱신해줌 
                 profit /=10;
                 // 부모한테는 10나눈 값을 전해줌 (쌓임)
 
@@ -40,12 +42,8 @@ public class Solution44 {
                     break;
 
                 }
-
-
             }
-
         }
-
         return answer;
     }
 }
