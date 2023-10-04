@@ -12,7 +12,7 @@ public class Solution45 {
 
 
 
-        return answer;
+        return rotateNums(square, queries);
     }
 
     // 행렬별 숫자를 넣는 메소드
@@ -69,6 +69,11 @@ public class Solution45 {
                 min = Math.min(min, square[i][y2]);
                 square[i+1][y2] = square[i][y2];
             }
+            
+            square[x1+1][y2] = firstNum;
+            answer[minimalIdx] = min;
+            // query 한개를 수행하고 나서 가장 작은 수 
+            minimalIdx++;
 
         }
 
