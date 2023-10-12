@@ -2,88 +2,64 @@ package CodingTest.src.programmers_lv2;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.PriorityQueue;
-import java.util.Queue;
+import java.util.*;
 
 public class Solution47 {
 
-	class Point {
-		long start;
-		long end;
-
-		public Point(long start, long end) {
-			this.start = start;
-			this.end = end;
-		}
-	}
 
 	public String solution(String play_time, String adv_time, String[] logs) throws ParseException {
 		String answer = "";
 
-		// 끝수를 기준으로 집어넣는 queue
-		Queue<Point> queue = new PriorityQueue<>(new Comparator<Point>() {
+		long playTime = intToTimes(play_time);
+		long advTime = intToTimes(adv_time);
+		long[] times = new long[360_000];
 
-			@Override
-			public int compare(Point o1, Point o2) {
-				if (o1.end < o2.end) {
-					return -1;
-				} else if (o1.end > o2.end) {
-					return 1;
-				} else {
-					return 0;
-				}
+		// 1. 초로 변환한 후 각 초 마다, 값이 있을 경우 1씩 더해줌
+		for(String log : logs){
+			String[] splitLog = log.split("-");
 
-			}
-		});
-
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-
-		// logs에 있는 시간 변환작업
-		for (int i = 0; i < logs.length; i++) {
-			String[] arr = logs[i].split("-");
-			Date start = sdf.parse(arr[0]);
-			Date end = sdf.parse(arr[1]);
-			queue.add(new Point(start.getTime(), end.getTime()));
-		}
-
-		long max = 0;
-		int sum = 0;
-		Point compare = queue.poll();
-		long maxKey = compare.start; // 시작점
-
-		while (!queue.isEmpty()) {
-			// 겹쳐지는 개수
-			if (compare.end >= queue.peek().start) {
-				// 1) 뒤에것과 겹쳐지는 경우
-				sum += compare.end - queue.poll().start;// 뒤에것은 없앰
-
-			} else {
-				// 2) 뒤에것과 겹쳐지지 않는 경우
-				if (max < sum) {
-					// 바로 전 개수와 비교를 해서 현재 카운팅이 큰 경우 key max 변화
-					max = sum;
-					maxKey = compare.start; // 동일한 대상을 비교하기 위함
-				}
-				compare = queue.poll(); // 비교의 대상이 바뀜
-				sum = 0; // 초기화
+			long startTime = intToTimes(splitLog[0]);
+			long endTime = intToTimes(splitLog[1]);
+			for (int i = startTime; i < endTime; i++) {
+				times[i]++;
 			}
 		}
 
-		// 마지막 cnt 에 대해서
-		if (max < sum) {
-			maxKey = compare.start;
+		//2.
+		long maxIdx = 0;
+		long totalTime = 0;
+
+		//3. 광고가 0부터 시작될때 첫번째 경우
+		for (long i = 0; i < advTime; i++) {
+			totalTime += times[i];
 		}
 
-		answer = change(maxKey);
+		long maxTotalTime = totalTime;
+		// 우선 가장 큰 소요 시간으로
 
-		return answer;
+		// 4. 광고 시간 이후로부터 검증해봄
+		for (long i = advTime; i < playTime; i++) {
+			totalTime += times[i] - times[i-advTime];
+			// ** 광고 시간 만큼의 구간 합  ***
+			if(totalTime > maxTotalTime){
+				//5. 누적 시간이 가장 많으면
+				maxTotalTime = totalTime;
+				maxIdx = i - advTime + 1;
+			}
+
+		}
+
+
+		return change(maxIdx);
+	}
+
+	long intToTimes (String strTime){
+		long[] time = Arrays.stream(strTime.split(":")).mapToInt(Long::parseLong).toArray();
+		return 3600*time[0]+60*time[1]+time[2];
 	}
 
 	// 초를 시분초로 변환
-	private String change(long seconds) {
+	private String change(int seconds) {
 
 		long hours = Math.floorDiv(seconds, 3600);
 		long min = Math.floorDiv((seconds - (hours * 3600)), 60);
