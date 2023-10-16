@@ -9,9 +9,9 @@ public class Solution48 {
     int[][] matrix;
 
     public int solution(int n, int s, int a, int b, int[][] fares) {
-       int answer = 0;
        Node = n;
        Cnnct = fares.length;
+       matrix = new int[n][n];
 
         for (int i = 0; i < Cnnct; i++) {
             int frontIdx = fares[i][0]-1;
@@ -44,7 +44,7 @@ public class Solution48 {
         // 총 노드 만큼 방문했는지,
         // 각 노드별 길이를 저장하는 배열
         boolean[] visited = new boolean[Node];
-        int[] distance = new int[Node];
+        int[] distance = new int[Node]; // 거리 비용 초기화 
 
         Arrays.fill(distance, Integer.MAX_VALUE);
         // 거리의 최대 값을 입력함
