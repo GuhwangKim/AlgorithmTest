@@ -3,77 +3,87 @@ package CodingTest.src.programmers_lv2;
 import java.util.*;
 
 public class Solution48 {
-    class Point {
-        int node;
-        int cost;
 
-        public Point(int node, int cost){
-            this.node = node;
-            this.cost = cost;
-        }
-    }
+    int Node;
+    int Cnnct;
+    int[][] matrix;
+
     public int solution(int n, int s, int a, int b, int[][] fares) {
-        int answer = 0;
-        /**
-         * 배열은 첫번째를 기준으로 정렬함
-         * 1. KEY : 1 ~ N 까지
-         * 2. VALUE : 연결 NODE 와 COST 값을 가진 클래스가 LIST 형태로 들어감
-         * 3. 해당 MAP을 QUEUE 에 담음
-         * 4. 시작점 노드가 끝날때까지 DFS
-         * 5. 가장 작은 값 반환
-         *
-         * */
+       int answer = 0;
+       Node = n;
+       Cnnct = fares.length;
 
-        // 1. 첫번쨰 값을 기준으로 정렬함
-        Arrays.sort(fares, (o1, o2) -> o1[0]-o2[0]);
-        // 2. map 에 담아줌
-        Map<Integer, List<Point>> map = new HashMap<>();
+        for (int i = 0; i < Cnnct; i++) {
+            int frontIdx = fares[i][0]-1;
+            int backIdx = fares[i][1]-1;
+            int cost = fares[i][2];
+            // 각 연결된 노드 cost를 담아줌
+            matrix[frontIdx][backIdx] = cost;
+            matrix[backIdx][frontIdx] = cost;
+        }
 
-        for(int[] fare : fares){
+        // 연결된 노드들의 cost 총합
+        // 시작 인덱스를 기준으로
+        int[] together = dijkstra(s-1);
+        int minCost = Integer.MAX_VALUE;
 
-            // 1) 첫번쨰 존재하는 수의 경우 list에 넣어줌
-            if(map.containsKey(fare[0])){
-                map.get(fare[0]).add(new Point(fare[1],fare[2]));
-                if(map.containsKey(fare[1])){
-                    // 2번째 수가 존재하는 경우
-                    map.get(fare[1]).add(new Point(fare[0],fare[2]));
+        for (int i = 0; i < Node; i++) {
+            int[] alone = dijkstra(i);
+            int cost = together[i] + alone[a -1] + alone[b-1];
+            if(cost<minCost){
+                minCost = cost;
+            }
+        }
+        return minCost;
+    }
 
-                }else{
-                    // 2번쨰 수 새로 만들어줌
-                    List<Point> list = new LinkedList<>();
-                    list.add(new Point(fare[0],fare[2]));
-                    // 연결된 노드와 그 값을 담은 Point를 담아줌
-                    map.put(fare[1], list);
-                    // map에 값을 담아줌
-                }
+    public int[] dijkstra(int start) {
+        PriorityQueue<int[]> queue = new PriorityQueue<>(Comparator.comparingInt(a ->a[0]));
+        // 0번째 인덱스의 값을 기준으로 오름차 정렬
 
-            } else{
-                // 2) 처음 나온 key의 경우 list를 새로 만들어서 넣어줌
-                List<Point> list = new LinkedList<>();
-                list.add(new Point(fare[1],fare[2]));
-                // 연결된 노드와 그 값을 담은 Point를 담아줌
-                map.put(fare[0], list);
-                if(map.containsKey(fare[1])){
-                    // 2번째 수가 존재하는 경우
-                    map.get(fare[1]).add(new Point(fare[0],fare[2]));
+        // 총 노드 만큼 방문했는지,
+        // 각 노드별 길이를 저장하는 배열
+        boolean[] visited = new boolean[Node];
+        int[] distance = new int[Node];
 
-                }else{
-                    // 2번쨰 수 새로 만들어줌
-                    List<Point> list2 = new LinkedList<>();
-                    list2.add(new Point(fare[0],fare[2]));
-                    // 연결된 노드와 그 값을 담은 Point를 담아줌
-                    map.put(fare[1], list2);
-                    // map에 값을 담아줌
-                }
+        Arrays.fill(distance, Integer.MAX_VALUE);
+        // 거리의 최대 값을 입력함
 
+        distance[start] = 0;
+        // 시작 점의 거리를 0으로 놓고 시작
+
+        queue.add(new int[]{0, start});
+        // 거리의 값과, 시작점을 담은 배열을 집어넣음
+
+        while(!queue.isEmpty()){
+            int[] current = queue.poll();
+            int point = current[1];
+            // 시작 포인트
+
+            if(visited[point]){
+                continue;
+                // 방분했다면 건너띔
             }
 
+            visited[point] = true;
+            // 방문표시
 
+            for (int i = 0; i < Node; i++) {
+                // 총 노드 만큼 반복해줌
 
+                // 시작점에서부터 총 노드까지 cost값을 파악함
+                if(matrix[point][i] == 0){
+                    continue; // 아무것도 없으면 건너띔
+                }
+                if(distance[point] + matrix[point][i] < distance[i]){
+                    // 시작점의 값 + 시작점과 연결된 노드의 값 < 시작점
+                    distance[i] = distance[point] + matrix[point][i];
+                    // 해당 위치의 값 = 그 시작포인트의 값 + 연결된 값
+                    queue.add(new int[] {distance[i], i});
+                }
+            }
         }
 
-
-
-        return answer;
+    return distance;
     }
 }
