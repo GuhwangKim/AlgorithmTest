@@ -12,6 +12,9 @@ public class Solution50 {
 	
     public String[] solution(String[] orders, int[] course) {
         ArrayList<String> answer = new ArrayList<String>();
+		max = new int[course.length];
+		menu = new HashMap<String, Integer>();
+
         //1. 코스 알파벳 순으로 정렬함 
         for (int i = 0; i < orders.length; i++) {
 			char[] argdOrders = orders[i].toCharArray();
@@ -39,7 +42,7 @@ public class Solution50 {
 				}
 			}
         }
-        return answer.stream().sorted().map(s->s).toArray(String[]::new);
+        return answer.stream().sorted().map(s -> s).toArray(String[]::new);
         // 답을 정렬로 저장해서 String[] 형태에 담아둠 
     }
 
@@ -53,10 +56,10 @@ public class Solution50 {
 			return;
 			
 		}
-		for (int i = currentIdx; i < currentCombdMenu.length(); i++) {
+		for (int i = currentIdx; i < argdStrOrder.length(); i++) {
 			isVisited[i] = true;
 			// 현재 인덱스를 기준으로 계속 뻗어나감 
-			comb(currentIdx+1, currentMenuCnt+1, currentCombdMenu+currentCombdMenu.charAt(i), courseIdx, courseVal); //courseIdx 상위에서 넘어옴 
+			comb(i+1, currentMenuCnt+1, currentCombdMenu+argdStrOrder.charAt(i), courseIdx, courseVal); //courseIdx 상위에서 넘어옴
 		}
 		
 	}
