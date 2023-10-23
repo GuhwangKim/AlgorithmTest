@@ -1,12 +1,17 @@
-package CodingTest.src.programmers_lv2;
+package programmers_lv2;
 
+import java.util.Arrays;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
-import java.util.stream.Stream;
 
 public class Solution51 {
-    static int totalChange=0;
-    static int totalZero = 0;
+	
+	static int totalChange=0;
+	static int totalZero = 0;
+	
+	public static void main(String[] args) {
+		Solution51 s = new Solution51();
+		s.solution("110010101001");
+	}
 
     public int[] solution(String s) {
         int[] answer = new int[2];
@@ -19,21 +24,21 @@ public class Solution51 {
     }
 
     private void checkOne(String s, int cnt) {
-        if(s.equals("1")){
-            totalChange = cnt;
-            return;
-        }
         // string을 stream화 함
-        char[] word = s.toCharArray();
-        IntStream intStream = IntStream.range(0, word.length);
-        Stream<Character> charStream = intStream.mapToObj(i->word[i]);
+        String[] strArr = s.split("");
 
-        // 0인 것의 개수
-        int zeroCnt = (int) charStream.filter(c->c=='0').count();
+        // 0인 것의 개수 (int) strArr.filter(c->c=='0').count();
+        int zeroCnt = (int) Arrays.stream(strArr).filter(str -> str.equals("0")).count();
         totalZero+=zeroCnt;
 
         // 1이 아닌 것을 제외해서 합침
-        String newStr = charStream.filter(i -> i!='0').map(Object::toString).collect(Collectors.joining());
-        checkOne(newStr, cnt++);
+        String noZeroStr = Arrays.stream(strArr).filter(i -> !i.equals("0")).map(Object::toString).collect(Collectors.joining());
+        String newStr = Integer.toBinaryString(noZeroStr.length());
+        
+        if(newStr.equals("1")){
+            totalChange = cnt;
+            return;
+        }
+        checkOne(newStr, cnt+1);
     }
 }
