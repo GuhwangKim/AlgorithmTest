@@ -21,30 +21,37 @@ public class Solution56 {
         for(String gem : gems) {
         	set.add(gem);
         }
+        
+        
         int typesTotalCnt = set.size();
+        if(typesTotalCnt==1) {
+        	// 1개만 존재함 
+        	answer[0]=1;
+        	answer[1]=1;
+        	return answer;
+        }
+        
         int lastIdx = gems.length - typesTotalCnt;
         
+        
         for (int i = 0; i <= lastIdx ; i++) {
-        	String standard = gems[i];
-        	int curTypecnt = 1;
+        	Set<String> set2 = new HashSet<String>();
+        	set2.add(gems[i]);
         	// 기준이 되는 보석 
-			for (int j = i; j < gems.length; j++) {
-				if(standard.equals(gems[j])) {
+			for (int j = i+1; j < gems.length; j++) {
+				if(set2.contains(gems[j])) {
 					// 중복되는 경우 
 					continue;
 				}
 				// 그렇지 않은 경우 
-				curTypecnt++;
-				
+				set2.add(gems[j]);
+				if(set2.size()==typesTotalCnt) {
+					// 총 개수와 같다면 
+					answer[0]= Math.min(answer[0], i);
+					answer[1]= Math.min(answer[1], j);
+				}
 			}
 		}
-        
-        
-        
-        
-        
-        
-        
         return answer;
     }
 }
