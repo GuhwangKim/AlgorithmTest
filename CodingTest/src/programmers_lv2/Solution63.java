@@ -1,5 +1,7 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.Stack;
+
 public class Solution63 {
     public String solution(String p) {
         String answer = "";
@@ -25,10 +27,19 @@ public class Solution63 {
            }
            if(left == right){
                // 개수가 같을 떄 멈춤
-              splitTwo[0] = strLeft;
-              splitTwo[1] = strRight;
+              splitTwo[0] = strLeft; // u
+              splitTwo[1] = strRight; // v
            }
         }
+
+        // u를 검증함 (올바른 문자열인지 아닌지)
+        Stack<Character> stack = new Stack<>();
+        stack.add(strLeft.charAt(0));
+        for (int i = 0; i < strLeft.length(); i++) {
+
+        }
+        
+
 
 
 
