@@ -5,66 +5,44 @@ import java.util.Stack;
 public class Solution63 {
 
 	public String solution(String p) {
-		String answer = "";
-		if (p.equals("")) {
-			// 입력값이 빈 문자열이라면
-			return "";
-			// 빈문자열 반환함
-		}
-
-		answer = check(p);
+		String answer = check(p);
 
 		return answer;
 	}
 
 	private String check(String p) {
-		if (p.equals("")) {
+		if (p.length()==0) {
 			// 입력값이 빈 문자열이라면
 			return "";
 			// 빈문자열 반환함
 		}
-		int right = 0;
-		String strRight = "";
 		int left = 0;
 		String strLeft = "";
+		int right = 0;
+		String strRight = "";
 
 		for (int i = 0; i < p.length(); i++) {
 			if (p.charAt(i) == ')') {
 				left++;
-				strLeft += p.charAt(i);
 			} else {
 				right++;
-				strRight += p.charAt(i);
 			}
+			strLeft += p.charAt(i); // 왼쪽에 쌓임
 			if (left == right) {
-				// 개수가 같을 떄 멈춤
+				// 개수가 같을 떄 멈춤 오른쪽을 
+				strRight += p.substring(i+1);
 				break;
 			}
 		}
 
-		// u를 검증함 (올바른 문자열인지 아닌지)
-		Stack<Character> stack = new Stack<>();
-		for (int i = 0; i < strLeft.length(); i++) {
-			if (stack.isEmpty()) {
-				stack.add(strLeft.charAt(i));
-				continue;
-			}
-			if (stack.peek() == strLeft.charAt(i)) {
-				// 같은 괄호
-				stack.add(strLeft.charAt(i));
-				continue;
-			} else {
-				// 다른 괄호
-				stack.pop();
-				// stack에 있는 것을 없앰
-			}
-		}
-
-		if (stack.size() == 0) {
+		if (isCorrect(strLeft)) {
 			// 올바른 문자열
 			return strLeft + check(strRight);
 		} else {
 			// 올바른 문자열이 아님
+			String temp = "(";
+			temp += check(strRight);
+			temp += ")";
 			String fbrmvd = strLeft.substring(1, strLeft.length() - 1);
 			String result = "";
 			for (int i = 0; i < fbrmvd.length(); i++) {
@@ -74,9 +52,25 @@ public class Solution63 {
 					result += ')';
 				}
 			}
-			return "("+check(strRight)+")" + result;
-
+			return  temp += result;
 		}
 
+	}
+	
+	private boolean isCorrect(String strLeft) {
+		Stack<Character> stack = new Stack<>();
+		for (int i = 0; i < strLeft.length(); i++) {
+			if(strLeft.charAt(i)=='(') {
+				// 올바른 경우 
+				stack.push('(');
+			}else {
+				if(stack.isEmpty() || stack.peek()==')') {
+					return false;
+				}else {
+					stack.pop();
+				}
+			}
+		}
+		return true;
 	}
 }
