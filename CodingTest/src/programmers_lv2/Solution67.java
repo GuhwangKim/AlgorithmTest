@@ -13,7 +13,7 @@ public class Solution67 {
         boolean[] visited = new boolean[n+1];
         int currentMax = Integer.MIN_VALUE;
 
-        Arrays.sort(edge, (o1, o2) -> o1[0] - o2[0]);
+       
         for (int[] each : edge){
             Arrays.sort(each);
             if(each[0] == 1){
@@ -21,6 +21,9 @@ public class Solution67 {
                 // 1인 값은 방문으로 표시함
             }
         }
+        
+        Arrays.sort(edge, (o1, o2) -> o1[0] - o2[0]);
+        
 
         for(int[] each : edge){
             if(each[0] == 1){
@@ -47,11 +50,13 @@ public class Solution67 {
         for (int[] each : edge){
             if(each[0] == cntcNum || !visited[each[1]]){
                 // 연결된 값과 방문하지 않았다면
+            	visited[each[1]] = true;
                 distance++; // 연결되었으니 1이 추가 됨
                 DFS(each[1], edge, distance, visited);
+                visited[each[1]] = false; // 풀어줌 
             }
         }
 
-        return 0;
+        return distance;
     }
 }
