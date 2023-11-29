@@ -1,47 +1,70 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Solution67 {
+    static ArrayList<Integer>[]list;
+    static boolean visited[];   // 양방향그래프이니 큐에서 무한 반복을 방지하기 위해
+    static Queue<Integer> queue = new LinkedList<>();
+    static int arr[];
+
     public int solution(int n, int[][] edge) {
-        int answer = 0;
-        /**
-         * edge의 안 원소들을 우선 작은 것을 우선으로 배치하고
-         * 배열의 0q번쨰 값을 기준으로 정렬함
-         * */
+        visited = new boolean[n+1];
+        list = new ArrayList[n+1];
+        arr = new int[n+1];
 
-        boolean[] visited = new boolean[n+1];
-        int currentMax = Integer.MIN_VALUE;
-
-       
-        for (int[] each : edge){
-            Arrays.sort(each);
-            if(each[0] == 1){
-                visited[each[1]] = true;
-                // 1인 값은 방문으로 표시함
-            }
+        // 각 노드 값 마다 연결된 노드(Integer)들을 담는 List를 생성함
+        for (int i = 1; i <= n; i++) {
+            list[i] = new ArrayList<>();
         }
-        
-        Arrays.sort(edge, (o1, o2) -> o1[0] - o2[0]);
-        
 
-        for(int[] each : edge){
-            if(each[0] == 1){
-                // 1이라는 기준이 되는 값
-                // 이와 연결된 값으로 뻗어나가기 시작함
+        for (int i = 0; i < edge.length; i++) {
+            int front = edge[i][0];
+            int back = edge[i][1];
+            list[front].add(back);
+            list[back].add(front);
+            // 노드의 앞과 뒤에 서로의 값을 담음 (연결관계)
+        }
 
-                // 방문함
-                int distance = DFS(each[1], edge, 1, visited);
-                if (distance>currentMax) {
-                    currentMax = distance;
-                    answer = 0 ; // 지금까지 다른 거리에서 더해온 값을 초기화
-                    answer++; // 최대 값에 맞게 더해버림
+        queue.add(1);
+        // 1에서 시작함
+        visited[1] = true;
+        // 1은 지나침
+
+        while (!queue.isEmpty()){
+            int nodeVal = queue.poll();
+            for (int child : list[nodeVal]){
+                // 해당하는 노드 값에 연결된 정수들
+                if(visited[child]){
+                    continue; // 이미 방문했다면 아웃
                 }
+                queue.add(child);
+                // 방문 안했으면 queue에 추가함
+                visited[child] = true;
+                // 방문표시
+                arr[child] = arr[nodeVal]+1;
+                // 해당 노드를 인덱스로 갖는 값에 부모의 노드의 값까지 포함해서 더해줌 **
             }
-
         }
 
-        return answer;
+        Arrays.sort(arr);
+        // 그렇게 해서 더한 배열을 정렬함
+        int cnt = 0;
+        int max = arr[n];
+        for (int i = n; i >= 1; i--) {
+            // 거꾸로 내려옴 (가장 큰 것부터)
+            if(max == arr[i]){
+                // 가장 큰 값과 같은 값이 있으면
+                cnt++;
+            }else{
+                break;
+            }
+        }
+        
+        return cnt;
     }
 
     private int DFS(int cntcNum, int[][] edge, int distance, boolean[] visited) {
@@ -50,7 +73,6 @@ public class Solution67 {
         for (int[] each : edge){
             if(each[0] == cntcNum || !visited[each[1]]){
                 // 연결된 값과 방문하지 않았다면
-            	visited[each[1]] = true;
                 distance++; // 연결되었으니 1이 추가 됨
                 DFS(each[1], edge, distance, visited);
                 visited[each[1]] = false; // 풀어줌 
