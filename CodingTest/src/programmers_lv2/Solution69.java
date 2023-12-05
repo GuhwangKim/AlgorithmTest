@@ -5,26 +5,35 @@ import java.util.Queue;
 
 public class Solution69 {
 
-    int[] dx = {-1, 0, 1, 0};
-    int[] dy = {0, 1, 0, -1};
-    boolean[][] visited;
-    Queue<int[]> queue = new LinkedList<>();
-    public int solution(int m, int n, int[][] puddles) {
-        int answer = 0;
-        visited = new boolean[m][n];
-        for(int[] puddle : puddles){
-            visited[puddle[0]][puddle[1]] = true; // 못 가는 곳
-        }
+	public int solution(int m, int n, int[][] puddles) {
 
-        // 현재 위치 1, 1  0,0 최종 위치 m-1 n-1 인덱스로
-        visited[0][0] = true;
-        int[] cur
-        queue.add();
+		int[][] visited = new int[n][m];
+		for(int[] puddle : puddles) {
+			visited[puddle[1]-1][puddle[0]-1] = -1; // 장애물 표시  인덱스는 하나 더 적음 
+		}
+		
+		visited[0][0] = 1;
+		
+		for (int i = 0; i < n; i++) { // 행
+			for (int j = 0; j < m; j++) { // 렬
+				// 시작점은 1로 
+				if(visited[i][j] == -1) {
+					// 물웅덩이라면 
+					visited[i][j] = 0;
+					continue;
+				}
+				if(i!=0) {
+					// 오른쪽으로 가는 경우 (이전것) 
+					visited[i][j] += visited[i-1][j]%1000000007;
+				}
+				if(j!=0) {
+					// 아래로 내려오는 경우 
+					visited[i][j] += visited[i][j-1]%1000000007;
+				}
+				
+			}
+		}
 
-
-
-
-
-        return answer;
-    }
+		return visited[n-1][m-1]% 1000000007;
+	}
 }
