@@ -7,8 +7,23 @@ import java.util.Map;
 
 public class Solution70 {
 
+<<<<<<< HEAD
    
+=======
+    class Order {
+        String direction;
+        String id;
+        String name;
+
+        public Order (String direction, String id, String name){
+            this.direction = direction;
+            this.id = id;
+            this.name = name;
+        }
+    }
+>>>>>>> branch 'master' of https://github.com/GuhwangKim/AlgorithmTest.git
     public String[] solution(String[] record) {
+<<<<<<< HEAD
     	Map<String, String> idMap = new HashMap<String, String>();
     	// id - nickname => id 값이 중복되면 가장 마지막 nickname으로 저장됨 
     	
@@ -42,7 +57,41 @@ public class Solution70 {
 				answer[idx++] = nickname +"님이 나갔습니다.";
 			}
 		}
+=======
+        String[] answer = {};
+
+        Map<String, Order> map = new HashMap<>();
+
+        for (String rec : record){
+            String[] arr = rec.split(" ");
+            map.put(arr[1], new Order(arr[0], arr[1], arr[2]));
+        }
+
+        for (int i = 0; i < map.size(); i++) {
+            if(map.get(i).direction.startsWith("E")){
+                // enter
+                answer[i] = map.get(i).name + "님이 입장하였습니다.";
+                check(map, answer, );
+
+            } else if (map.get(i).direction.startsWith("L")) {
+                // leave
+                answer[i] = map.get(i).name + "님이 나갔습니다.";
+
+            } else {
+                // change
+
+            }
+        }
+
+
+>>>>>>> branch 'master' of https://github.com/GuhwangKim/AlgorithmTest.git
         return answer;
     }
 
+<<<<<<< HEAD
+=======
+    private void check(Map<String, Order> map) {
+
+    }
+>>>>>>> branch 'master' of https://github.com/GuhwangKim/AlgorithmTest.git
 }
