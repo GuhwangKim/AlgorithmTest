@@ -16,8 +16,8 @@ public class Solution71 {
         for (int i = p-1; answer.length() < t; i+=m) {
 			// 인덱스이기 때문에 p 순서 -1 , t보다 작을 때 
         	answer.append(convert.charAt(i));
-        	
 		}
+        
         return answer.toString().toUpperCase();
     }
 
