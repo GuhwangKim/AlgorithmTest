@@ -12,31 +12,31 @@ public class Solution73 {
         int dictIdx = 1;
         for (int i = 'A'; i <= 'Z'; i++) {
             //  A Z 까지 담기
-           dict.put(String.valueOf((char)i), dictIdx++);
+            dict.put(String.valueOf((char) i), dictIdx++);
         }
 
         int idx = 0;
-        while(idx<msg.length()){
+        while (idx < msg.length()) {
             String w = "";
-            while (idx<msg.length()){
-                if(!dict.containsKey(w+msg.charAt(idx))){
+            while (idx < msg.length()) {
+                if (!dict.containsKey(w + msg.charAt(idx))) {
                     // 포함이 안되어있으면 건너뜀
                     break;
-                }else{
+                } else {
                     // 포함되어 있으면 글자를 붙힘
-                    w+=msg.charAt(idx);
+                    w += msg.charAt(idx);
                 }
                 idx++;
             }
             ans.add(dict.get(w));
-            if(idx<msg.length()){
-                dict.put(w+msg.charAt(idx), dictIdx++);
+            if (idx < msg.length()) {
+                dict.put(w + msg.charAt(idx), dictIdx++);
             }
             answer = new int[ans.size()];
             for (int i = 0; i < ans.size(); i++) {
                 answer[i] = ans.get(i);
             }
+        }
         return answer;
     }
-}
 }
