@@ -15,10 +15,10 @@ public class Solution74 {
         	// 시작 시간 
         	String[] timeInfo = info[0].split(":");
         	int start = Integer.valueOf(timeInfo[0])*60 + Integer.valueOf(timeInfo[1]);
-        	
+        	int end = 0;
         	// 종료 시간 
         	timeInfo = info[1].split(":");
-        	int end = Integer.valueOf(timeInfo[0])*60 + Integer.valueOf(timeInfo[1]);
+        	end = Integer.valueOf(timeInfo[0])*60 + Integer.valueOf(timeInfo[1]);
         	
         	// 총 재생 기간
         	int totalPlay = end - start;
@@ -34,6 +34,7 @@ public class Solution74 {
         		
         		// 나머지 만큼 잘라서 붙힘 
         		newMelody.append(melodyInfo.substring(0, totalPlay%melodyInfo.length()));
+        		melodyInfo = newMelody.toString();
         	} else {
         		//  음악길이 <= 재생 지속 기간 => 더 짧아짐 
         		melodyInfo = melodyInfo.substring(0, totalPlay);
