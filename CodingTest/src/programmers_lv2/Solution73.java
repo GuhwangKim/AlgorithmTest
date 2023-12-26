@@ -1,4 +1,3 @@
-<<<<<<< Upstream, based on AlgorithmTest/master
 package CodingTest.src.programmers_lv2;
 
 import java.util.ArrayList;
@@ -40,10 +39,5 @@ public class Solution73 {
         }
         return answer;
     }
-=======
-package programmers_lv2;
 
-public class Solution73 {
-
->>>>>>> 019be00 23/12/26
 }
