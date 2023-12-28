@@ -5,7 +5,7 @@ import java.util.LinkedList;
 public class Solution75 {
     public int solution(int cacheSize, String[] cities) {
         if(cacheSize == 0){
-            return cities.length;
+            return cities.length*5;
         }
         int answer = 0;
         LinkedList<String> cache = new LinkedList<>();
