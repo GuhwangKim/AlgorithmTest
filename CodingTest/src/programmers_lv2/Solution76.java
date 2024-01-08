@@ -24,9 +24,38 @@ public class Solution76 {
     }
 
     private void dropBlock(int m, int n, char[][] map) {
+        // 같은 블럭들이 사라지는 작업
+        for (int c = 0; c < n; c++) { // 행
+            for (int r = m-1; r >= 0; --r) {
+                // 아래 부터 올라옴
+                if(map[r][c] == '.'){
+                    // 존재하지 않을 때
+                    for (int nr = r-1; nr >= 0 ; --nr) {
+                        // 위에 있는 값이 내려옴
+                        if(map[nr][c] != '.'){
+                            // 위에 값이 존재하면 내려옴
+                            map[r][c] = map[nr][c];
+                            // 위에 값은 공백이 됨
+                            map[nr][c] = '.';
+                            break;
+                        }
+                    }
+                }
+            }
+
+        }
     }
 
     private int checkBlock(int m, int n, char[][] map) {
+        // 몇개가 사라질 까 같은 블록을 확인하는 작업
+        int cnt = 0;
+        boolean[][] checked = new boolean[][];
+
+        for (int i = 0; i < m-1; ++i) {
+            for (int j = 0; j < n-1; ++j) {
+
+            }
+        }
 
 
         return 0;
