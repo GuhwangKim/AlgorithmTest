@@ -13,13 +13,38 @@ public class Solution78 {
         
         List<String> str1List = getElement(str1);
         List<String> str2List = getElement(str2);
-        
-        
 
-        return answer;
+        return jacquard(str1List, str1List);
     }
 
-    // 문자열을 두 글자로 자른 원소를 넣는 리스트 
+    private int jacquard(List<String> strList1, List<String> strList2) {
+    	
+    	if(strList1.size() == 0 && strList2.size()==0) {
+    		return 65536;
+    	}
+    	
+    	int min = 0;
+    	int max = strList1.size() + strList2.size();
+    	// 가장 클 때는 서로 다 다를때 
+    	
+    	for(String str : strList1) {
+    		for (int i = 0; i < strList2.size(); i++) {
+				if(str.equals(strList2.get(i))) {
+					// 값이 갔다면 
+					min++;
+					strList2.remove(i);
+					// 해당 값은 해당이 됬으므로 지워짐 
+					break; // 다음 원소로 
+				}
+			}
+    	}
+    	
+    	max =max - min;
+    	double result = (double) min/max;
+    	return (int) (result*65536);
+	}
+
+	// 문자열을 두 글자로 자른 원소를 넣는 리스트 
     private List<String> getElement(String str) {
         List<String> strList = new ArrayList<>();
 
