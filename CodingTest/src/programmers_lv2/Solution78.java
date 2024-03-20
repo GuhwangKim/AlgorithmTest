@@ -4,20 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Solution78 {
-	
-	public static void main(String[] args) {
-		Solution78 s  = new Solution78();
-		s.solution("aaa", "AAAA");
-	}
-	public int solution(String str1, String str2) {
-		str1 = str1.toUpperCase();
-		str2 = str2.toUpperCase();
-		
-		List<String> str1List = getElement(str1);
-		List<String> str2List = getElement(str2);
-		
-		return jacquard(str1List, str1List);
-	}
+    public int solution(String str1, String str2) {
+        int answer = 0;
+
+        // 문자열 대문자로 다 변경하기
+        str1.toUpperCase();
+        str2.toUpperCase();
+        
+        List<String> str1List = getElement(str1);
+        List<String> str2List = getElement(str2);
+        
+        return answer;
+    }
 
 	// 문자열을 두 글자로 자른 원소를 넣는 리스트
 	public List<String> getElement(String str) {
@@ -35,7 +33,7 @@ public class Solution78 {
 		}
 		return strList;
 	}
-	
+
 
 
 
