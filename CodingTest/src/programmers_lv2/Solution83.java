@@ -11,7 +11,7 @@ public class Solution83 {
         while (aptIndx <=n) {
             if (index < stations.length && aptIndx >= stations[index] - w) {
                 aptIndx = stations[index]+w+1;
-                aptIndx++;
+                index++;
             } else{
                 answer += 1;
                 aptIndx += (w*2)+1;
