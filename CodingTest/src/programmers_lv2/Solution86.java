@@ -4,33 +4,27 @@ import java.io.IOException;
 
 public class Solution86 {
     public int solution(int sticker[]) throws IOException {
-        int answer = 0;
-        // 첫번째 원소를 뽑는 경우 - 마지막 원소 뽑을 수 없음
-        // 첫번쨰 원소를 뽑지 않는 경우
 
         int n = sticker.length;
         if (n == 1) {
             // 하나 뿐이라면
-            answer = sticker[0];
+            return sticker[0];
         }
 
-        int[] dp1 = new int[sticker.length];
-        int[] dp2 = new int[sticker.length];
+        int[] dp = new int[sticker.length + 2];
 
-        dp1[0] = sticker[0];
-        dp2[1] = sticker[0];
-
-        for (int i = 2; i < n - 1; i++) {
-            dp1[i] = Math.max(dp1[i - 2] + sticker[i], Math.max(dp1[i - 1], dp1[i - 2]));
+        for (int i = 3; i < n; i++) {
+            dp[i] = Math.max(dp[i - 2] + sticker[i-2], dp[i-1]);
+            //  바로 앞에 글자가 선택되는 경우 -> 그 전전 최대값 + 그 전전값 / 바로 앞글자 선택 안된 경우 현재 값
         }
-
-        dp2[0] = 0;
-        dp2[1] = sticker[1];
+        int secondMax = dp[dp.length-1];
 
         for (int i = 2; i < n; i++) {
-            dp2[i] = Math.max(dp2[i - 2] + sticker[i], Math.max(dp2[i - 1], dp2[i - 2]));
+            dp[i] = Math.max(dp[i - 2] + sticker[i-2], dp[i-1]);
+            //  바로 앞에 글자가 선택되는 경우 -> 그 전전 최대값 + 그 전전값 / 바로 앞글자 선택 안된 경우 현재 값
         }
+        int firstMax = dp[dp.length-2];
 
-        return Math.max(dp1[n - 2], dp2[n - 1]);
+        return Math.max(firstMax, secondMax);
     }
 }
