@@ -10,12 +10,11 @@ public class Solution90 {
                //위에 for 문은 정답 배열에 맞게 짜여진 것
                // 합산 하는 부분은 따로 또 
                 for (int k = 0; k < arr2.length; k++) {
-                    temp += arr1[i][k] * arr2[j][k];
+                    temp += arr1[i][k] * arr2[k][j];
                 }
+                answer[i][j] = temp;
             }
         }
-
-
         return answer;
     }
 }
