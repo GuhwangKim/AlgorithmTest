@@ -2,23 +2,19 @@ package CodingTest.src.programmers_lv2;
 
 public class Solution91 {
     public int solution(int n) {
-        int sum1 = 0;
-        int sum2 = 1;
-        int sum3 = 0;
-        for (int i = 1; i < n; i++) {
-            System.out.println("sum1 : "+sum1);
-            System.out.println("sum2 : "+sum2);
-            sum3 = cal(sum1, sum2);
-            System.out.println("sum3 : "+sum3);
-            sum1 = sum2;
-            sum2 = sum3;
-            System.out.println("sum1 : "+sum1);
-            System.out.println("sum2 : "+sum2);
+        int answer = cal(n);
+
+        return answer;
+    }
+    public int cal(int n) {
+        int[] cache = new int[n+1];
+        cache[0] = 0;
+        cache[1] = 1;
+
+        for (int i = 2; i <= n; i++) {
+            cache[i] = (cache[i-1] + cache[i-2])%1234567;
         }
 
-        return sum3%1234567;
-    }
-    public int cal(int sum1, int sum2) {
-        return sum1 + sum2;
+        return cache[n];
     }
 }
