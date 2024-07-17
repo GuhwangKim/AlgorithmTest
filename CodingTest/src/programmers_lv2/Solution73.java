@@ -28,7 +28,7 @@ public class Solution73 {
                 }
                 idx++;
             }
-            ans.add(dict.get(w));
+            ans.add(dict.get(w)); // 숫자 입력
             if (idx < msg.length()) {
                 dict.put(w + msg.charAt(idx), dictIdx++);
             }

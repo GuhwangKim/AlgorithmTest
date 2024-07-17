@@ -24,7 +24,7 @@ public class Solution92 {
         }
 
         for (int i = 0; i < msg.length(); i++) {
-            for (int j = 0; j < msg.length(); j++) {
+            for (int j = i; j < msg.length(); j++) {
                 String currentAplha = msg.substring(i, j);
                 if (alphaList.containsKey(currentAplha)) {
                     // 알파멧이 있으면 j를 옮김 = 더 길게 갈것
