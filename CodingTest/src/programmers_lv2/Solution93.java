@@ -3,6 +3,9 @@ package CodingTest.src.programmers_lv2;
 import java.util.Arrays;
 
 public class Solution93 {
+    static int row = -1;
+    static int col = -1;
+
     public int solution(int []A, int []B)
     {
         int answer = 0;
@@ -16,6 +19,10 @@ public class Solution93 {
         }
 
         // 여기서 가장 작은수대로 뽑아서 추출하고, 그 뽑은 결과물의 행과 열 아닌 값
+        // 배열의 길이 만큼 반복함
+        for (int i = 0; i < A.length; i++) {
+            answer += findMin(AB);
+        }
 
         return answer;
     }
@@ -23,10 +30,18 @@ public class Solution93 {
     public static int findMin(int[][] arr) {
         int min = 9999999;
 
-        for (int[] each : arr) {
-            for (int num : each) {
-                if (num < min) {
-                    min = num;
+        for (int i = 0; i < arr.length; i++) {
+            if (i == row) {
+                continue;
+            }
+            for (int j = 0; j < arr.length; j++) {
+                if (j == col) {
+                    continue;
+                }
+                if (arr[i][j] < min) {
+                    min = arr[i][j];
+                    row = i;
+                    col = j;
                 }
             }
         }
