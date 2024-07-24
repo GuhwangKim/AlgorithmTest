@@ -1,6 +1,10 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class Solution93 {
     static int row = -1;
@@ -9,21 +13,13 @@ public class Solution93 {
     public int solution(int []A, int []B)
     {
         int answer = 0;
-        // 각각의 모든 숫자들을 다 곱한 값이 있는 배열 생성
-        int[][] AB = new int[A.length][B.length];
-
+        //어차피 모든 숫자들은 다 각자가 곱해짐
+        // 최소 값과 최대값이 곱해지면 되는 것
+        Arrays.sort(A);
+        Arrays.sort(B);
         for (int i = 0; i < A.length; i++) {
-            for (int j = 0; j < B.length; j++) {
-                AB[i][j] = A[i] * B[j];
-            }
+            answer += A[i] * B[B.length-1-i];
         }
-
-        // 여기서 가장 작은수대로 뽑아서 추출하고, 그 뽑은 결과물의 행과 열 아닌 값
-        // 배열의 길이 만큼 반복함
-        for (int i = 0; i < A.length; i++) {
-            answer += findMin(AB);
-        }
-
         return answer;
     }
 
@@ -31,7 +27,7 @@ public class Solution93 {
         int min = 9999999;
 
         for (int i = 0; i < arr.length; i++) {
-            if (i == row) {
+            if (i == row) { // 해당 행과 열이 뽑혔다면 그 숫자는 더이상 쓰지 않음
                 continue;
             }
             for (int j = 0; j < arr.length; j++) {
@@ -45,6 +41,7 @@ public class Solution93 {
                 }
             }
         }
+        System.out.println(min);
         return min;
     }
 }
