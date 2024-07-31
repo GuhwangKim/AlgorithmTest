@@ -46,13 +46,12 @@
 ☑️ 찾는 순서라면 그땐 answer 에 담아주고 끝냄
 
     public int[] solution(int n, long k) {
-    answer = new int[n];
-    int[] temp = new int[n];
-    visited = new boolean[n]; // 방문한 배열은 전역으로 설정
-    DFS(0,temp, k);
-  
-    return answer;
-  }
+      answer = new int[n];
+      int[] temp = new int[n];
+      visited = new boolean[n]; // 방문한 배열은 전역으로 설정
+      DFS(0,temp, k);
+      return answer;
+    }
     public void DFS(int ord, int[] temp, long k) {
       if(ord == temp.length){
           // 가장 마지막 깊이까지 옴
@@ -75,8 +74,9 @@
     
           }
       }
-  }
+    }
 
+  이렇게 하면 시간초과 발생함 
   </ul>
   </div>
 </details>
