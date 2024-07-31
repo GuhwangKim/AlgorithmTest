@@ -95,9 +95,3 @@
   </div>
 </details>
 
-  <div markdown="1">
-    <ul>
-      <li> 재귀를 이용하면 된다고 생각했지만, 구현을 하지 못함</li>
-  </ul>
-  </div>
-</details>
