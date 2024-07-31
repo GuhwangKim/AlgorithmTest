@@ -1,11 +1,12 @@
 # 알고리즘 테스트 풀이 
 
-#### Level.2
+### Level.2
 
 <details>
   <summary><b>줄서는 방법</b></summary>
   <div markdown="1">
     <ul>
+       (2024.07.31)
       <li> 재귀를 이용하면 된다고 생각했지만, 구현을 하지 못함</li>
 
     public int[] solution(int n, long k) {
@@ -77,6 +78,26 @@
     }
 
   이렇게 하면 시간초과 발생함 
+  </ul>
+  </div>
+</details>
+
+
+### Level.3
+<details>
+  <summary><b>야근지수</b></summary>
+  <div markdown="1">
+    <ul>
+      (2024.07.31)
+      <li></li>
+      
+    </ul>
+  </div>
+</details>
+
+  <div markdown="1">
+    <ul>
+      <li> 재귀를 이용하면 된다고 생각했지만, 구현을 하지 못함</li>
   </ul>
   </div>
 </details>
