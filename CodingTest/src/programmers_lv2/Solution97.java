@@ -11,12 +11,12 @@ public class Solution97 {
         // 나머지 값 그 길이만큼 배열에서 값을 빼주면?
         if (n >= works.length) {
             // 남은 작업량이 각 업무보다 큰 경우
-            amount = n / works.length;
+            amount = works.length/n;
             System.out.println("amount : "+amount);
         } else {
             amount = 0;
         }
-        int rest = n % works.length;
+        int rest = works.length%n;
 
         Arrays.stream(works).map(s -> s - amount);
         for (int i = 0; i < rest; i++) {
