@@ -1,30 +1,44 @@
 package CodingTest.src.programmers_lv2;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.PriorityQueue;
+import java.util.stream.Collectors;
+
+import static java.lang.Long.sum;
 
 public class Solution97 {
     public long solution(int n, int[] works) {
-        long answer = 0;
-        int amount;
-        // 제급곱의 합은 모든 수가 가장 작을 때
-        // 몫에 대한 값을 배열에 모든 수에게 빼준 후에
-        // 나머지 값 그 길이만큼 배열에서 값을 빼주면?
-        if (n >= works.length) {
-            // 남은 작업량이 각 업무보다 큰 경우
-            amount = works.length/n;
-            System.out.println("amount : "+amount);
-        } else {
-            amount = 0;
-        }
-        int rest = works.length%n;
 
-        Arrays.stream(works).map(s -> s - amount);
-        for (int i = 0; i < rest; i++) {
-            works[i] -= -1;
-            System.out.println("works[i] : "+works[i]);
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Collections.reverseOrder());
+        // 높은 숫자 우선
+
+        for (int work : works) {
+            queue.add(work);
+            // queue에 일을 집어넣음
         }
 
-        answer = Arrays.stream(works).map(s -> s*s).sum();
-        return answer;
+        for (int i = 0; i < n; i++) {
+            int max = queue.poll();
+            // 현재의 가장 큰 수
+            if (max <= 0) {
+                // 가장 큰수가 0이라면 N에서 다 할당 된 것
+                break;
+            } else {
+                // max에 수가 남음
+                queue.add(max - 1);
+                // 일 하나를 제거하고 넣음
+            }
+        }
+
+        return sum(queue);
+    }
+
+    private long sum(PriorityQueue<Integer> queue) {
+        long sum = 0;
+        while (!queue.isEmpty()) {
+            sum += Math.pow(queue.poll(), 2);
+        }
+        return sum;
     }
 }
