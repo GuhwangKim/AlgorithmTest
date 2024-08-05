@@ -82,13 +82,13 @@
   </div>
 </details>
 
-
+---
 ### Level.3
 <details>
   <summary><b>야근지수</b></summary>
   <div markdown="1">
     <ul>
-      (2024.07.31)
+      (2024.07.31-2024.08.05)
       <li>Trial 1_몫과 나머지를 이용해서 각각 1씩 빼주면, 즉 모든 값이 동일하게 작아져야 거듭제곱의 최소값이 되려나?</li>
       
      public long solution(int n, int[] works) {
@@ -113,8 +113,83 @@
         return answer;
     }
 
-  💥 답 잘 안나옴
+  💥 답 잘 안나옴</br>
   💥 접근법이 다른 듯 
+  <li>Trial 2_주어진 예제만을 생각해서 연산으로 풀려고 했지만, 다른 모든 예제에 대해서 실패가 뜸 </li>
+  
+      public long solution(int n, int[] works) {
+        long answer = 0;
+        int amount;
+        // 제급곱의 합은 모든 수가 가장 작을 때
+        // 몫에 대한 값을 배열에 모든 수에게 빼준 후에
+        // 나머지 값 그 길이만큼 배열에서 값을 빼주면?
+        Arrays.sort(works); // 큰 값 부터 빼줘야하므로 배열 정렬
+        int sum = Arrays.stream(works).sum();
+
+        if (n < sum) {
+            // 남은 작업량이 각 업무보다 큰 경우
+            amount = n/works.length;
+        } else {
+            // 남은 작업양이 없음
+            return 0;
+        }
+
+        if (amount > 0) { // 몫이 존재하면 몫 부터 빼고 나머지 // 존재하지 않으면 나머지만
+            for (int i = works.length-1; i >= 0; i--) {
+                works[i] -= amount;
+            }
+        }
+
+        int rest = n%works.length;
+        for (int i = works.length-1; i >rest; i--) {
+            works[i] -= 1;
+        }
+
+        answer = Arrays.stream(works).map(s -> s*s).sum();
+        return answer;
+    }
+
+  <li>Example_PriorityQueue를 반대로 선언</li>
+
+      public long solution(int n, int[] works) {
+
+        PriorityQueue<Integer> queue = new PriorityQueue<>(Collections.reverseOrder());
+        // 높은 숫자 우선
+
+        for (int work : works) {
+            queue.add(work);
+            // queue에 일을 집어넣음
+        }
+
+        for (int i = 0; i < n; i++) {
+            int max = queue.poll();
+            // 현재의 가장 큰 수
+            if (max <= 0) {
+                // 가장 큰수가 0이라면 N에서 다 할당 된 것
+                break;
+            } else {
+                // max에 수가 남음
+                queue.add(max - 1);
+                // 일 하나를 제거하고 넣음
+            }
+        }
+
+        return sum(queue);
+    }
+
+    private long sum(PriorityQueue<Integer> queue) {
+        long sum = 0;
+        while (!queue.isEmpty()) {
+            sum += Math.pow(queue.poll(), 2);
+        }
+        return sum;
+    }
+    
+  ✅ PriorityQueue로 큰 숫자를 기준으로 정렬함
+
+✅ 가장 큰 숫자가 0이 될때까지 1씩 빼면서 다시 queue 에 담음
+
+✅ 0이 되거나 아니면 n 이 끝날 때까지 반복한 배열의 거듭제곱을 구함
   </ul>
   </div>
 </details>
