@@ -86,7 +86,7 @@
   <summary><b>숫자의 표현</b></summary>
   <div markdown="1">
     <ul>
-       (2024.08.07~08)
+       (2024.08.07)
       <li>Trail_1 문제에 나와있는 걸 그대로 코드에 구현함 </li>
 
     int givenNum = 0;
