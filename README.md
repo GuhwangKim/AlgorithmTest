@@ -276,3 +276,85 @@
   </div>
 </details>
 
+<details>
+  <summary><b>순위</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.08.08)
+      <li>Trial_1 문제에 나와있는 걸 그대로 코드에 구현함 </li>
+
+    int givenNum = 0;
+    int answer = 0;
+    boolean numberOne = false;
+    public int solution(int n) {
+        givenNum = n;
+        answer = 0;
+        // 더해서 해당 값이 나오는 경우의 수를 구함
+        // 연속해서 값을 더하려면 일단 무조건 그 숫자의 절반 값은 확보함
+        // 그 다음 가능성은 그 절반 값보다 작은 경우
+        // -> 그때의 값이 1보다 작으면 끝
+        // 그 값이 n 이 되면 더하고, n보다 크면 넘어감
+        // -> 1까지 내려오면 더이상 더 할 수 없는 옵션 없음
+    
+        if (n <= 2) {
+            // 1경우만 존재함
+            return 1;
+        }
+    
+        int half = n/2;
+        if (n % 2 != 0) {
+            half += 1; // 1개 더함
+        }
+    
+        for (int i = half; i >=1 ; i--) {
+            sum(i);
+            if (numberOne) {
+                // 끝까지 온 경우 끝내야함
+                break;
+            }
+        }
+        return answer+1;
+    }
+    
+    private void sum(int i) {
+        int total = i;
+        int idx = 1;
+    
+        while (total + (i-idx) <= givenNum) {
+            if (i-idx == 1) {
+                // 끝까지 왔다는 것
+                numberOne = true;
+            }
+            // 합이 주어진 숫자보다 작을 때까지 더함
+            total += (i-idx);
+            if (total == givenNum) {
+                // 연속된 합이 같을 때임
+                answer++;
+                return; // 루프 빠져서 다시 돌아감
+            }
+            idx++;
+        }
+    
+    }
+
+✅ 반으로 먼저 쪼갠 후에, 하나씩 빼면서 루프를 돌리는 로직 
+
+✅ 말그대로 하나씩 돌리기 때문에 -> 시간 초과 발생함 
+
+☑️ 정수론 정리 : 주어진 수의 홀수 약수의 개수와 같다 
+
+
+    public int solution(int n) {
+        int answer = 0;
+
+        for(int i = 1; i <= n; i+=2){
+            if(n % i == 0) answer++;
+        }   
+
+        return answer;
+    }
+
+  </ul>
+  </div>
+</details>
+
