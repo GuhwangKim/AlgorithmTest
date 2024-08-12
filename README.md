@@ -337,22 +337,60 @@
     
     }
 
-✅ 반으로 먼저 쪼갠 후에, 하나씩 빼면서 루프를 돌리는 로직 
-
-✅ 말그대로 하나씩 돌리기 때문에 -> 시간 초과 발생함 
-
-☑️ 정수론 정리 : 주어진 수의 홀수 약수의 개수와 같다 
 
 
-    public int solution(int n) {
-        int answer = 0;
+<li>Trial_2 숫자를 비교하는 2차원 배열을 만들어서, 각각 행과 열에 -1, 0, 1 넣음</li>
+✅ 그래프 배열을 만들어서 
 
-        for(int i = 1; i <= n; i+=2){
-            if(n % i == 0) answer++;
-        }   
-
-        return answer;
+    int[][] graph = new int[n + 1][n + 1];
+      // 배열에 들어간 숫자는 1부터 이므로
+      
+    for (int[] edge : results) {
+        graph[edge[0]][edge[1]] = 1;
+        // 이긴 표시
+        graph[edge[1]][edge[0]] = -1;
+        // 진 표시
     }
+
+✅ 주어진 배열에 1 / 그 반대에 -1
+
+✅ 결과 값이 주어진 배열에 사이에 있는 숫자를 넣어서 같은 값이라면 그 숫자의 승부 결과다 같음을 이용
+
+    for (int i = 1; i <= n; i++) {
+    // 도착
+      for (int j = 1; j <= n; j++) {
+          // 거쳐감
+          for (int k = 1; k <= n; k++) {
+              // i, j 의 매칭의 결과로 결과가 확정되는 값
+              if (graph[i][k] == 1 && graph[k][j] == 1) {
+                  graph[i][j] = 1;
+                  graph[j][i] = -1;
+              }
+              if (graph[i][k] == -1 && graph[k][j] == -1) {
+                  graph[i][j] = -1;
+                  graph[j][i] = 1;
+              }
+  
+          }
+        }
+    }
+
+
+✅ 한 행의 0이 아닌 모든 결과 값이 있는 경우 → 순위가 정해지는 경우 
+
+    for (int i = 1; i <= n ; i++) {
+      int cnt = 0;
+      for (int j = 1; j <= n; j++) {
+          if (graph[i][j] != 0) {
+              cnt++;
+          }
+      }
+      if (cnt == n - 1) {
+          answer++;
+      }
+    }
+
+
 
   </ul>
   </div>
