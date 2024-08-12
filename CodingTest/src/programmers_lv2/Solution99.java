@@ -20,11 +20,31 @@ public class Solution99 {
             for (int j = 1; j <= n; j++) {
                 // 거쳐감
                 for (int k = 1; k <= n; k++) {
+                    // i, j 의 매칭의 결과로 결과가 확정되는 값
+                    if (graph[i][k] == 1 && graph[k][j] == 1) {
+                        graph[i][j] = 1;
+                        graph[j][i] = -1;
+                    }
+                    if (graph[i][k] == -1 && graph[k][j] == -1) {
+                        graph[i][j] = -1;
+                        graph[j][i] = 1;
+                    }
 
                 }
             }
         }
-
+        // 1부터 마지막 행까지 돌아가면서, n-1 순위가 확정
+        for (int i = 0; i <= n ; i++) {
+            int cnt = 0;
+            for (int j = 0; j <= n; j++) {
+                if (graph[i][j] != 0) {
+                    cnt++;
+                }
+            }
+            if (cnt == n - 1) {
+                answer++;
+            }
+        }
         return answer;
     }
 }
