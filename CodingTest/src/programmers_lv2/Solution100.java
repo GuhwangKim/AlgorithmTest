@@ -1,38 +1,100 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 public class Solution100 {
-    static int answer = 0;
-    String[][] arr;
+    
+    boolean[] visited; // 방문 채크 
+    int len;
+    int cnt;
+
+    Set<String> list = new HashSet<>();
+    List<String> list2 = new ArrayList<>();
+    
     public int solution(String[][] relation) {
-        arr = new String[relation.length][relation[0].length]
-        // 앞자리부터 중복되는지 여부 확인함
-        // 중복 안되면 ++ 하고 넘어감
-        // 중복 되면 그 다음 숫자와 조인해서 비교함
-        // 끝까지 도달하면 다시 한번 넘어가고 다시
-        // 첫번쨰 줄만 비교용
-        for (int i = 0; i < relation.length; i++) {
-            String str = "";
-            for (int j = 0; j < relation.length; j++) {
-                str += relation[i][j];
-                calculate(str, i, j);
-            }
+        int answer = 0;
+
+        len = relation[0].length; //컬럼의 개수 
+        cnt = relation.length; // 행의 개수 
+        visited = new boolean[len];
+
+        for (int i = 1; i <= len; i++) {
+            comb(0, i, relation);
+            unique(relation);
         }
 
         return answer;
     }
 
-    public void calculate (String str, int start, int end) {
+    private void unique(String[][] relation) {
+        // 유일성 판단
+        for (String data : list) {
+            String[] temp = data.split("");
+            int[] arr = new int[temp.length];
+            for (int i = 0; i < temp.length; i++) {
+                int c = Integer.parseInt(temp[i]);
+                arr[i] = c;
+            }
 
-        for (int j = 1; j < arr.length; j++) { // 중복 확인
-            if (str.equals(arr[j][start]+arr[j][end])) {
-                // 같은게 있으면 넘어가야함
-                // ** 뒤에 있는 것 까지 같이 해서 비교해야함
-                return;
+            // 유일성 판단하기 위한 set
+            Set<String> set = new HashSet<>();
+            for (int i = 0; i < cnt; i++) {
+                String cdd = "";
+                for (String data2 : temp) {
+                    int c = Integer.parseInt(data2);
+                    cdd += relation[i][c];
+                }
+                set.add(cdd);
+            }
+
+            // 유일성 이후 최소성 검사
+            if (set.size() == cnt) {
+                boolean flag = false;
+                for (String data3 : list2) {
+                    int cnt = 0;
+                    String[] temp3 = data3.split("");
+                    for (String data4 : temp3) {
+                        if (data.contains(data4)) {
+                            cnt++;
+                        }
+                    }
+                    if (cnt == data3.length()) {
+                        flag = true;
+                    }
+                }
+                if (!flag) {
+                    list2.add(data);
+                }
             }
         }
-        // 끝까지 루프를 탔다면 같은게 없다는 말
-        answer++;
     }
 
-
+    private void comb(int start, int row, String[][] relation) {
+        // 조합하는 부분 
+        // 
+        if (row == 0) {
+            String temp = "";
+            for (int i = 0; i < len; i++) {
+                if (visited[i]) {
+                    temp+=i; // 조합 한칸 더 감 
+                }
+            }
+            list.add(temp);
+        }
+        
+        // 뒤에서부터 1개씩 줄어들면저 조합 만들어냄
+        // 4, 3, 2, 1 
+        for (int i = start; i < len; i++) {
+            if (!visited[i]) {
+                // 방문 안함 
+                visited[i]  = true;
+                comb(start + 1, row - 1, relation);
+                visited[i] = false;
+            }
+        }
+        
+    }
 }
