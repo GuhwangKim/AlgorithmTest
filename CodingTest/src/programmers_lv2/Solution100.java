@@ -11,22 +11,23 @@ public class Solution100 {
     int len;
     int cnt;
 
-    Set<String> list = new HashSet<>();
-    List<String> list2 = new ArrayList<>();
+    Set<String> list = new HashSet<>(); // back tracking 한 데이터
+    List<String> list2 = new ArrayList<>(); // 정답을 담음
     
     public int solution(String[][] relation) {
         int answer = 0;
 
-        len = relation[0].length; //컬럼의 개수 
-        cnt = relation.length; // 행의 개수 
+        len = relation[0].length; //컬럼의 개수 attribute
+        cnt = relation.length; // 행의 개수 tupled
         visited = new boolean[len];
 
         for (int i = 1; i <= len; i++) {
             comb(0, i, relation);
             unique(relation);
+            list.clear();
         }
 
-        return answer;
+        return list2.size();
     }
 
     private void unique(String[][] relation) {
