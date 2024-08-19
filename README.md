@@ -164,6 +164,59 @@
   </div>
 </details>
 
+
+<details>
+  <summary><b>배달</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.08.19)
+      <li>Trial_1 DFS로 depth를 주고, 끝까지 탐색하는 방법 생각,,, 그러나 완결을 못냄 </li>
+
+    public int solution(int N, int[][] road, int K) {
+        int answer = 0;
+        // 각각 모든 조합을 넣을 수 있는 배열 생성
+        int[][] directions = new int[N+1][N+1];
+        for (int[] each : road) {
+            directions[each[0]][each[1]] = each[2];
+            directions[each[1]][each[2]] = each[2];
+        }
+
+        for (int i = 1; i <= N ; i++) { // level
+            for (int j = 1; j <= N; j++) { // row
+                if (directions[i][j] == 0) {
+                    continue; // 값이 없으면 건너띄고
+                }else{
+                    DFS(i, j, directions[i][j]);
+                }
+            }
+        }
+
+
+        return answer;
+    }
+
+✅ 반으로 먼저 쪼갠 후에, 하나씩 빼면서 루프를 돌리는 로직 
+
+✅ 말그대로 하나씩 돌리기 때문에 -> 시간 초과 발생함 
+
+☑️ 정수론 정리 : 주어진 수의 홀수 약수의 개수와 같다 
+
+
+    public int solution(int n) {
+        int answer = 0;
+
+        for(int i = 1; i <= n; i+=2){
+            if(n % i == 0) answer++;
+        }   
+
+        return answer;
+    }
+
+  </ul>
+  </div>
+</details>
+
+
 ---
 ### Level.3
 <details>
