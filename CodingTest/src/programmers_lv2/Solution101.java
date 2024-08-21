@@ -1,56 +1,66 @@
 package CodingTest.src.programmers_lv2;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+
 public class Solution101 {
-    int n;
-    int[][] directions;
-    boolean[][] visited;
-    int K2;
-    int answer;
+
     public int solution(int N, int[][] road, int K) {
-        answer = 0;
-        n = N;
-        K2 = K;
-        // 각각 모든 조합을 넣을 수 있는 배열 생성
-        directions = new int[N+1][N+1];
-        visited = new boolean[N + 1][N + 1];
-        for (int[] each : road) {
-            directions[each[0]][each[1]] = each[2];
-            directions[each[1]][each[2]] = each[2];
+        int answer = 1;
+        // 1번에서 시작하면, 1번 마을은 무조건 방문 가능
+        ArrayList<ArrayList<Node>> list = new ArrayList<>();
+        for (int i = 0; i <= N; i++) {
+            // 빈 공간을 만듦
+            list.add(new ArrayList<>());
         }
 
-        for (int i = 1; i <= N ; i++) { // level
-            for (int j = i+1; j <= N; j++) { // row
-                if (directions[i][j] == 0) {
-                    continue; // 값이 없으면 건너띄고
-                }else{
-                    visited[i][j] = true;
-                    visited[j][i] = true;
-                    if (directions[i][j] <= K) {
-                        DFS(i, j, directions[i][j]);
-                    }
-                }
+        for (int i = 0; i < road.length; i++) {
+            // Node들의 list가 list의 값임
+            list.get(road[i][0]).add(new Node(road[i][0], road[i][1], road[i][2]));
+            list.get(road[i][1]).add(new Node(road[i][1], road[i][0], road[i][2]));
+            // 양쪽에 모두 다 같은 2의 값을 넣어줌
+        }
+
+        Queue<Node> queue = new LinkedList<>();
+        int[] visited = new int[N + 1];
+        for (int i = 2; i < visited.length; i++) {
+            visited[i] = Integer.MAX_VALUE;
+            // 방문 배열을 모두 max의 값으로 집어넣음
+        }
+        // 처음 값을 담음
+        queue.addAll(list.get(1));
+
+        // 반복 - DFS
+        while (!queue.isEmpty()) {
+            Node n = queue.poll();
+            if (visited[n.x] <= visited[n.y] + n.v) {
+                // 여기서 왜 y + v를 하는 건지?
+                continue;
+            }
+            visited[n.x] = visited[n.y] + n.v;
+            queue.addAll(list.get(n.x));
+        }
+        for (int i = 2; i < visited.length; i++) {
+            if (visited[i] <= K) {
+                answer++;
             }
         }
-
-
         return answer;
     }
 
-    private void DFS(int row, int col, int total) {
-        for (int i = col; i <=n ; i++) {
-            for (int j = row; j <=n ; j++) {
-                if (!visited[i][j] && directions[i][j] != 0) {
-                    // 방문하지 않았고, 값이 있다
-                    total += directions[i][j];
-                    if (total >= K2) {
-                        answer++;
-                        return;
-                    }else{
-                        DFS(i, j, total);
-                    }
-                }
-            }
 
+    static class Node {
+        int x, y, v;
+
+        public Node(int x, int y, int v) {
+            this.x = y;
+            this.y = x;
+            this.v = v;
         }
     }
+
+
+
 }
+
