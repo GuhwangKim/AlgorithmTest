@@ -259,7 +259,7 @@
   <summary><b>멀리뛰기</b></summary>
   <div markdown="1">
     <ul>
-       (2024.08.19)
+       (2024.08.27)
       <li>Trial_1 2로 나눈 몫과 그 외에 1들의 경우의 수 곱 </li>
 
     public long solution(int n) {
@@ -277,7 +277,7 @@
 
 ☑️ 처음 몇가지 사례는 성공하지만, 나머지 사례는 에러    
 ✅ 실제로 값을 만들필요 없음    
-✅ 경우의 수가 중요한 것 (앞 + 앞앞 = 현재)    
+✅ 경우의 수가 중요한 것 (앞 + 앞앞 = 현재): 피보나치 수열     
 
     public long solution(int n) {
         long[] answer = new long[2001];
