@@ -255,6 +255,43 @@
   </div>
 </details>
 
+<details>
+  <summary><b>멀리뛰기</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.08.19)
+      <li>Trial_1 2로 나눈 몫과 그 외에 1들의 경우의 수 곱 </li>
+
+    public long solution(int n) {
+        long answer = 0;
+        int divide = n/2;
+        int total = 0;
+        for (int i = 0; i <= divide; i++) {
+            System.out.println("total : " + total);
+            total += ((n-2*i)*i+1);
+        }
+        answer = total%1234567;
+
+        return answer;
+    }
+
+☑️ 처음 몇가지 사례는 성공하지만, 나머지 사례는 에러    
+✅ 실제로 값을 만들필요 없음    
+✅ 경우의 수가 중요한 것 (앞 + 앞앞 = 현재)    
+
+    public long solution(int n) {
+        long[] answer = new long[2001];
+        answer[1] = 1;
+        answer[2] = 2;
+        for (int i = 3; i < 2001; i++) {
+            answer[i] = (answer[i-1]+answer[i-2])%1234567;
+        }
+        return answer[n];
+    }
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
