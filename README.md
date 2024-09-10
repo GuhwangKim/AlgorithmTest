@@ -316,7 +316,7 @@
 ☑️ 효율성에서 에러가 뜸     
 ✅ Integer.bitCount 라는 내장함수를 이용하여 시간을 단축    
 
-   int cntI = Integer.bitCount(n);
+    int cntI = Integer.bitCount(n);
 
     while (true) {
         n++;
