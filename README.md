@@ -292,6 +292,42 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>다음큰숫자</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.09.10)
+      <li>Trial_1 단순하게 loop를 돌린 후 2진수/값비교 </li>
+
+    public int solution(int n) {
+        String currentBi = Integer.toBinaryString(n);
+        long cntI = currentBi.chars().filter(value -> value == '1').count();
+
+        for (int i = n+1; i <= 1000000; i++) {
+            String loopBi = Integer.toBinaryString(i);
+            long loopI = loopBi.chars().filter(value -> value == '1').count();
+
+            if (loopI == cntI) {
+                return i;
+            }
+        }
+        return n;
+    }
+☑️ 효율성에서 에러가 뜸     
+✅ Integer.bitCount 라는 내장함수를 이용하여 시간을 단축    
+
+    int cntI = Integer.bitCount(n);
+
+    while (true) {
+        n++;
+        if (cntI == Integer.bitCount(n)) {
+            return n;
+        }
+    }
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
