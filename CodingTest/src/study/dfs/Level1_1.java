@@ -31,37 +31,39 @@ public class Level1_1 {
     private void bfs(int v) { // Queue
         Queue<Integer> queue = new LinkedList<>();
         // 시작점 숫자를 집어넣음
-        if (queue.isEmpty()) {
-            queue.add(v);
-        }
+        //if (queue.isEmpty()) {
+        queue.add(v);
+        //}
         while (!queue.isEmpty()) {
             int current = queue.poll();
-            if(!visited2[current]){
-                // 방문하지 않았다면
-                for (int i = current; i < arr.length; i++) {
-                    if (arr[v][i] == 1) {
-                        // 연결 값이 있음
-                        queue.add(i);
-                        bfs(i);
-                    }
+            //if(!visited2[current]){
+            // 방문하지 않았다면
+            for (int i = 1; i < arr.length; i++) {
+                if (arr[current][i] == 1 && !visited2[current]) {
+                    // 루프는 계속해서 돌고 루프 안에 조건으로
+                    // 연결 값이 있음
+                    queue.add(i);
+                    visited2[i] = true;
+                    //bfs(i);
                 }
             }
+            //}
         }
     }
 
     private void dfs(int v) { // Stack
 
-        if (!visited[v]) {
+        //if (!visited[v]) {
             // 방문하지 않았다면
             visited[v] = true; // 방문
             for (int i = 1; i < arr.length; i++) {
                 // 해당 노드로 부터 아래로
-                if (arr[v][i] == 1) {
+                if (arr[v][i] == 1 && !visited[v]) {
                     // 연결되었다면
                     dfs(i);
                 }
             }
-        }
+        //}
     }
 
 }
