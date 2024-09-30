@@ -328,6 +328,91 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>가장 큰 정사각형</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.09.10)
+      <li>Trial_1 1이 나올때 startIdx와 endIdx를 가지고 다시 루프 돌리는 메서드 </li>
+
+     public int solution(int [][]board) {
+        int answer = 1;
+
+        // 연결된 1이 가로로 1이 연속된 경우 오른쪽 값을 기억함 , 시작과 끝 기억 (몇개인지)
+        // 1 1 , 1 2
+        // 따로 메소드
+        // 왼쪽+1 ( 몇개 -1)  / 시작과 끝 1이다
+
+        for (int j = 0; j < board.length; j++) {
+            // 2차원 배열 1로우씩 뺌
+            int startIdx = 0;
+            int endIdx = 0;
+            for (int i = 0; i < board[j].length; i++) {
+                if (board[j][i] == 1 && startIdx == 0) {
+                    // 가장 처음
+                    startIdx = i;
+                }
+                if (board[j][i] == 1 && startIdx != 0) {
+                    // 그 다음부턴 끝에 값으로
+                    endIdx = i;
+                }
+            }
+
+            // 아래로 더이상 내려갈 수가 없는 경우 (가로>세로)
+            int continueOne = endIdx - startIdx;
+            if (continueOne > board[0].length - j) {
+                continue;
+            }else{
+                // 확인 메소드 호출
+                int tmp = check(startIdx, endIdx, answer, board, j);
+                answer = Math.max(tmp * tmp, answer * answer);
+            }
+
+        }
+        return answer;
+    }
+
+    private int check(int startIdx, int endIdx, int answer, int[][] board, int rowIdx) {
+
+        for (int i = rowIdx + 1; i < board.length; i++) {
+            // 세로
+            for (int j = startIdx; j <= endIdx; j++) {
+                // 가로
+                if (board[i][j] != 1) {
+                    // 하나라도 1이 아니면 예외 케이스
+                    return 1;
+                }
+            }
+        }
+        return endIdx-startIdx;
+
+    }
+☑️ 방법 측면에서 잘 못 된 듯      
+✅ 빈 2차원 배열을 만들고, 각 배열의 값에 넓이를 넣어주는 방법   
+
+        int answer = 1;
+        int[][] map = new int[board.length][board[0].length];
+        // 하나 더 크게 해서 만듦
+
+        int maxLen = 0;
+
+        for (int i = 1; i <= board.length; i++) {
+            for (int j = 1; j <= board[0].length; j++) {
+                if (board[i - 1][j - 1] != 0) {
+                    int min = Math.min(Math.min(map[i - 1][j], map[i][j - 1]), map[i - 1][j - 1]);
+                    // 대각선, 왼, 위 값이 1이면 정사각형
+                    map[i][j] = min + 1;
+                    // board에 해당하는 현재 위치 
+
+                    maxLen = Math.max(maxLen, min + 1);
+                }
+            }    
+        }
+    return maxLen*maxLen;
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
