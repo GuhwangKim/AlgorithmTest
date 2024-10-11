@@ -471,26 +471,41 @@
         }
 ☑️ 최대값을 구하는 것이기 때문에 우선 반으로 나누어서 반에서 시작한 후 왼쪽(1까지만) 오른쪽(길이 -1) 으로 탐색  
 ☑️ 홀수 일 때 나눈 몫에서 시작 / 짝수 일 때 몫과 몫 -1 에서 시작 => 앞과 뒤의 숫자를 비교한 후, 같으면 그 더하고 다르면 빠져나옴 그 다음 인덱스로
+<br>
+✅ 맨앞, 맨끝에서 포인트를 잡고  
+✅ 값이 다르면 앞에서 한개씩 줄이고 -> 뒤에서 한개씩 줄이고<br> 
+✅ 값이 같으면 같은 루프에서 앞, 뒤에서 한개씩 줄여가며 범위를 줄임    
 
-        int answer = 1;
-        int[][] map = new int[board.length][board[0].length];
-        // 하나 더 크게 해서 만듦
-
-        int maxLen = 0;
-
-        for (int i = 1; i <= board.length; i++) {
-            for (int j = 1; j <= board[0].length; j++) {
-                if (board[i - 1][j - 1] != 0) {
-                    int min = Math.min(Math.min(map[i - 1][j], map[i][j - 1]), map[i - 1][j - 1]);
-                    // 대각선, 왼, 위 값이 1이면 정사각형
-                    map[i][j] = min + 1;
-                    // board에 해당하는 현재 위치 
-
-                    maxLen = Math.max(maxLen, min + 1);
+        public int solution(String s)
+        {
+            int answer = 1;
+            int n = s.length();
+            loop:
+            for (int i = n; i >= 1; i--) {
+                // 가장 긴 길이부터
+                for (int j = 0; j <= n - 1; j++) {
+                    // 가장 작은 길이
+                    boolean flag = true;
+                    int start = j; // 시작 인덱스
+                    int end = j+i-1; // 끝 인덱스
+    
+                    while (start < end) {
+                        if (s.charAt(start) != s.charAt(end)) {
+                            // 같을 때까지 반복
+                            flag = false;
+                            break; // while을 빠져나감
+                        }
+                        start++;
+                        end--;
+                    }
+                    if (flag) {
+                        answer = i;
+                        break loop;
+                    }
                 }
-            }    
+            }
+            return answer;
         }
-    return maxLen*maxLen;
 
   </ul>
   </div>
