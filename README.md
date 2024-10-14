@@ -510,6 +510,76 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>거스름돈</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.10.14)
+      <li>Trial_1 문제에 나와있는 걸 그대로 코드에 구현함 </li>
+
+    public int solution(int n, int[] money) {
+
+        // 몫과 나머지를 구하고
+        // 몫이 1일 때까지 같은 메서드를
+        for (int i = money.length - 1; i >= 0; i--) {
+            // money에 있는 값은 n보다는 작거나 같아야 함
+            if (money[i] > n) {
+                continue;
+            }
+
+            // 같은 수라면 더하고 패스
+            if (money[i] == n) {
+                answer++;
+                continue;
+            }
+
+            // 작은 수
+            // 몫
+            int share = n / money[i]; // 2
+            // 나머지를 구함
+            int rest = n % money[i]; // 1
+
+            // 나머지가 money 배열에 존재하는지
+            // 1 ~ share 만큼 곱해가면서 확인
+            check(share, rest, i, money, n);
+
+        }
+
+
+
+
+        return answer;
+    }
+
+    private void check(int share, int rest, int currentIdx, int[] money, int n) {
+        for (int i = 1; i <= share; i++) {
+            // 배수로 값을 만들어봄
+            int temp = money[currentIdx] * i;
+
+
+        }
+    }
+
+☑️ 나머지가 나오고 그 나머지로 값을 구할 수 있는지의 로직이 반복되는 것 같은데, 이 부분을 공통코드로 못 빼놓겠음  
+
+✅ 말그대로 하나씩 돌리기 때문에 -> 시간 초과 발생함 
+
+☑️ 정수론 정리 : 주어진 수의 홀수 약수의 개수와 같다 
+
+
+    public int solution(int n) {
+        int answer = 0;
+
+        for(int i = 1; i <= n; i+=2){
+            if(n % i == 0) answer++;
+        }   
+
+        return answer;
+    }
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
