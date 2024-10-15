@@ -5,45 +5,24 @@ import java.util.Collections;
 
 public class Solution1 {
     // 거스름돈 https://school.programmers.co.kr/learn/courses/30/lessons/12907
-
-    static int answer = 0;
+    private int[][] dp;
 
     public int solution(int n, int[] money) {
-
-        // 몫과 나머지를 구하고
-        // 몫이 1일 때까지 같은 메서드를
-        // money에 있는 값은 n보다는 작거나 같아야 함
-
-        // 나머지가 money 배열에 존재하는지
-        // 1 ~ share 만큼 곱해가면서 확인
-        check(0, money, n);
-
-        return answer;
-    }
-
-    private void check(int currentIdx, int[] money, int n) {
-        if (currentIdx < 0) {
-            // 인덱스의 끝
-            return;
-        }
-        if (money[currentIdx] > n) {
-            currentIdx--;
-            check(currentIdx, money, n);
-        } else if (money[currentIdx] == n) {
-            answer++;
-            currentIdx--;
-            check(currentIdx, money, n);
-        }else{
-            // 몫
-            int share = n / money[currentIdx]; // 2
-            // 나머지를 구함
-            int rest = n % money[currentIdx]; // 1
-
-            for (int i = 1; i <= share; i++) {
-                check();
+        // 2차원 배열에서 돈의 개수 X 나와야 하는 금액
+        // 자기 자신이 나올 때 1 추가
+        dp = new int[money.length][n + 1]; // 해당 금액이 표에 나와야하기 때문
+        for (int i = 1; i <= money.length; i++) {
+            for (int j = 0; j <= n; j++) { // 가로로 가는 개념임
+                if (j == 0) {
+                    dp[i][j] = 1; // 맨 첫번 째 열은 1로 초기화
+                } else if (j - money[i - 1] >= 0) {
+                    // 돈보다 작거나 같은 경우
+                    dp[i][j] = (dp[i-1][j] + dp[i][j-money[i-1]])%10000007;
+                }else{
+                    dp[i][j] = dp[i - 1][j];
+                }
             }
-
-
         }
+        return dp[money.length][n];
     }
 }
