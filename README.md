@@ -562,19 +562,28 @@
 
 ☑️ 나머지가 나오고 그 나머지로 값을 구할 수 있는지의 로직이 반복되는 것 같은데, 이 부분을 공통코드로 못 빼놓겠음  
 
-✅ 말그대로 하나씩 돌리기 때문에 -> 시간 초과 발생함 
-
-☑️ 정수론 정리 : 주어진 수의 홀수 약수의 개수와 같다 
+✅ 동적계획법  
 
 
-    public int solution(int n) {
-        int answer = 0;
+    private int[][] dp;
 
-        for(int i = 1; i <= n; i+=2){
-            if(n % i == 0) answer++;
-        }   
-
-        return answer;
+    public int solution(int n, int[] money) {
+        // 2차원 배열에서 돈의 개수 X 나와야 하는 금액
+        // 자기 자신이 나올 때 1 추가
+        dp = new int[money.length][n + 1]; // 해당 금액이 표에 나와야하기 때문
+        for (int i = 1; i <= money.length; i++) {
+            for (int j = 0; j <= n; j++) { // 가로로 가는 개념임
+                if (j == 0) {
+                    dp[i][j] = 1; // 맨 첫번 째 열은 1로 초기화
+                } else if (j - money[i - 1] >= 0) {
+                    // 돈보다 작거나 같은 경우
+                    dp[i][j] = (dp[i-1][j] + dp[i][j-money[i-1]])%10000007;
+                }else{
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[money.length][n];
     }
 
   </ul>
