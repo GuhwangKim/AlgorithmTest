@@ -596,73 +596,42 @@
        (2024.10.16)
       <li>Trial_1  </li>
 
-    public int solution(int n, int[] money) {
+    public int solution(int n) {
+          int answer = 0;
+          int twoCnt = 0;
+          int plus = 1;
+          if (n % 2 == 0) {
+              // 짝수일 때
+              plus = 2;
+          }
+  
+          while (2 * twoCnt <= n) {
+              int tmp = twoCnt * (n-(2*twoCnt));
+              if (tmp == 0) {
+                  answer += 1;
+              }else{
+                  answer += tmp + plus;
+              }
+              twoCnt++;
+          }
+          return answer;
+      }
 
-        // 몫과 나머지를 구하고
-        // 몫이 1일 때까지 같은 메서드를
-        for (int i = money.length - 1; i >= 0; i--) {
-            // money에 있는 값은 n보다는 작거나 같아야 함
-            if (money[i] > n) {
-                continue;
-            }
+☑️ 규칙을 못 찾겠음 
 
-            // 같은 수라면 더하고 패스
-            if (money[i] == n) {
-                answer++;
-                continue;
-            }
+✅ DP 알고리즘 - 이전전 + 이전 의 개수를 합하면 = 현재  
 
-            // 작은 수
-            // 몫
-            int share = n / money[i]; // 2
-            // 나머지를 구함
-            int rest = n % money[i]; // 1
 
-            // 나머지가 money 배열에 존재하는지
-            // 1 ~ share 만큼 곱해가면서 확인
-            check(share, rest, i, money, n);
+    public int solution(int n) {
+        int answer = 0;
+        int[] dp = new int[n + 1];
+        dp[1] = 1;
+        dp[2] = 2;
 
+        for (int i = 3; i <= n; i++) {
+            dp[i] = (dp[i - 1] + dp[i - 2]) % 10000007;
         }
-
-
-
-
         return answer;
-    }
-
-    private void check(int share, int rest, int currentIdx, int[] money, int n) {
-        for (int i = 1; i <= share; i++) {
-            // 배수로 값을 만들어봄
-            int temp = money[currentIdx] * i;
-
-
-        }
-    }
-
-☑️ 나머지가 나오고 그 나머지로 값을 구할 수 있는지의 로직이 반복되는 것 같은데, 이 부분을 공통코드로 못 빼놓겠음  
-
-✅ 동적계획법  
-
-
-    private int[][] dp;
-
-    public int solution(int n, int[] money) {
-        // 2차원 배열에서 돈의 개수 X 나와야 하는 금액
-        // 자기 자신이 나올 때 1 추가
-        dp = new int[money.length][n + 1]; // 해당 금액이 표에 나와야하기 때문
-        for (int i = 1; i <= money.length; i++) {
-            for (int j = 0; j <= n; j++) { // 가로로 가는 개념임
-                if (j == 0) {
-                    dp[i][j] = 1; // 맨 첫번 째 열은 1로 초기화
-                } else if (j - money[i - 1] >= 0) {
-                    // 돈보다 작거나 같은 경우
-                    dp[i][j] = (dp[i-1][j] + dp[i][j-money[i-1]])%10000007;
-                }else{
-                    dp[i][j] = dp[i - 1][j];
-                }
-            }
-        }
-        return dp[money.length][n];
     }
 
   </ul>
