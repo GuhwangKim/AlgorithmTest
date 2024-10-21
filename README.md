@@ -637,6 +637,40 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>124나라</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.10.16)
+      <li>Trial_1 규칙 발견 못함  </li>
+
+    public String solution(int n) {
+        String answer = "";
+        String[] numbers = {"4", "1", "2"};
+
+        // 3으로 우선 나눈 후
+        // 나머지는 뒤에 붙여주고 앞자리는 루프
+        // 나머지가 0인 경우 4
+        int num = n;
+        // 가장 끝 자리수
+        while (num > 0) {
+            // 계속해서 이어 붙임
+            int remain = n % 3; // 나머지
+            num /= 3;// 몫
+            if (remain == 0) {
+                num--;
+            }
+            answer = numbers[remain] + answer;
+
+        }
+        return answer;
+    }
+
+☑️ 나머지와 몫을 통해 규칙을 찾음, 나머지가 0인 경우 기존 숫자를 -1 한 값으로 다시 계산 
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
