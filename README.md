@@ -655,7 +655,7 @@
         // 가장 끝 자리수
         while (num > 0) {
             // 계속해서 이어 붙임
-            int remain = n % 3; // 나머지
+            int remain = num % 3; // 나머지
             num /= 3;// 몫
             if (remain == 0) {
                 num--;
