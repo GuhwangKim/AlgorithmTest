@@ -671,6 +671,48 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>연속된 부분집합</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.10.23)
+      <li>Trial_1 단순한 이중 루프 돌림</li>
+      
+☑️ 시작과 끝점을 이중 루프를 돌려서 끝-시작 의 길이를 계속해서 현행화 해서 짧은 값 리턴 
+
+☑️ 모든 sequence를 끝까지 돌려야 하므로 시간초과 에러가 뜸 
+
+    public int[] solution(int[] sequence, int k) {
+        int[] answer = new int[2];
+        int[] temp = new int[2];
+        int length = Integer.MAX_VALUE;
+        for (int i = 0; i < sequence.length; i++) {
+            int value = sequence[i];
+            if (value == k) {
+                answer[0] = i;
+                answer[1] = i;
+                return answer;//최단
+            }
+
+            for (int j = i + 1; j < sequence.length; j++) {
+                value += sequence[j];
+                if (value == k) {
+                    if (length > j - i) {
+                        length = j - i;
+                        temp[0] = i;
+                        temp[1] = j;
+                        answer = temp;
+                    }
+                }
+            }
+        }
+        return answer;
+    }
+
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
