@@ -708,8 +708,90 @@
         }
         return answer;
     }
+☑️ 기존 답을 참고 하였으나, index boundary exception 뜸 
+        
+    public int[] solution(int[] sequence, int k) {
+        int leftIdx = 0; // 시작
+        int rightIdx = 0; // 끝
+        int curSum = sequence[0];
 
+        int length = sequence.length;
+        List<Integer> list = new ArrayList<>();
+        // 합이 같은 연속된 값들이 여러개일 수가 있기 때문에 list
 
+        while (true) {
+            if (curSum == k) {
+                // 합이 같을 떄
+                list.add(leftIdx);
+                list.add(rightIdx);
+            }
+
+            if (list.size() == 4) {
+                // 2. 합이 같은 값이 복수다
+                // 길이가 짧은 것이 답이다
+                if (list.get(1) - list.get(0) < list.get(3) - list.get(2)) {
+                    // 앞으로 당겨짐
+                    list.remove(2);
+                    list.remove(2);
+                } else if (list.get(1) - list.get(0) > list.get(3) - list.get(2)) {
+                    // 맨 앞엔 것을 빼면 또 앞으로 당겨짐
+                    list.remove(0);
+                    list.remove(0);
+                }else{
+                    // 길이도 같다면 먼저
+                    list.remove(2);
+                    list.remove(2);
+                }
+            }
+            if (leftIdx == length && rightIdx == length) {
+                // 가장 끝
+                break;
+            }
+
+            if (curSum <= k && rightIdx < length) {
+                // 아직 갈 떄가 남음
+                rightIdx++;
+                // 한칸 더 가봄
+                curSum += sequence[rightIdx];
+            }else{
+                // 부분합이 넣어가거나 더이상 오른쪽으로 이동이 안되는 경우
+                if (leftIdx < length) {
+                    curSum -= sequence[leftIdx];
+                    leftIdx++;
+                }
+            }
+        }
+        return new int[]{list.get(0), list.get(1)};
+    }
+
+✅ **두 포인터**를 잡고, 끝으로 가는 for 문을 만들어봄 
+      
+✅ while문 현재의 합이 주어진 값보다 큰 경우 -> 왼쪽 포인터를 한칸씩 이동하고 값 제외
+
+       
+      int[] answer = new int[2];
+      int leftIdx = 0; // 시작
+      int curSum = 0;
+      int curSize = sequence.length;
+
+      for (int rightIdx = 0; rightIdx < sequence.length; rightIdx++) {
+          curSum += sequence[rightIdx];
+          while (rightIdx < sequence.length && curSum > k) {
+              // 왼쪽에서 뒤로 이동함
+              curSum -= sequence[leftIdx];
+              leftIdx++;
+          }
+          if (curSum == k) {
+              // 찾으려고 하는 값
+              if (curSize > rightIdx - leftIdx) {
+                  curSize = rightIdx - leftIdx;
+                  answer[0] = leftIdx;
+                  answer[1] = rightIdx;
+              }
+          }
+      }
+
+      return answer;
   </ul>
   </div>
 </details>
