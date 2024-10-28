@@ -795,6 +795,99 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>과제진행하기</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.10.28)
+      <li>Trial_1 대기 Queue를 만들어서 시작과 종료일시를 비교하는 로직 </li>
+      ☑️ NullPointerException
+
+    public class Solution2 {
+      public String[] solution(String[][] plans) {
+          String[] answer = new String[plans.length];
+  
+          // 순서를 변경해줄 예정이므로 linkedlist
+          List<Assignment> list = new ArrayList<>();
+  
+          // 재조립
+          for (String[] plan : plans) {
+              String[] separated = plan[1].split(":");
+              long startHour = Long.valueOf(separated[0]) * 60 + Long.valueOf(separated[1]);
+              // 시작 시간 변환
+              Assignment assignment = new Assignment(plan[0], startHour, startHour + Long.valueOf(plan[2]));
+              list.add(assignment);
+          }
+  
+          // 시작 시간 순으로 정렬
+          Collections.sort(list, new StartComprator());
+  
+          // 대기 큐
+          Queue<Assignment> queue = new LinkedList<>();
+          for (Assignment assign : list) {
+              queue.add(assign);
+          }
+          int idx = 0;
+          // 시작
+          while (!queue.isEmpty()) {
+              Assignment currentAssign = queue.poll();
+              // 현재 assginment 정보
+  
+              if (currentAssign.getEnd() > queue.peek().getStart()) {
+                  // next의 시작이 curr end 보다 작으면 next가 시작임
+                  // next의 값을 집어넣음
+                  queue.add(currentAssign);
+                  // 현재 하고 있는 값을 queue에서 뺴서 집어넣음
+              }else{
+                  answer[idx] = currentAssign.getSubject();
+                  idx++;
+              }
+          }
+          return answer;
+      }
+  
+      class Assignment {
+          private String subject;
+          private long start;
+          private long end;
+  
+          public Assignment(String subject, long start, long end) {
+              this.subject = subject;
+              this.start = start;
+              this.end = end;
+          }
+  
+          public String getSubject() {
+              return subject;
+          }
+  
+          public long getStart() {
+              return start;
+          }
+  
+          public long getEnd() {
+              return end;
+          }
+      }
+  
+      class StartComprator implements Comparator<Assignment> {
+          @Override
+          public int compare(Assignment o1, Assignment o2) {
+              if (o1.getStart() < o2.getStart()) {
+                  return 1;
+              } else if (o1.getStart() > o2.getStart()) {
+                  return -1;
+              }
+              return 0;
+          }
+        }
+    }
+
+☑️ ni
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
