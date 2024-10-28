@@ -17,7 +17,7 @@ public class Solution2 {
         // 시작 시간을 중심으로 배열을 정렬해야함 즉 1번째 인덱스
         // 과목과 분으로 밖은 시작과 끝 시간을 담은 클래스를 만들어서 이걸 기준으로
 
-        List<String> answer = new ArrayList<>();
+        String[] answer = new String[plans.length];
 
         // 순서를 변경해줄 예정이므로 linkedlist
         List<Assignment> list = new ArrayList<>();
@@ -33,27 +33,31 @@ public class Solution2 {
 
         // 시작 시간 순으로 정렬
         Collections.sort(list, new StartComprator());
-        answer.add(list.get(0).getSubject());// 첫번째 과목
 
         // 대기 큐
         Queue<Assignment> queue = new LinkedList<>();
-        queue.add(list.get(0)); // 가장 첫번째 것 넣음 
-
+        for (Assignment assign : list) {
+            queue.add(assign);
+        }
+        int idx = 0;
         // 시작
         while (!queue.isEmpty()) {
-            for (int i = 1; i < list.size(); i++) {
-                if (queue.peek().getEnd() > list.get(i).getEnd()) {
-                    // next의 시작이 curr end 보다 작으면 next가 시작임
-                }
+            Assignment currentAssign = queue.poll();
+            // 현재 assginment 정보
+
+            if (currentAssign.getEnd() > queue.peek().getStart()) {
+                // next의 시작이 curr end 보다 작으면 next가 시작임
+                // next의 값을 집어넣음
+                queue.add(currentAssign);
+                // 현재 하고 있는 값을 queue에서 뺴서 집어넣음
+            }else{
+                answer[idx] = currentAssign.getSubject();
+                idx++;
             }
-            
-
         }
-
-
+        return answer;
     }
 
-    @Data
     class Assignment {
         private String subject;
         private long start;
@@ -63,6 +67,18 @@ public class Solution2 {
             this.subject = subject;
             this.start = start;
             this.end = end;
+        }
+
+        public String getSubject() {
+            return subject;
+        }
+
+        public long getStart() {
+            return start;
+        }
+
+        public long getEnd() {
+            return end;
         }
     }
 
