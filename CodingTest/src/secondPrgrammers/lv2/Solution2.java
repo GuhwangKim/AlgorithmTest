@@ -9,88 +9,73 @@ public class Solution2 {
      * https://school.programmers.co.kr/learn/courses/30/lessons/176962
      * */
     public String[] solution(String[][] plans) {
-        // 1. 진행중이다가 새로운 과제 -> 진행중이던 것 종료
-        // 2. 과제 끝내면 기다리고 있던 것 시작 (멈춘 순서대로)
-        // 3. 멈춘 것 vs  새로운 것이 있다면 새로운 것을 시작
-
-        // 분밖에 없기 때문에, 분으로 만들어버리자
-        // 시작 시간을 중심으로 배열을 정렬해야함 즉 1번째 인덱스
-        // 과목과 분으로 밖은 시작과 끝 시간을 담은 클래스를 만들어서 이걸 기준으로
+        // 잠시 멈춘 과제가 있으면 -> 최근에 멈춘 것 부터 진행 (Stack)
 
         String[] answer = new String[plans.length];
-
-        // 순서를 변경해줄 예정이므로 linkedlist
-        List<Assignment> list = new ArrayList<>();
-
-        // 재조립
-        for (String[] plan : plans) {
-            String[] separated = plan[1].split(":");
-            long startHour = Long.valueOf(separated[0]) * 60 + Long.valueOf(separated[1]);
-            // 시작 시간 변환
-            Assignment assignment = new Assignment(plan[0], startHour, startHour + Long.valueOf(plan[2]));
-            list.add(assignment);
-        }
-
-        // 시작 시간 순으로 정렬
-        Collections.sort(list, new StartComprator());
-
-        // 대기 큐
-        Queue<Assignment> queue = new LinkedList<>();
-        for (Assignment assign : list) {
-            queue.add(assign);
-        }
         int idx = 0;
-        // 시작
-        while (!queue.isEmpty()) {
-            Assignment currentAssign = queue.poll();
-            // 현재 assginment 정보
-
-            if (currentAssign.getEnd() > queue.peek().getStart()) {
-                // next의 시작이 curr end 보다 작으면 next가 시작임
-                // next의 값을 집어넣음
-                queue.add(currentAssign);
-                // 현재 하고 있는 값을 queue에서 뺴서 집어넣음
-            }else{
-                answer[idx] = currentAssign.getSubject();
-                idx++;
-            }
+        LinkedList<Assignment> tasks = new LinkedList<>();
+        for (String[] plan : plans) {
+            tasks.offer(new Assignment(plan[0], convertToMinute(plan[1]), Integer.parseInt(plan[2])));
         }
+        // 정렬
+        tasks.sort((o1, o2) -> o1.start - o2.start);
+
+        // 남은 일
+        Stack<Assignment> stopTasks = new Stack<>();
+
+        Assignment currentAssign = tasks.poll();
+        int time = currentAssign.start;
+
+        while (!tasks.isEmpty()) {
+            // 과제 돌림
+            // 시작 시간 + 남아있는 시간  = 총 업무 시간
+            time += currentAssign.left;
+            // 그 다음 일
+            Assignment next = tasks.peek();
+
+            if (time > next.start) {
+                // 해당 일감 초과 함
+                currentAssign.left = time - next.start; // 남은시간
+                stopTasks.push(currentAssign); // 남은 일
+            } else {
+                answer[idx] = currentAssign.subject;
+                idx++;
+                if (!stopTasks.empty()) {
+                    // 남아있는게 있으면 ** 우선 남아있는 것 우선
+                    currentAssign = stopTasks.pop();
+                    continue;
+                }
+            }
+            currentAssign = tasks.poll(); // while 문 바깥에서 설정했으므로
+            time = currentAssign.start;
+        }
+
+        // 마지막 과제
+        answer[idx] = currentAssign.subject;
+
+        // 마지막 남아있는 과제들 싹 집어넣음
+        while (!stopTasks.isEmpty()) {
+            answer[idx] = stopTasks.pop().subject;
+            idx++;
+        }
+
         return answer;
     }
 
     class Assignment {
         private String subject;
-        private long start;
-        private long end;
+        private int start;
+        private int left;
 
-        public Assignment(String subject, long start, long end) {
+        public Assignment(String subject, int start, int left) {
             this.subject = subject;
             this.start = start;
-            this.end = end;
-        }
-
-        public String getSubject() {
-            return subject;
-        }
-
-        public long getStart() {
-            return start;
-        }
-
-        public long getEnd() {
-            return end;
+            this.left = left;
         }
     }
 
-    class StartComprator implements Comparator<Assignment> {
-        @Override
-        public int compare(Assignment o1, Assignment o2) {
-            if (o1.getStart() < o2.getStart()) {
-                return 1;
-            } else if (o1.getStart() > o2.getStart()) {
-                return -1;
-            }
-            return 0;
-        }
+    private int convertToMinute(String time) {
+        String[] t = time.split(":");
+        return Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
     }
 }
