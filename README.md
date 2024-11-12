@@ -962,6 +962,167 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>광물캐기</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.11.15)
+      <li>Trial_1 picks에 조합에 따라 광물을 만났을 때 소모되는 체력을 더하고, 그 최소값을 반납  </li>
+      ☑️ picks의 조합을 구하는 방법을 모르겠음 
+        
+      public int solution(int[] picks, String[] minerals) {
+        pick 에서 숫자가 넘겨짐
+        int answer = Integer.MAX_VALUE;
+        String[] tools = new String[3];
+
+        // 경우의 수를 넣은 배열 (총 6개)
+
+
+        // 현재 피로도
+        int currentTired = 0;
+
+        for (int i = 0; i < picks.length; i++) {
+            // bfs (3개까지 갔을 때 check function level,
+            bfs(0, i, tools);
+
+        }
+
+        answer = Math.min(answer, currentTired);
+
+        return answer;
+    }
+
+    private void bfs(int level, int index, String[] tools) {
+        if (level > 3) {
+            // 최종 단계까지 옴
+            return;
+        }
+        Queue<Integer> queue = new LinkedList<>();
+
+        queue.add(index);
+        // 첫번쨰 인덱스를 담았음
+
+        while (queue.isEmpty()) {
+            String currentPicksPower = "";
+            int currentIdx = queue.poll();
+
+            if (index == 0) {
+                currentPicksPower = "diamond";
+            } else if (index == 1) {
+                currentPicksPower = "iron";
+            } else{
+                currentPicksPower = "stone";
+            }
+            tools[level] = currentPicksPower;
+        }
+    }
+
+    private int check (int currentPick, String currentPicksPower) {
+        for (int i = 0; i < minerals.length; i++) {
+            String mineral = minerals[i];
+            while (currentPick > 0) {
+                if (currentPicksPower.equals("diamond")) {
+                    currentTired++; // 1만 추가
+
+                } else if (currentPicksPower.equals("iron")) {
+                    if (mineral.equals("diamond")) {
+                        currentTired += 5;
+                    }else{
+                        currentTired++;
+                    }
+                }else{
+                    if (mineral.equals("diamond")) {
+                        currentTired += 25;
+                    } else if (mineral.equals("iron")) {
+                        currentTired += 5;
+                    }else{
+                        currentTired++;
+                    }
+                }
+            }
+            currentPick--;
+        }
+    }
+
+☑️ 남아있는 과제가 있는 경우, 가장 먼저 집어넣진 값 부터 실행된다는 것을 간과함 
+      
+☑️ Stack 만들어서 구현하고, 시간 변환도 메서드로 따로 빼서 정의함 
+
+
+    public String[] solution(String[][] plans) {
+        // 잠시 멈춘 과제가 있으면 -> 최근에 멈춘 것 부터 진행 (Stack)
+
+        String[] answer = new String[plans.length];
+        int idx = 0;
+        LinkedList<Assignment> tasks = new LinkedList<>();
+        for (String[] plan : plans) {
+            tasks.offer(new Assignment(plan[0], convertToMinute(plan[1]), Integer.parseInt(plan[2])));
+        }
+        // 정렬
+        tasks.sort((o1, o2) -> o1.start - o2.start);
+        
+        // 남은 일
+        Stack<Assignment> stopTasks = new Stack<>();
+
+        Assignment currentAssign = tasks.poll();
+        int time = currentAssign.start;
+
+        while (!tasks.isEmpty()) {
+            // 과제 돌림 
+            // 시작 시간 + 남아있는 시간  = 총 업무 시간 
+            time += currentAssign.left;
+            // 그 다음 일
+            Assignment next = tasks.peek();
+
+            if (time > next.start) {
+                // 해당 일감 초과 함
+                currentAssign.left = time - next.start; // 남은시간
+                stopTasks.push(currentAssign); // 남은 일 
+            } else {
+                answer[idx] = currentAssign.subject;
+                idx++;
+                if (!stopTasks.empty()) {
+                    // 남아있는게 있으면 ** 우선 남아있는 것 우선 
+                    currentAssign = stopTasks.pop();
+                    continue;
+                }
+            }
+            currentAssign = tasks.poll(); // while 문 바깥에서 설정했으므로 
+            time = currentAssign.start;
+        }
+        
+        // 마지막 과제 
+        answer[idx] = currentAssign.subject;
+        
+        // 마지막 남아있는 과제들 싹 집어넣음
+        while (!stopTasks.isEmpty()) {
+            answer[idx] = stopTasks.pop().subject;
+            idx++;
+        }
+        
+        return answer;
+    }
+
+    class Assignment {
+        private String subject;
+        private int start;
+        private int left;
+
+        public Assignment(String subject, int start, int left) {
+            this.subject = subject;
+            this.start = start;
+            this.left = left;
+        }
+    }
+
+    private int convertToMinute(String time) {
+        String[] t = time.split(":");
+        return Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
+    }
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
