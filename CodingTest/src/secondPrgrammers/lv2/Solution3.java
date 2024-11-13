@@ -1,90 +1,91 @@
 package CodingTest.src.secondPrgrammers.lv2;
 
-import java.util.LinkedList;
-import java.util.Queue;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * 광물캐기
  * https://school.programmers.co.kr/learn/courses/30/lessons/172927
  * */
 public class Solution3 {
+    class MineralsTired {
+        int d_cost;
+        int i_cost;
+        int s_cost;
+
+        public MineralsTired(int d_cost, int i_cost, int s_cost) {
+            this.d_cost = d_cost;
+            this.i_cost = i_cost;
+            this.s_cost = s_cost;
+        }
+    }
     public int solution(int[] picks, String[] minerals) {
-        // 광물은 순서대로만 
-        // pick 을 순서대로 실행하는 방법 1번째 -> 2번째 부터 -> 3번째 
-        // 1 2 3 , 1 3 2 , 2 1 3, 2 3 1, 3 1 2 , 3 2 1 총 6개의 가지수 (0까지)
-        // 해당 경우에 따라 minerals를 순회하면서 합을 구하고 max와 비교 (minerals의 끝까지) 
 
-        // pick 에서 숫자가 넘겨짐
-        int answer = Integer.MAX_VALUE;
-        String[] tools = new String[3];
+        List<MineralsTired> stress = new ArrayList<>();
 
-        // 경우의 수를 넣은 배열 (총 6개)
+        int pick_cnt = Arrays.stream(picks).sum(); // 모든 곡괭이 수
+        int work_cnt = Math.min(pick_cnt * 5, minerals.length); // 최대 작업량 (피로도는 별개임, 캘 수 있는 광물의 수)
 
+        for (int i = 0; i < work_cnt; i++) {
+            // 최대 작업량을 기준으로
+            int d_cost = 0;
+            int i_cost = 0;
+            int s_cost = 0;
 
-        // 현재 피로도
-        int currentTired = 0;
-
-        for (int i = 0; i < picks.length; i++) {
-            // bfs (3개까지 갔을 때 check function level,
-            bfs(0, i, tools);
-
-        }
-
-        answer = Math.min(answer, currentTired);
-
-        return answer;
-    }
-
-    private void bfs(int level, int index, String[] tools) {
-        if (level > 3) {
-            // 최종 단계까지 옴
-            return;
-        }
-        Queue<Integer> queue = new LinkedList<>();
-
-        queue.add(index);
-        // 첫번쨰 인덱스를 담았음
-
-        while (queue.isEmpty()) {
-            String currentPicksPower = "";
-            int currentIdx = queue.poll();
-
-            if (index == 0) {
-                currentPicksPower = "diamond";
-            } else if (index == 1) {
-                currentPicksPower = "iron";
-            } else{
-                currentPicksPower = "stone";
-            }
-            tools[level] = currentPicksPower;
-        }
-    }
-
-    private int check (int currentPick, String currentPicksPower) {
-        for (int i = 0; i < minerals.length; i++) {
-            String mineral = minerals[i];
-            while (currentPick > 0) {
-                if (currentPicksPower.equals("diamond")) {
-                    currentTired++; // 1만 추가
-
-                } else if (currentPicksPower.equals("iron")) {
-                    if (mineral.equals("diamond")) {
-                        currentTired += 5;
-                    }else{
-                        currentTired++;
+            // 최대 작업량 한 곡괭이당 5개
+            for (int j = 0; j < 5; j++) {
+                // ** 곡괭이 + 현재 미네랄
+                int next = i + j;
+                if (next == work_cnt) {
+                    break;
+                }
+                // 어떤 곡괭이가 나오든 간에 미네랄 별 소모도
+                switch (minerals[next]) {
+                    case "diamond":
+                        d_cost += 1;
+                        i_cost += 5;
+                        s_cost += 25;
+                    case "iron": {
+                        d_cost+=1;
+                        i_cost+=1;
+                        s_cost+=5;
+                        break;
                     }
-                }else{
-                    if (mineral.equals("diamond")) {
-                        currentTired += 25;
-                    } else if (mineral.equals("iron")) {
-                        currentTired += 5;
-                    }else{
-                        currentTired++;
+                    case "stone": {
+                        d_cost+=1;
+                        i_cost+=1;
+                        s_cost+=1;
+                        break;
                     }
                 }
             }
-            currentPick--;
+            stress.add(new MineralsTired(d_cost, i_cost, s_cost));
         }
+
+        Collections.sort(stress, (o1, o2) -> o2.s_cost - o2.s_cost);
+        // 비용 많이 드는 묶음 순으로 정렬
+
+        int min_cost = 0;
+        for (int i = 0; i < stress.size(); i++) {
+            if (picks[0] == 0 && picks[1] == 0 && picks[2] == 0) {
+                break; // 어떤 곡괭이도 없음
+            }
+
+            if (picks[0] > 0) {
+                // 다이아 있음
+                picks[0]--;
+                min_cost += stress.get(i).d_cost;
+            } else if (picks[1] > 0) {
+                picks[1] --;
+                min_cost += stress.get(i).i_cost;
+            } else if (picks[2] > 0) {
+                picks[2]--;
+                min_cost += stress.get(i).s_cost;
+            }
+
+        }
+        return min_cost;
     }
-    
 }
