@@ -1,91 +1,74 @@
 package CodingTest.src.secondPrgrammers.lv2;
 
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * 광물캐기
  * https://school.programmers.co.kr/learn/courses/30/lessons/172927
  * */
 public class Solution3 {
-    class MineralsTired {
-        int d_cost;
-        int i_cost;
-        int s_cost;
-
-        public MineralsTired(int d_cost, int i_cost, int s_cost) {
-            this.d_cost = d_cost;
-            this.i_cost = i_cost;
-            this.s_cost = s_cost;
-        }
-    }
+    static int[][] section;
     public int solution(int[] picks, String[] minerals) {
+        int answer = 0;
 
-        List<MineralsTired> stress = new ArrayList<>();
+        // 최소한의 피로도 (모든게 다아이몬드로만 채취 가능 vs 도구의 종류에 맞게 광물이 있을 경우)
+        int cnt = Math.min(minerals.length / 5 + 1, picks[0] + picks[1] + picks[2]);
 
-        int pick_cnt = Arrays.stream(picks).sum(); // 모든 곡괭이 수
-        int work_cnt = Math.min(pick_cnt * 5, minerals.length); // 최대 작업량 (피로도는 별개임, 캘 수 있는 광물의 수)
+        section = new int[cnt][3]; // 5개씩 묶어서 picks 안에 있는 광물별 피로도
+        int dp=0, ip=0, sp = 0;
+        int idx = 0;
 
-        for (int i = 0; i < work_cnt; i++) {
-            // 최대 작업량을 기준으로
-            int d_cost = 0;
-            int i_cost = 0;
-            int s_cost = 0;
-
-            // 최대 작업량 한 곡괭이당 5개
-            for (int j = 0; j < 5; j++) {
-                // ** 곡괭이 + 현재 미네랄
-                int next = i + j;
-                if (next == work_cnt) {
+        // 곡괭이 개수 만큼 세기
+        for (int i = 0; i < minerals.length; i += 5) {
+            if(i/5==cnt){
+                break;
+            }
+            for (int j = i; j < i + 5; j++) {
+                String m = minerals[j];
+                if(m.equals("diamond")){
+                    dp += 1;
+                    ip += 5;
+                    sp += 25;
+                }
+                else if(m.equals("iron")){
+                    dp += 1;
+                    ip += 1;
+                    sp += 5;
+                }
+                else{
+                    dp += 1;
+                    ip += 1;
+                    sp += 1;
+                }
+                if (j == minerals.length - 1) {
                     break;
                 }
-                // 어떤 곡괭이가 나오든 간에 미네랄 별 소모도
-                switch (minerals[next]) {
-                    case "diamond":
-                        d_cost += 1;
-                        i_cost += 5;
-                        s_cost += 25;
-                    case "iron": {
-                        d_cost+=1;
-                        i_cost+=1;
-                        s_cost+=5;
-                        break;
-                    }
-                    case "stone": {
-                        d_cost+=1;
-                        i_cost+=1;
-                        s_cost+=1;
-                        break;
-                    }
-                }
             }
-            stress.add(new MineralsTired(d_cost, i_cost, s_cost));
+
+            // 각각 미네랄 5개씩 쪼갠 후 모든 걸 한 광물씩
+            section[i / 5][0] = dp;
+            section[i / 5][1] = ip;
+            section[i / 5][2] = sp;
+            dp = ip = sp = 0; // 초기화
         }
 
-        Collections.sort(stress, (o1, o2) -> o2.s_cost - o2.s_cost);
-        // 비용 많이 드는 묶음 순으로 정렬
+        // [이해 안됨] 돌로 캤을 때 피로도가 가장 높은 순으로 내림차순
+        Arrays.sort(section, (o1, o2) -> o2[2] - o1[2]);
 
-        int min_cost = 0;
-        for (int i = 0; i < stress.size(); i++) {
-            if (picks[0] == 0 && picks[1] == 0 && picks[2] == 0) {
-                break; // 어떤 곡괭이도 없음
-            }
-
-            if (picks[0] > 0) {
-                // 다이아 있음
-                picks[0]--;
-                min_cost += stress.get(i).d_cost;
-            } else if (picks[1] > 0) {
-                picks[1] --;
-                min_cost += stress.get(i).i_cost;
-            } else if (picks[2] > 0) {
+        // 다이아 -> 철 -> 돌로 순서대로 캠
+        for (int i = 0; i < cnt; i++) {
+            if (picks[0] != 0) {
+                // 다이아로 캠
+                answer += section[i][0];
+                picks[0]--; // 하나 제외 시킴 (5개까지)
+            } else if (picks[1] != 0) {
+                answer += section[i][1];
+                picks[1]--;
+            } else if (picks[2] != 0) {
+                answer += section[i][2];
                 picks[2]--;
-                min_cost += stress.get(i).s_cost;
             }
-
         }
-        return min_cost;
+        return answer;
     }
 }
