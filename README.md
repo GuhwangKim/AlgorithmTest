@@ -963,7 +963,7 @@
   </div>
 </details>
 <details>
-  <summary><b>광물캐기</b></summary>
+  <summary><b>광물캐기 - 완벽하게 이해하지 못함 </b></summary>
   <div markdown="1">
     <ul>
        (2024.11.15)
@@ -1044,80 +1044,74 @@
         }
     }
 
-☑️ 남아있는 과제가 있는 경우, 가장 먼저 집어넣진 값 부터 실행된다는 것을 간과함 
+☑️ 미네랄을 중심으로 for문 + 5개씩 같은 걸로만 캔다고 생각하고 section 2차원 배열 생성 
       
-☑️ Stack 만들어서 구현하고, 시간 변환도 메서드로 따로 빼서 정의함 
+☑️ 돌을 중심으로 피로도 높은 순서대로 정렬 (** 이해가 안됨 **)   
 
 
-    public String[] solution(String[][] plans) {
-        // 잠시 멈춘 과제가 있으면 -> 최근에 멈춘 것 부터 진행 (Stack)
+    static int[][] section;
+    public int solution(int[] picks, String[] minerals) {
+        int answer = 0;
 
-        String[] answer = new String[plans.length];
+        // 최소한의 피로도 (모든게 다아이몬드로만 채취 가능 vs 도구의 종류에 맞게 광물이 있을 경우)
+        int cnt = Math.min(minerals.length / 5 + 1, picks[0] + picks[1] + picks[2]);
+
+        section = new int[cnt][3]; // 5개씩 묶어서 picks 안에 있는 광물별 피로도
+        int dp=0, ip=0, sp = 0;
         int idx = 0;
-        LinkedList<Assignment> tasks = new LinkedList<>();
-        for (String[] plan : plans) {
-            tasks.offer(new Assignment(plan[0], convertToMinute(plan[1]), Integer.parseInt(plan[2])));
-        }
-        // 정렬
-        tasks.sort((o1, o2) -> o1.start - o2.start);
-        
-        // 남은 일
-        Stack<Assignment> stopTasks = new Stack<>();
 
-        Assignment currentAssign = tasks.poll();
-        int time = currentAssign.start;
-
-        while (!tasks.isEmpty()) {
-            // 과제 돌림 
-            // 시작 시간 + 남아있는 시간  = 총 업무 시간 
-            time += currentAssign.left;
-            // 그 다음 일
-            Assignment next = tasks.peek();
-
-            if (time > next.start) {
-                // 해당 일감 초과 함
-                currentAssign.left = time - next.start; // 남은시간
-                stopTasks.push(currentAssign); // 남은 일 
-            } else {
-                answer[idx] = currentAssign.subject;
-                idx++;
-                if (!stopTasks.empty()) {
-                    // 남아있는게 있으면 ** 우선 남아있는 것 우선 
-                    currentAssign = stopTasks.pop();
-                    continue;
+        // 곡괭이 개수 만큼 세기
+        for (int i = 0; i < minerals.length; i += 5) {
+            if(i/5==cnt){
+                break;
+            }
+            for (int j = i; j < i + 5; j++) {
+                String m = minerals[j];
+                if(m.equals("diamond")){
+                    dp += 1;
+                    ip += 5;
+                    sp += 25;
+                }
+                else if(m.equals("iron")){
+                    dp += 1;
+                    ip += 1;
+                    sp += 5;
+                }
+                else{
+                    dp += 1;
+                    ip += 1;
+                    sp += 1;
+                }
+                if (j == minerals.length - 1) {
+                    break;
                 }
             }
-            currentAssign = tasks.poll(); // while 문 바깥에서 설정했으므로 
-            time = currentAssign.start;
+
+            // 각각 미네랄 5개씩 쪼갠 후 모든 걸 한 광물씩
+            section[i / 5][0] = dp;
+            section[i / 5][1] = ip;
+            section[i / 5][2] = sp;
+            dp = ip = sp = 0; // 초기화
         }
-        
-        // 마지막 과제 
-        answer[idx] = currentAssign.subject;
-        
-        // 마지막 남아있는 과제들 싹 집어넣음
-        while (!stopTasks.isEmpty()) {
-            answer[idx] = stopTasks.pop().subject;
-            idx++;
+
+        // [이해 안됨] 돌로 캤을 때 피로도가 가장 높은 순으로 내림차순
+        Arrays.sort(section, (o1, o2) -> o2[2] - o1[2]);
+
+        // 다이아 -> 철 -> 돌로 순서대로 캠
+        for (int i = 0; i < cnt; i++) {
+            if (picks[0] != 0) {
+                // 다이아로 캠
+                answer += section[i][0];
+                picks[0]--; // 하나 제외 시킴 (5개까지)
+            } else if (picks[1] != 0) {
+                answer += section[i][1];
+                picks[1]--;
+            } else if (picks[2] != 0) {
+                answer += section[i][2];
+                picks[2]--;
+            }
         }
-        
         return answer;
-    }
-
-    class Assignment {
-        private String subject;
-        private int start;
-        private int left;
-
-        public Assignment(String subject, int start, int left) {
-            this.subject = subject;
-            this.start = start;
-            this.left = left;
-        }
-    }
-
-    private int convertToMinute(String time) {
-        String[] t = time.split(":");
-        return Integer.parseInt(t[0]) * 60 + Integer.parseInt(t[1]);
     }
 
   </ul>
