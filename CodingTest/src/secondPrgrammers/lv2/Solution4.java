@@ -4,13 +4,12 @@ public class Solution4 {
     /**
      * 리코쳇 로봇 https://school.programmers.co.kr/learn/courses/30/lessons/169199
      */
-
     int[] dx = {-1, 0, 1, 0};
     int[] dy = {0, 1, 0, -1};
     String[][] boardArr;
+    int temp = Integer.MAX_VALUE;
     public int solution(String[] board) {
         int answer = -1;
-        int temp = Integer.MAX_VALUE;
         int rFirstRowIdx = 0;
         int rFristColIdx = 0;
 
@@ -31,18 +30,23 @@ public class Solution4 {
 
         // R의 시점에서 시작함
         // 상하좌우
-        int currentCnt = dfs(rFirstRowIdx, rFristColIdx);
+        dfs(rFirstRowIdx, rFristColIdx, 0);
 
-
-        return answer;
+        if (temp != Integer.MAX_VALUE) {
+            return temp;
+        }
+        return -1;
     }
 
-    private int dfs(int currentRowIdx, int currentColIdx) {
-        int currentCnt = 0;
+    private void dfs(int currentRowIdx, int currentColIdx, int count) {
 
         for (int i = 0; i < 4; i++) {
             int nextRowIdx = currentRowIdx + dx[i];
             int nextColIdx = currentColIdx + dy[i];
+            if (boardArr[nextRowIdx][nextColIdx].equals("G")) {
+                // 목표 접근
+                return;
+            }
             while(nextRowIdx>=0 && nextRowIdx<boardArr.length
                     && nextColIdx>=0 && nextColIdx<boardArr[0].length
                     && boardArr[nextRowIdx][nextColIdx] == "."){
@@ -51,9 +55,10 @@ public class Solution4 {
                 nextRowIdx += dy[i];
             }
             // 다른 방향일 때 차수 증가
-           currentCnt ++;
-
+            count ++;
+            dfs(nextRowIdx, nextColIdx, count);
+            // 한 차례 돌리고 나서 비교
+            temp = Math.min(temp, count);
         }
-
     }
 }
