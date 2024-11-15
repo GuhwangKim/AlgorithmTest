@@ -16,7 +16,6 @@ public class Solution3 {
 
         section = new int[cnt][3]; // 5개씩 묶어서 picks 안에 있는 광물별 피로도
         int dp=0, ip=0, sp = 0;
-        int idx = 0;
 
         // 곡괭이 개수 만큼 세기
         for (int i = 0; i < minerals.length; i += 5) {
