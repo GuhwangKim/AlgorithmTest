@@ -1117,6 +1117,111 @@
   </ul>
   </div>
 </details>
+<details>
+  <summary><b>리코챗 로봇 </b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.11.15)
+      <li>Trial_1 dfs 메서드를 만들어서 상하좌우 이동, 조건에 만족하면 return / 더 이동할 수 있으면 한 방향으로만 이동  </li>
+
+    int[] dx = {-1, 0, 1, 0};
+    int[] dy = {0, 1, 0, -1};
+    String[][] boardArr;
+    int temp = Integer.MAX_VALUE;
+    public int solution(String[] board) {
+        int answer = -1;
+        int rFirstRowIdx = 0;
+        int rFristColIdx = 0;
+
+        boardArr = new String[board.length][board[0].length()];
+
+        // 2차원 배열에 담기
+        for (int i = 0; i < board.length; i++) {
+            String boardStr = board[i];
+            for (int j = 0; j < boardStr.length(); j++) {
+                // R의 위치
+                if (String.valueOf(boardStr.charAt(j)) == "R") {
+                    rFirstRowIdx = i;
+                    rFristColIdx = j;
+                }
+                boardArr[i][j] = String.valueOf(boardStr.charAt(j));
+            }
+        }
+
+        // R의 시점에서 시작함
+        // 상하좌우
+        dfs(rFirstRowIdx, rFristColIdx, 0);
+
+        if (temp != Integer.MAX_VALUE) {
+            return temp;
+        }
+        return -1;
+    }
+
+    private void dfs(int currentRowIdx, int currentColIdx, int count) {
+
+        for (int i = 0; i < 4; i++) {
+            int nextRowIdx = currentRowIdx + dx[i];
+            int nextColIdx = currentColIdx + dy[i];
+            if (boardArr[nextRowIdx][nextColIdx].equals("G")) {
+                // 목표 접근
+                return;
+            }
+            while(nextRowIdx>=0 && nextRowIdx<boardArr.length
+                    && nextColIdx>=0 && nextColIdx<boardArr[0].length
+                    && boardArr[nextRowIdx][nextColIdx] == "."){
+                // 같은 방향일 떄
+                nextRowIdx += dx[i];
+                nextRowIdx += dy[i];
+            }
+            // 다른 방향일 때 차수 증가
+            count ++;
+            dfs(nextRowIdx, nextColIdx, count);
+            // 한 차례 돌리고 나서 비교
+            temp = Math.min(temp, count);
+        }
+    }
+☑️ 최대값을 구하는 것이기 때문에 우선 반으로 나누어서 반에서 시작한 후 왼쪽(1까지만) 오른쪽(길이 -1) 으로 탐색  
+☑️ 홀수 일 때 나눈 몫에서 시작 / 짝수 일 때 몫과 몫 -1 에서 시작 => 앞과 뒤의 숫자를 비교한 후, 같으면 그 더하고 다르면 빠져나옴 그 다음 인덱스로
+<br>
+✅ 맨앞, 맨끝에서 포인트를 잡고  
+✅ 값이 다르면 앞에서 한개씩 줄이고 -> 뒤에서 한개씩 줄이고<br> 
+✅ 값이 같으면 같은 루프에서 앞, 뒤에서 한개씩 줄여가며 범위를 줄임    
+
+        public int solution(String s)
+        {
+            int answer = 1;
+            int n = s.length();
+            loop:
+            for (int i = n; i >= 1; i--) {
+                // 가장 긴 길이부터
+                for (int j = 0; j <= n - 1; j++) {
+                    // 가장 작은 길이
+                    boolean flag = true;
+                    int start = j; // 시작 인덱스
+                    int end = j+i-1; // 끝 인덱스
+    
+                    while (start < end) {
+                        if (s.charAt(start) != s.charAt(end)) {
+                            // 같을 때까지 반복
+                            flag = false;
+                            break; // while을 빠져나감
+                        }
+                        start++;
+                        end--;
+                    }
+                    if (flag) {
+                        answer = i;
+                        break loop;
+                    }
+                }
+            }
+            return answer;
+        }
+
+  </ul>
+  </div>
+</details>
 
 ---
 ### Level.3
