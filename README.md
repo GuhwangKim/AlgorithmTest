@@ -1181,43 +1181,71 @@
             temp = Math.min(temp, count);
         }
     }
-☑️ 최대값을 구하는 것이기 때문에 우선 반으로 나누어서 반에서 시작한 후 왼쪽(1까지만) 오른쪽(길이 -1) 으로 탐색  
-☑️ 홀수 일 때 나눈 몫에서 시작 / 짝수 일 때 몫과 몫 -1 에서 시작 => 앞과 뒤의 숫자를 비교한 후, 같으면 그 더하고 다르면 빠져나옴 그 다음 인덱스로
-<br>
-✅ 맨앞, 맨끝에서 포인트를 잡고  
-✅ 값이 다르면 앞에서 한개씩 줄이고 -> 뒤에서 한개씩 줄이고<br> 
-✅ 값이 같으면 같은 루프에서 앞, 뒤에서 한개씩 줄여가며 범위를 줄임    
 
-        public int solution(String s)
-        {
-            int answer = 1;
-            int n = s.length();
-            loop:
-            for (int i = n; i >= 1; i--) {
-                // 가장 긴 길이부터
-                for (int j = 0; j <= n - 1; j++) {
-                    // 가장 작은 길이
-                    boolean flag = true;
-                    int start = j; // 시작 인덱스
-                    int end = j+i-1; // 끝 인덱스
-    
-                    while (start < end) {
-                        if (s.charAt(start) != s.charAt(end)) {
-                            // 같을 때까지 반복
-                            flag = false;
-                            break; // while을 빠져나감
-                        }
-                        start++;
-                        end--;
-                    }
-                    if (flag) {
-                        answer = i;
-                        break loop;
-                    }
+✅ BFS 를 사용해야 한다고 함   </br>
+✅ 굳이 Math.min 하지 않아도 BFS 로 하는 경우, 가장 먼저 반납되는 값이 가장 작은 값임 
+
+
+      public int solution(String[] board) {
+        int answer = 0;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+        boolean[][] visited = new boolean[board.length][board[0].length()];
+        Queue<int[]> queue = new LinkedList<>();
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length(); j++) {
+                if (board[i].charAt(j) == 'R') {
+                    // 시작 위치
+                    queue.offer(new int[]{i, j, 0}); // x, y 좌표를 담아둠
+                    visited[i][j] = true;
                 }
             }
-            return answer;
         }
+
+        while (!queue.isEmpty()) {
+            int[] tmp = queue.poll();
+            int x = tmp[0]; // x
+            int y = tmp[1];
+            int count = tmp[2];
+
+            // 반복하다가 만족하면 여기서 반납 (제일 먼저 반납한다는 건 제일 빠르다는 뜻)
+            if (board[x].charAt(y) == 'G') {
+                answer = count;
+                return answer;
+            }
+
+            for (int i = 0; i < 4; i++) {
+                // 상하좌우
+                int nx = x;
+                int ny = y;
+
+                while (nx >= 0 && nx < board.length
+                        && ny >= 0 && ny < board[0].length()
+                        && board[nx].charAt(ny) != 'D'
+                ) {
+                    // 계속해서 이동하는 경우
+                    nx += dx[i];
+                    ny += dy[i];
+                }
+
+                // ** 장애물 만나면 직전으로 수정 **
+                nx -= dx[i];
+                ny -= dy[i];
+
+                // ** 장애물 만나기 직전으로 옮겨짐 방문했거나 또는 같은 위치라면 **
+                // 상하좌우 기존 값에서 이동해하므로
+                if (visited[nx][ny] || (x == nx && y == ny)) {
+                    continue;
+                }
+
+                visited[nx][ny] = true;
+                queue.offer(new int[]{nx, ny, count + 1});
+            }
+        }
+        answer = -1;
+        return answer;
+    }
 
   </ul>
   </div>
