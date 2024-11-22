@@ -1182,6 +1182,10 @@
         }
     }
 
+☑️ 미네랄을 중심으로 for문 + 5개씩 같은 걸로만 캔다고 생각하고 section 2차원 배열 생성 
+      
+☑️ 돌을 중심으로 피로도 높은 순서대로 정렬 (** 이해가 안됨 **)   
+
 ✅ BFS 를 사용해야 한다고 함   </br>
 ✅ 굳이 Math.min 하지 않아도 BFS 로 하는 경우, 가장 먼저 반납되는 값이 가장 작은 값임 
 
@@ -1248,6 +1252,121 @@
     }
 
   </ul>
+  </div>
+</details>
+<details>
+  <summary><b>연속 펄스 부분 수열의 합</b></summary>
+  <div markdown="1">
+    <ul>
+       (2024.11.22)
+      <li>Trial_1 sequence의 루프 안에서 메서드를 만들어 -1 로 시작하는 경우 1로 시작하는 경우를 나누어 합을 더함</li>
+
+    long answer = 0;
+    public long solution(int[] sequence) {
+
+        for (int i = 0; i < sequence.length; i++) {
+            check(i, sequence);
+        }
+
+        return answer;
+    }
+
+    private void check(int startIdx, int[] sequence) {
+        int minus = -1;
+        int plus = 1;
+        int total1 = 0;
+        int maxTotal1 = 0;
+
+        // 시작을 다르게 할 수 있음
+        // 단순히 차례 차례 곱하는 방법
+        for (int i = startIdx; i < sequence.length; i++) {
+            // -1 로 시작
+            total1 += sequence[i] * minus;
+            maxTotal1 = Math.max(maxTotal1, total1);
+            minus = -minus;
+        }
+        int total2 = 0;
+        int maxTotal2 = 0;
+
+        for (int i = startIdx; i < sequence.length; i++) {
+            // 1 로 시작
+            total2 += sequence[i] * plus;
+            maxTotal2 = Math.max(maxTotal2, total2);
+            plus = -plus;
+        }
+        answer = Math.max(maxTotal1, maxTotal2);
+    }
+
+☑️ 답이 8이 나옴 
+      
+☑️ 돌을 중심으로 피로도 높은 순서대로 정렬 (** 이해가 안됨 **)   
+
+
+
+      public int solution(String[] board) {
+        int answer = 0;
+        int[] dx = {-1, 0, 1, 0};
+        int[] dy = {0, 1, 0, -1};
+        boolean[][] visited = new boolean[board.length][board[0].length()];
+        Queue<int[]> queue = new LinkedList<>();
+
+        for (int i = 0; i < board.length; i++) {
+            for (int j = 0; j < board[0].length(); j++) {
+                if (board[i].charAt(j) == 'R') {
+                    // 시작 위치
+                    queue.offer(new int[]{i, j, 0}); // x, y 좌표를 담아둠
+                    visited[i][j] = true;
+                }
+            }
+        }
+
+        while (!queue.isEmpty()) {
+            int[] tmp = queue.poll();
+            int x = tmp[0]; // x
+            int y = tmp[1];
+            int count = tmp[2];
+
+            // 반복하다가 만족하면 여기서 반납 (제일 먼저 반납한다는 건 제일 빠르다는 뜻)
+            if (board[x].charAt(y) == 'G') {
+                answer = count;
+                return answer;
+            }
+
+            for (int i = 0; i < 4; i++) {
+                // 상하좌우
+                int nx = x;
+                int ny = y;
+
+                while (nx >= 0 && nx < board.length
+                        && ny >= 0 && ny < board[0].length()
+                        && board[nx].charAt(ny) != 'D'
+                ) {
+                    // 계속해서 이동하는 경우
+                    nx += dx[i];
+                    ny += dy[i];
+                }
+
+                // ** 장애물 만나면 직전으로 수정 **
+                nx -= dx[i];
+                ny -= dy[i];
+
+                // ** 장애물 만나기 직전으로 옮겨짐 방문했거나 또는 같은 위치라면 **
+                // 상하좌우 기존 값에서 이동해하므로
+                if (visited[nx][ny] || (x == nx && y == ny)) {
+                    continue;
+                }
+
+                visited[nx][ny] = true;
+                queue.offer(new int[]{nx, ny, count + 1});
+            }
+        }
+        answer = -1;
+        return answer;
+    }
+
+  </ul>
+  ✅ BFS 를 사용해야 한다고 함   </br>
+  ✅ 굳이 Math.min 하지 않아도 BFS 로 하는 경우, 가장 먼저 반납되는 값이 가장 작은 값임 
   </div>
 </details>
 
