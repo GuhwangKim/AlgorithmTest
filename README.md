@@ -1298,75 +1298,47 @@
     }
 
 ☑️ 답이 8이 나옴 
-      
-☑️ 돌을 중심으로 피로도 높은 순서대로 정렬 (** 이해가 안됨 **)   
 
 
 
-      public int solution(String[] board) {
-        int answer = 0;
-        int[] dx = {-1, 0, 1, 0};
-        int[] dy = {0, 1, 0, -1};
-        boolean[][] visited = new boolean[board.length][board[0].length()];
-        Queue<int[]> queue = new LinkedList<>();
 
-        for (int i = 0; i < board.length; i++) {
-            for (int j = 0; j < board[0].length(); j++) {
-                if (board[i].charAt(j) == 'R') {
-                    // 시작 위치
-                    queue.offer(new int[]{i, j, 0}); // x, y 좌표를 담아둠
-                    visited[i][j] = true;
-                }
-            }
+      public long solution(int[] sequence) {
+        long answer = 0;
+        long reset = 0;
+        // 1. 우선 연산을 한 배열을 각각 생성한 후
+        // 2. 각각 연산을 하여 합친 배열도 생성함
+
+        int[] sumFirstMinus = new int[sequence.length];
+        int[] sumFirstPlus = new int[sequence.length];
+        int n = 1;
+
+        for (int i = 0; i < sequence.length; i++) {
+            sumFirstPlus[i] = sequence[i] * n;
+            n *= -1;
+            sumFirstMinus[i] = sequence[i] * n;
+        }
+        // ** 이 부분이 핵심 **
+        // 연산의 결과 값을 넣어주는 배열
+        long[] operationArrPlus = new long[sequence.length];
+        long[] operationArrMinus = new long[sequence.length];
+
+        answer = Math.max(operationArrPlus[0], operationArrMinus[0]);
+
+        for (int i = 1; i < sequence.length; i++) {
+            // 이전과 현재 더한 것 vs 현재 값
+            // 더 큰 값을 배열에 넣어줌
+            operationArrPlus[i] = Math.max(operationArrPlus[i - 1] + sumFirstPlus[i], sumFirstPlus[i]);
+            operationArrMinus[i] = Math.max(operationArrMinus[i - 1] + sumFirstMinus[i], sumFirstPlus[i]);
+            reset = Math.max(operationArrPlus[i], operationArrMinus[i]);
+            answer = Math.max(reset, answer);
         }
 
-        while (!queue.isEmpty()) {
-            int[] tmp = queue.poll();
-            int x = tmp[0]; // x
-            int y = tmp[1];
-            int count = tmp[2];
-
-            // 반복하다가 만족하면 여기서 반납 (제일 먼저 반납한다는 건 제일 빠르다는 뜻)
-            if (board[x].charAt(y) == 'G') {
-                answer = count;
-                return answer;
-            }
-
-            for (int i = 0; i < 4; i++) {
-                // 상하좌우
-                int nx = x;
-                int ny = y;
-
-                while (nx >= 0 && nx < board.length
-                        && ny >= 0 && ny < board[0].length()
-                        && board[nx].charAt(ny) != 'D'
-                ) {
-                    // 계속해서 이동하는 경우
-                    nx += dx[i];
-                    ny += dy[i];
-                }
-
-                // ** 장애물 만나면 직전으로 수정 **
-                nx -= dx[i];
-                ny -= dy[i];
-
-                // ** 장애물 만나기 직전으로 옮겨짐 방문했거나 또는 같은 위치라면 **
-                // 상하좌우 기존 값에서 이동해하므로
-                if (visited[nx][ny] || (x == nx && y == ny)) {
-                    continue;
-                }
-
-                visited[nx][ny] = true;
-                queue.offer(new int[]{nx, ny, count + 1});
-            }
-        }
-        answer = -1;
         return answer;
     }
 
   </ul>
-  ✅ BFS 를 사용해야 한다고 함   </br>
-  ✅ 굳이 Math.min 하지 않아도 BFS 로 하는 경우, 가장 먼저 반납되는 값이 가장 작은 값임 
+  ✅ 각각 연산한 배열을 만들고, 앞+현재 (연속) vs 현재 의 값을 비교하여 큰 값을 넣는 배열을 생성 </br>
+  ✅ 이후에 최대 값을 비교함 
   </div>
 </details>
 
